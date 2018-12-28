@@ -54,7 +54,6 @@ public class ReceptionistView extends View
 	private final int labelHeight = 25;
 
 	// GUI components
-
 	private Button addArticleTypeButton;
 	private Button updateArticleTypeButton;
 	private Button removeArticleTypeButton;
@@ -90,7 +89,6 @@ public class ReceptionistView extends View
 		// Add a title for this panel
 		container.getChildren().add(createTitle());
 
-		// how do you add white space?
 		//container.getChildren().add(new Label(" "));
 
 		// create our GUI components, add them to this Container
@@ -113,14 +111,14 @@ public class ReceptionistView extends View
 	{
 		VBox container = new VBox(10);
 
-		Text clientText = new Text("OFFICE OF CAREER SERVICES");
+		Text clientText = new Text("KSSPE DEPARTMENT");
 		clientText.setFont(Font.font("Copperplate", FontWeight.EXTRA_BOLD, 36));
         clientText.setEffect(shadow);
 		clientText.setTextAlignment(TextAlignment.CENTER);
 		clientText.setFill(Color.WHITESMOKE);
 		container.getChildren().add(clientText);
 
-		Text titleText = new Text(" Professional Clothes Closet Management System ");
+		Text titleText = new Text(" Reservation Management System ");
 		titleText.setFont(Font.font("Copperplate", FontWeight.THIN, 28));
 		titleText.setTextAlignment(TextAlignment.CENTER);
 		titleText.setFill(Color.GOLD);
