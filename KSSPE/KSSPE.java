@@ -31,7 +31,7 @@ import event.EventLog;
 import common.PropertyFile;
 import javafx.scene.image.Image;
 
-import model.Receptionist;
+import controller.Receptionist;
 import userinterface.MainStageContainer;
 import userinterface.WindowPosition;
 
