@@ -37,7 +37,7 @@ public class AccountHolder extends EntityBase implements IView
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 
 		// You must get one account at least
-		if (allDataRetrieved != null)
+		if (allDataRetrieved != null && allDataRetrieved.size() != 0)
 		{
 			int size = allDataRetrieved.size();
 
@@ -70,8 +70,7 @@ public class AccountHolder extends EntityBase implements IView
 		// If no account found for this user name, throw an exception
 		else
 		{
-			throw new InvalidPrimaryKeyException("No account matching user id : "
-				+ idToQuery + " found.");
+			throw new InvalidPrimaryKeyException("No account found.");
 		}
 
 		String password = props.getProperty("password");
