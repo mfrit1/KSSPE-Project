@@ -184,7 +184,6 @@ abstract public class Persistable
 			Statement theStatement = theDBConnection.createStatement();
 
 			// Stop Runaway Queries
-			theStatement.setMaxRows(MAX_ROWS);
 
 			// The method executeQuery executes a query on the database. The
 			// return result is of type ResultSet which is one or more rows in
@@ -290,7 +289,6 @@ abstract public class Persistable
 			Statement theStatement = theDBConnection.createStatement();
 
 			// Stop Runaway Queries
-			theStatement.setMaxRows(20000);
 
 			// The method executeQuery executes a query on the database. The
 			// return result is of type ResultSet which is one or more rows in
@@ -398,7 +396,6 @@ abstract public class Persistable
 			Statement theStatement = theDBConnection.createStatement();
 
 			// Stop Runaway Queries
-			theStatement.setMaxRows(20000);
 
 			// The method executeQuery executes a query on the database. The
 			// return result is of type ResultSet which is one or more rows in
@@ -503,7 +500,6 @@ abstract public class Persistable
 			Statement theStatement = theDBConnection.createStatement();
 
 			// Stop Runaway Queries
-			theStatement.setMaxRows(MAX_ROWS);
 
 			// The method executeQuery executes a query on the database. The
 			// return result is of type ResultSet which is one or more rows in
@@ -608,7 +604,6 @@ abstract public class Persistable
 			Statement theStatement = theDBConnection.createStatement();
 
 			// Stop Runaway Queries
-			theStatement.setMaxRows(20000);
 
 			// The method executeUpdate executes a query on the database. The
 			// return result is of type integer which indicates the number of rows updated
@@ -657,11 +652,11 @@ abstract public class Persistable
 				System.err.println("Persistable.insertPersistentState - Could not connect to database!");
 				return null;
 			}
-
+			
 			// construct a SQL statement from the passed parameters
 			SQLInsertStatement theSQLStatement = new SQLInsertStatement(schema, insertValues);
 			// DEBUG System.out.println("Persistable.insertPersistentState - SQL Statement: " + theSQLStatement.toString());
-
+			
 			// verify the construction (should be exception?)
 			if(theSQLStatement == null)
 			{
@@ -675,7 +670,6 @@ abstract public class Persistable
 			Statement theStatement = theDBConnection.createStatement();
 
 			// Stop Runaway Queries
-			theStatement.setMaxRows(20000);
 
 			// The method executeUpdate executes a query on the database. The
 			// return result is of type integer which indicates the number of rows updated
@@ -758,7 +752,6 @@ abstract public class Persistable
 			Statement theStatement = theDBConnection.createStatement();
 
 			// Stop Runaway Queries
-			theStatement.setMaxRows(20000);
 
 			// The method executeUpdate executes a query on the database. The
 			// return result is of type integer which indicates the number of rows updated
@@ -823,7 +816,6 @@ abstract public class Persistable
 			Statement theStatement = theDBConnection.createStatement();
 
 			// Stop Runaway Queries
-			theStatement.setMaxRows(20000);
 
 			// The method executeQuery executes a query on the database. The
 			// return result is of type integer which indicates the number of rows updated

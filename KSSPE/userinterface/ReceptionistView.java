@@ -534,9 +534,13 @@ public class ReceptionistView extends View
 		icon.setFitWidth(15);
 		cancelButton = new Button("Exit System",icon);
 		cancelButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		cancelButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("ExitSystem", null);
-		});
+		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
+
+       		     @Override
+       		     public void handle(ActionEvent e) {
+       		     	myModel.stateChangeRequest("Logout", null);    
+            	     }
+        	});
 		cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			cancelButton.setEffect(shadow);
                         statusLog.displayInfoMessage("Close Application");

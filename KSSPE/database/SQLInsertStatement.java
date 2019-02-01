@@ -48,6 +48,9 @@ public class SQLInsertStatement extends SQLStatement
     						  Properties insertValues)	// the values to insert
 	{
     	super();	// implicit, doesn't do anything, but what the hell
+		
+		//System.out.println(schema);
+		//System.out.println(insertValues);
 
 		// Begin construction of the actual SQL statement
 		theSQLStatement = "INSERT INTO " + schema.getProperty("TableName");
@@ -59,11 +62,12 @@ public class SQLInsertStatement extends SQLStatement
 		// Now, traverse the Properties object. In this case, this loop
 		// must go at least one or we will get an error back from the db
 		Enumeration theValuesColumns = insertValues.propertyNames();
-                
-
+               
+	
 		while (theValuesColumns.hasMoreElements() == true)
 		{
-		
+			
+
 			if ((theValuesString.equals("") == true) && (theColumnNamesList.equals("") == true))
 			{
 		  		theValuesString += " VALUES ( ";
@@ -87,19 +91,20 @@ public class SQLInsertStatement extends SQLStatement
 			String insertType = schema.getProperty(theColumnName);
 					//System.out.println("InsertType = " + insertType);
 			//System.out.println("Schema is : " + schema);
-
+			
 			if (insertType.equals("text") == true)
                         {
                             theValuesString += "'" + theColumnValue + "'";
-                            // System.out.println("2 - Value string updated: " + theValuesString);
+                             //System.out.println("2 - Value string updated: " + theValuesString);
                         }
 			else
                         {
                             theValuesString += theColumnValue;
-                            //	System.out.println("Value string updated: " + theValuesString);
+                          	//System.out.println("Value string updated: " + theValuesString);
                         }
-
+				
 		} // end while
+		
 
 		if ((theValuesString.equals("") == false) && (theColumnNamesList.equals("") == false))
 		// this must be the case for an insert statement
