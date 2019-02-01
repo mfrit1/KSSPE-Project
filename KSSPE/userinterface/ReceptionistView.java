@@ -532,7 +532,7 @@ public class ReceptionistView extends View
 		icon = new ImageView(new Image("/images/exitcolor.png"));
 		icon.setFitHeight(15);
 		icon.setFitWidth(15);
-		cancelButton = new Button("Exit System",icon);
+		cancelButton = new Button("Logout",icon);
 		cancelButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
 
@@ -543,7 +543,7 @@ public class ReceptionistView extends View
         	});
 		cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			cancelButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Close Application");
+                        statusLog.displayInfoMessage("Go to Login Page");
 		});
 		cancelButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
 			cancelButton.setEffect(null);

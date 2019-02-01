@@ -9,7 +9,7 @@ public class ViewFactory {
 	{
 		if(viewName.equals("LoginView") == true)
 		{
-			return new newLoginView(model);
+			return new LoginView(model);
 		}
 		else if(viewName.equals("ReceptionistView") == true)
 		{
