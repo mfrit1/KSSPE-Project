@@ -303,3 +303,146 @@ Caused by: java.net.SocketException: Software caused connection abort: socket wr
 [12/23/18 12:15 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
 [12/23/18 12:15 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
 [12/23/18 12:15 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:21 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:21 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:26 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:26 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:26 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:26 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:26 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:26 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:26 PM]|Receptionist|createTransaction|Error|NOTAG|null<Transaction Creation Failure: Unrecognized transaction java.lang.NullPointerException>
+[1/25/19 12:30 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:30 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:30 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:30 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:30 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:30 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:30 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:30 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:31 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:31 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:31 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:31 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:31 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:31 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:33 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:34 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:34 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:34 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:34 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:34 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:34 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:34 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:35 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:35 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:35 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:35 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:35 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:35 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:35 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:35 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:37 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:37 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:37 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:37 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:37 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:37 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:37 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:37 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:38 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:38 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:38 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 12:38 PM]|AddArticleTypeTransaction|Transaction|Error|NOTAG|null<Error in creating Transaction view>
+[1/25/19 1:01 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[1/25/19 1:01 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 80067333! Must be numerical.>
+[1/25/19 1:18 PM]|ArticleType|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1064: You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'OPTION SQL_SELECT_LIMIT=20000' at line 1>
+[1/25/19 1:18 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123123123! Must be numerical.>
+[1/25/19 1:20 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 2342342! Must be numerical.>
+[1/25/19 1:20 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 888! Must be numerical.>
+[1/25/19 1:20 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 88! Must be numerical.>
+[1/25/19 1:20 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 88! Must be numerical.>
+[1/25/19 1:26 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:26 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:26 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:26 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:26 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:26 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:26 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:28 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:28 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:29 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:31 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 324! Must be numerical.>
+[1/25/19 1:32 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:39 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:40 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:47 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:47 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:47 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:47 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:47 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:47 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 1:48 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 1:49 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:01 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:02 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:02 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:02 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:02 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:02 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:02 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:04 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:05 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:08 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:08 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:09 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:11 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:12 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:14 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:15 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:16 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:16 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:17 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:19 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:19 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:22 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:22 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:22 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 234! Must be numerical.>
+[1/25/19 2:23 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 213! Must be numerical.>
+[1/25/19 2:25 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/25/19 2:25 PM]|AddArticleTypeTransaction|processTransaction|Error|NOTAG|null<Invalid barcode prefix : 123! Must be numerical.>
+[1/31/19 12:20 PM]|KSSPE|KSSPE.<init>|Error|NOTAG|null<Unable to create Receptionist object>
+[1/31/19 12:21 PM]|AccountHolder|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1146: Table 'ksspe.worker' doesn't exist>
+[1/31/19 1:32 PM]|KSSPE|KSSPE.<init>|Error|NOTAG|null<Unable to create Receptionist object>
+[1/31/19 1:33 PM]|KSSPE|KSSPE.<init>|Error|NOTAG|null<Unable to create Receptionist object>

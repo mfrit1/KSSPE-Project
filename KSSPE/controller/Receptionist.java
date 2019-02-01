@@ -15,13 +15,14 @@ import impresario.IView;
 import impresario.ModelRegistry;
 
 import exception.InvalidPrimaryKeyException;
+import exception.PasswordMismatchException;
 import event.Event;
 import userinterface.MainStageContainer;
 import userinterface.View;
 import userinterface.ViewFactory;
 import userinterface.WindowPosition;
-import controller.Transaction;
-import controller.TransactionFactory;
+
+import model.AccountHolder;
 /** The class containing the Receptionist  for the ATM application */
 //==============================================================
 public class Receptionist implements IView, IModel
@@ -32,12 +33,15 @@ public class Receptionist implements IView, IModel
 	// For Impresario
 	private Properties dependencies;
 	private ModelRegistry myRegistry;
-
-
+	
+	//account
+	private AccountHolder myAccountHolder;
+	
 	// GUI Components
 	private Hashtable<String, Scene> myViews;
 	private Stage myStage;
 
+	private String loginErrorMessage = "";
 	private String transactionErrorMessage = "";
 
 	// constructor for this class
@@ -60,14 +64,19 @@ public class Receptionist implements IView, IModel
 		setDependencies();
 
 		// Set up the initial view
-		createAndShowReceptionistView();
+		createAndShowLoginView();
 	}
 
 	//-----------------------------------------------------------------------------------
 	private void setDependencies()
 	{
 		dependencies = new Properties();
-		//dependencies.setProperty("Login", "LoginError");
+		dependencies.setProperty("Login", "LoginError");
+		//dependencies.setProperty("Deposit", "TransactionError");
+		//dependencies.setProperty("Withdraw", "TransactionError");
+		//dependencies.setProperty("Transfer", "TransactionError");
+		//dependencies.setProperty("BalanceInquiry", "TransactionError");
+		//dependencies.setProperty("ImposeServiceCharge", "TransactionError");
 
 
 		myRegistry.setDependencies(dependencies);
@@ -84,7 +93,27 @@ public class Receptionist implements IView, IModel
 	//----------------------------------------------------------
 	public Object getState(String key)
 	{
-		return "";
+		if (key.equals("LoginError") == true)
+		{
+			return loginErrorMessage;
+		}
+		else
+		if (key.equals("TransactionError") == true)
+		{
+			return transactionErrorMessage;
+		}
+		else
+		if (key.equals("Name") == true)
+		{
+			if (myAccountHolder != null)
+			{
+				return myAccountHolder.getState("Name");
+			}
+			else
+				return "Undefined";
+		}
+		else
+			return "";
 	}
 
 	//----------------------------------------------------------------
@@ -94,32 +123,60 @@ public class Receptionist implements IView, IModel
 		// just set up dependencies for
 		// DEBUG System.out.println("Receptionist.sCR: key = " + key);
 
+		if (key.equals("Login") == true)
+		{
+			if (value != null)
+			{
+				loginErrorMessage = "";
+
+				boolean flag = loginAccountHolder((Properties)value);
+				if (flag == true)
+				{
+					createAndShowReceptionistView();
+				}
+			}
+		}
+		else
 		if (key.equals("CancelTransaction") == true)
 		{
 			createAndShowReceptionistView();
 		}
 		else
-			if (key.equals("ExitSystem") == true)
+		if (key.equals("ExitSystem") == true)
+		{
+			System.exit(0);
+		}	
+		else
+		if ((key.equals("AddArticleType") == true) || (key.equals("UpdateArticleType") == true) ||
+			(key.equals("RemoveArticleType") == true) || (key.equals("AddColor") == true) ||
+			(key.equals("UpdateColor") == true) || (key.equals("RemoveColor") == true) ||
+			(key.equals("AddClothingItem") == true) || (key.equals("UpdateClothingItem") == true) ||
+			(key.equals("RemoveClothingItem") == true) || (key.equals("CheckoutClothingItem") == true) ||
+			(key.equals("AddRequest") == true) || (key.equals("FulfillRequest") == true) ||
+			(key.equals("RemoveRequest") == true) || (key.equals("ListAvailableInventory") == true) ||
+            (key.equals("UntillDateReport") == true) || (key.equals("TopDonatorReport") == true))
 			{
-				System.exit(0);
-			}	
-			else
-				if ((key.equals("AddArticleType") == true) || (key.equals("UpdateArticleType") == true) ||
-						(key.equals("RemoveArticleType") == true) || (key.equals("AddColor") == true) ||
-						(key.equals("UpdateColor") == true) || (key.equals("RemoveColor") == true) ||
-						(key.equals("AddClothingItem") == true) || (key.equals("UpdateClothingItem") == true) ||
-						(key.equals("RemoveClothingItem") == true) || (key.equals("CheckoutClothingItem") == true) ||
-						(key.equals("AddRequest") == true) || (key.equals("FulfillRequest") == true) ||
-						(key.equals("RemoveRequest") == true) || (key.equals("ListAvailableInventory") == true) ||
-                                                (key.equals("UntillDateReport") == true) || (key.equals("TopDonatorReport") == true)
-						)
+				String transType = key;
+
+				transType = transType.trim();
+					
+				if (myAccountHolder != null)
 				{
-					String transType = key;
-
-					transType = transType.trim();
-
 					doTransaction(transType);
 				}
+				else
+				{
+					transactionErrorMessage = "Transaction impossible: Customer not identified";
+				}
+			}
+		else
+		if (key.equals("Logout") == true)
+		{
+			myAccountHolder = null;
+			myViews.remove("ReceptionistView");
+
+			createAndShowLoginView();
+		}
 
 		myRegistry.updateSubscribers(key, this);
 	}
@@ -131,6 +188,39 @@ public class Receptionist implements IView, IModel
 		// DEBUG System.out.println("Receptionist.updateState: key: " + key);
 
 		stateChangeRequest(key, value);
+	}
+	
+
+	
+	// Login AccountHolder corresponding to user name and password.
+	//----------------------------------------------------------
+	public boolean loginAccountHolder(Properties props)
+	{
+
+		try
+		{
+			myAccountHolder = new AccountHolder(props);
+			// DEBUG System.out.println("Account Holder: " + myAccountHolder.getState("Name") + " successfully logged in");
+			return true;
+		}
+		catch (InvalidPrimaryKeyException ex)
+		{
+				loginErrorMessage = "ERROR: " + ex.getMessage();
+				return false;
+		}
+		catch (PasswordMismatchException exec)
+		{
+
+				loginErrorMessage = "ERROR: " + exec.getMessage();
+				return false;
+		}
+		catch (NullPointerException ex)
+		{
+				loginErrorMessage = "ERROR: " + "Not Connected To Database";
+				return false;
+			
+		}
+
 	}
         
       
@@ -163,12 +253,35 @@ public class Receptionist implements IView, IModel
 	//------------------------------------------------------------
 	private void createAndShowReceptionistView()
 	{
-            // create our initial view
-            View newView = ViewFactory.createView("ReceptionistView", this); // USE VIEW FACTORY
-            Scene currentScene = new Scene(newView);
+		Scene currentScene = (Scene)myViews.get("ReceptionistView");
+		
+		// create our initial view
+		if (currentScene == null){
+			
+			View newView = ViewFactory.createView("ReceptionistView", this); // USE VIEW FACTORY
+			currentScene = new Scene(newView);
+			myViews.put("ReceptionistView", currentScene);
+			
+		}
 
-            swapToView(currentScene);
+        swapToView(currentScene);
 
+	}
+	
+	private void createAndShowLoginView()
+	{
+		Scene currentScene = (Scene)myViews.get("LoginView");
+
+		if (currentScene == null)
+		{
+			// create our initial view
+			View newView = ViewFactory.createView("LoginView", this); // USE VIEW FACTORY
+			currentScene = new Scene(newView);
+			myViews.put("LoginView", currentScene);
+		}
+				
+		swapToView(currentScene);
+		
 	}
 
 
@@ -176,8 +289,6 @@ public class Receptionist implements IView, IModel
 	//----------------------------------------------------------
 	public void subscribe(String key, IView subscriber)
 	{
-		// DEBUG: System.out.println("Cager[" + myTableName + "].subscribe");
-		// forward to our registry
 		myRegistry.subscribe(key, subscriber);
 	}
 
@@ -185,8 +296,6 @@ public class Receptionist implements IView, IModel
 	//----------------------------------------------------------
 	public void unSubscribe(String key, IView subscriber)
 	{
-		// DEBUG: System.out.println("Cager.unSubscribe");
-		// forward to our registry
 		myRegistry.unSubscribe(key, subscriber);
 	}
 
