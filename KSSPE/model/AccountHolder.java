@@ -13,11 +13,9 @@ import exception.InvalidPrimaryKeyException;
 import exception.PasswordMismatchException;
 import database.*;
 
-import impresario.IView;
-
-/** The class containing the AccountHolder  for the ATM application */
+/** The class containing the AccountHolder  for the KSSPE application */
 //==============================================================
-public class AccountHolder extends EntityBase implements IView
+public class AccountHolder extends EntityBase
 {
 	private static final String myTableName = "worker";
 
@@ -153,14 +151,7 @@ public class AccountHolder extends EntityBase implements IView
 	{
 		persistentState.setProperty(key, (String)value);
 
-		myRegistry.updateSubscribers(key, this);
-	}
-
-	/** Called via the IView relationship */
-	//----------------------------------------------------------
-	public void updateState(String key, Object value)
-	{
-		stateChangeRequest(key, value);
+		//myRegistry.updateSubscribers(key, this);
 	}
 
 	//-----------------------------------------------------------------------------------
