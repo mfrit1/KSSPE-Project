@@ -1,20 +1,21 @@
-DROP TABLE IF EXISTS PERSON;
+DROP TABLE IF EXISTS Person;
 CREATE TABLE PERSON(
-    bannerID int,
-    firstName varchar(30),
-    lastName varchar(30),
-    email varchar(7),
-    phoneNumber varchar(14),
+    BannerId varchar(10),
+    FirstName varchar(30),
+    LastName varchar(30),
+    Email varchar(30),
+    PhoneNumber varchar(30),
     PRIMARY KEY(bannerID)
 );
 
-DROP TABLE IF EXISTS WORKER;
+DROP TABLE IF EXISTS Worker;
 CREATE TABLE WORKER(
-    bannerID int,
-    password varchar(256),
-    credential ENUM ('Admin', 'Ordinary'),
-    status ENUM ('Active', 'Inactive'),
-    dateAdded varchar(12),
-    FOREIGN KEY (bannerID) REFERENCES PERSON(bannerID),
-    PRIMARY KEY(bannerID)
+    BannerId varchar(10),
+    Credential ENUM ('Admin', 'Ordinary'),
+    Password varchar(100),
+    Status ENUM ('Active', 'Inactive'),
+    DateAdded varchar(12),
+    DateLastUpdated varchar(12),
+    FOREIGN KEY (BannerId) REFERENCES PERSON(BannerId),
+    PRIMARY KEY(BannerId)
 );
