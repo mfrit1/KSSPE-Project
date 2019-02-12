@@ -20,14 +20,14 @@ import userinterface.ViewFactory;
 import userinterface.WindowPosition;
 
 import controller.TransactionFactory;
-import model.AccountHolder;
+import model.Worker;
 
 /** The class containing the Receptionist for the KSSPE application */
 //==============================================================
 public class Receptionist extends Transaction
 {
 	//user account
-	private AccountHolder myAccountHolder;
+	private Worker currentWorker;
 	
 	// GUI Components
 	private Hashtable<String, Scene> myViews;
@@ -61,9 +61,9 @@ public class Receptionist extends Transaction
 		else
 		if (key.equals("bannerID") == true)
 		{
-			if (myAccountHolder != null)
+			if (currentWorker != null)
 			{
-				return myAccountHolder.getState("bannerID");
+				return currentWorker.getState("bannerID");
 			}
 			else
 				return "Undefined";
@@ -113,7 +113,7 @@ public class Receptionist extends Transaction
 
 				transType = transType.trim();
 					
-				if (myAccountHolder != null)
+				if (currentWorker != null)
 				{
 					doTransaction(transType);
 				}
@@ -125,7 +125,7 @@ public class Receptionist extends Transaction
 		else
 		if (key.equals("Logout") == true)
 		{
-			myAccountHolder = null;
+			currentWorker = null;
 			myViews.remove("ReceptionistView");
 
 			createAndShowLoginView();
@@ -136,15 +136,15 @@ public class Receptionist extends Transaction
 		//myRegistry.updateSubscribers(key, this);
 	}
 
-	// Login AccountHolder corresponding to user name and password.
+	// Login Worker corresponding to user name and password.
 	//----------------------------------------------------------
 	public boolean loginAccountHolder(Properties props)
 	{
 
 		try
 		{
-			myAccountHolder = new AccountHolder(props);
-			// DEBUG System.out.println("Account Holder: " + myAccountHolder.getState("Name") + " successfully logged in");
+			currentWorker = new Worker(props);
+			// DEBUG System.out.println("Worker: " + currentWorker.getState("Name") + " successfully logged in");
 			return true;
 		}
 		catch (InvalidPrimaryKeyException ex)
@@ -170,6 +170,8 @@ public class Receptionist extends Transaction
 	//----------------------------------------------------------
 	public void doTransaction(String transactionType)
 	{
+		//System.out.println(currentWorker.getState("Credential"));
+		
 		try
 		{
 			Transaction trans = TransactionFactory.createTransaction(
@@ -188,19 +190,7 @@ public class Receptionist extends Transaction
 	//------------------------------------------------------------
 	private void createAndShowReceptionistView()
 	{
-		Scene currentScene = (Scene)myViews.get("ReceptionistView");
-		
-		if (currentScene == null)
-		{
-			
-			View newView = ViewFactory.createView("ReceptionistView", this); // USE VIEW FACTORY
-			currentScene = new Scene(newView);
-			myViews.put("ReceptionistView", currentScene);
-			
-		}
-
-        swapToView(currentScene);
-
+        swapToView(createView());
 	}
 	
 	private void createAndShowLoginView()
@@ -218,22 +208,6 @@ public class Receptionist extends Transaction
 		
 	}
 
-	public void swapToView(Scene newScene)
-	{		
-		if (newScene == null)
-		{
-			System.out.println("Receptionist.swapToView(): Missing view for display");
-			new Event(Event.getLeafLevelClassName(this), "swapToView",
-					"Missing view for display ", Event.ERROR);
-			return;
-		}
-
-		myStage.setScene(newScene);
-		myStage.sizeToScene();
-
-		WindowPosition.placeCenter(myStage);
-	}
-	
 	protected Scene createView()
 	{
 		Scene currentScene = (Scene)myViews.get("ReceptionistView");

@@ -261,8 +261,8 @@ public class LoginView extends View implements Observer
 		String passwordString)
 	{
 		Properties props = new Properties();
-		props.setProperty("bannerID", useridString);
-		props.setProperty("password", passwordString);
+		props.setProperty("BannerId", useridString);
+		props.setProperty("Password", passwordString);
 
 		// clear fields for next time around
 		userIdText = userid.getText();
