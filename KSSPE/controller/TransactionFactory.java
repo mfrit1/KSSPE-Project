@@ -22,11 +22,12 @@ public class TransactionFactory
 	{
 		Transaction retValue = null;
 		
+		/*
 		if (transType.equals("AddArticleType") == true)
 		{
 			retValue = new AddArticleTypeTransaction();
 		} 
-		
+		*/
 		return retValue;
 	}
 }

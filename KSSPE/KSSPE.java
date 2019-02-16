@@ -53,12 +53,11 @@ public class KSSPE extends Application
 	   System.out.println("Brockport KSSPE Reservation System Version 1.00");
 	   System.out.println("Copyright 2018 Sandeep Mitra and Students");
 
-           // Create the top-level container (main frame) and add contents to it.
 	   MainStageContainer.setStage(primaryStage, "KSSPE Version 1.00");
 	   mainStage = MainStageContainer.getInstance();
        mainStage.getIcons().add(new Image("/images/BPT_LOGO_All-In-One_Color.png")); // set small icon in top left to bport icon
-	   // Finish setting up the stage (ENABLE THE GUI TO BE CLOSED USING THE TOP RIGHT
-	   // 'X' IN THE WINDOW), and show it.
+	   
+	   // Finish setting up the stage (ENABLE THE GUI TO BE CLOSED USING THE TOP RIGHT X
         mainStage.setOnCloseRequest(new EventHandler <javafx.stage.WindowEvent>() {
             @Override
             public void handle(javafx.stage.WindowEvent event) {
@@ -76,7 +75,6 @@ public class KSSPE extends Application
 			new Event(Event.getLeafLevelClassName(this), "KSSPE.<init>", "Unable to create Receptionist object", Event.ERROR);
 			exc.printStackTrace();
 	   }
-
 
   	   WindowPosition.placeCenter(mainStage);
 

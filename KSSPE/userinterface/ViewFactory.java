@@ -1,24 +1,20 @@
 package userinterface;
 
-import impresario.IModel;
+import controller.Transaction;
 
 //==============================================================================
 public class ViewFactory {
 
-	public static View createView(String viewName, IModel model)
+	public static View createView(String viewName, Transaction t)
 	{
 		if(viewName.equals("LoginView") == true)
 		{
-			return new LoginView(model);
+			return new LoginView(t);
 		}
 		else if(viewName.equals("ReceptionistView") == true)
 		{
-			return new ReceptionistView(model);
+			return new ReceptionistView(t);
 		}
-		else if(viewName.equals("AddArticleTypeView") == true)
-		{
-			return new AddArticleTypeView(model);
-		} 
 		else
 			return null;
 	}

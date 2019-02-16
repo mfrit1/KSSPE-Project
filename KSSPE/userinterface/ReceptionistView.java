@@ -24,9 +24,11 @@ import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import java.util.Observer;
+import java.util.Observable;
 
 // project imports
-import impresario.IModel;
+import controller.Transaction;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.Optional;
@@ -46,7 +48,7 @@ import utilities.GlobalVariables;
 
 /** The class containing the Transaction Choice View  for the ATM application */
 //==============================================================
-public class ReceptionistView extends View
+public class ReceptionistView extends View implements Observer
 {
 
 	// other private data
@@ -77,9 +79,9 @@ public class ReceptionistView extends View
 
 	// constructor for this class -- takes a model object
 	//----------------------------------------------------------
-	public ReceptionistView(IModel teller)
+	public ReceptionistView(Transaction t)
 	{
-		super(teller, "ReceptionistView");
+		super(t);
 
 		// create a container for showing the contents
 		VBox container = new VBox(10);
@@ -101,8 +103,10 @@ public class ReceptionistView extends View
 		getChildren().add(container);
 
 		cancelButton.requestFocus();
+		
+		myController.addObserver(this);
 
-		myModel.subscribe("TransactionError", this);
+		//myModel.subscribe("TransactionError", this);
 	}
 
 	// Create the labels and fields
@@ -150,7 +154,7 @@ public class ReceptionistView extends View
 		checkoutClothingItemButton = new Button("Check Out Item", icon);
 		checkoutClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		checkoutClothingItemButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("CheckoutClothingItem", null);
+			myController.stateChangeRequest("CheckoutClothingItem", null);
 		});
 		checkoutClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			checkoutClothingItemButton.setEffect(shadow);
@@ -184,7 +188,7 @@ public class ReceptionistView extends View
 		reportsButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
                 reportsButton.setStyle("-fx-selection-bar:gold");
 		availInventory.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("ListAvailableInventory", null);
+			myController.stateChangeRequest("ListAvailableInventory", null);
 		});
                 itemCheckedOutTillDate.setOnAction((ActionEvent e) -> {
 			Alert alert = new Alert(AlertType.INFORMATION);
@@ -229,7 +233,7 @@ public class ReceptionistView extends View
                             btOk.addEventFilter(ActionEvent.ACTION, event -> {
                                 if(datePicker.getValue() != null){  
                                     GlobalVariables.UNTILL_DATE = datePicker.getValue().format(DateTimeFormatter.ofPattern(pattern));
-                                    myModel.stateChangeRequest("UntillDateReport", null); 
+                                    myController.stateChangeRequest("UntillDateReport", null); 
                                 }
                                 else{
                                     Text error = new Text("Enter a date!");
@@ -242,7 +246,7 @@ public class ReceptionistView extends View
                         alert.showAndWait();
 		});
                 topDonators.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("TopDonatorReport", null);
+			myController.stateChangeRequest("TopDonatorReport", null);
 		});
 		reportsButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			reportsButton.setEffect(shadow);
@@ -274,7 +278,7 @@ public class ReceptionistView extends View
 		addArticleTypeButton = new Button("Add",icon);
 		addArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		addArticleTypeButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("AddArticleType", null);
+			myController.stateChangeRequest("AddArticleType", null);
 		});
 		addArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			addArticleTypeButton.setEffect(shadow);
@@ -293,7 +297,7 @@ public class ReceptionistView extends View
 		updateArticleTypeButton = new Button("Update", icon);
 		updateArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		updateArticleTypeButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("UpdateArticleType", null);
+			myController.stateChangeRequest("UpdateArticleType", null);
 		});
 		updateArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			updateArticleTypeButton.setEffect(shadow);
@@ -310,7 +314,7 @@ public class ReceptionistView extends View
 		removeArticleTypeButton = new Button("Remove", icon);
 		removeArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		removeArticleTypeButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("RemoveArticleType", null);
+			myController.stateChangeRequest("RemoveArticleType", null);
 		});
 		removeArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			removeArticleTypeButton.setEffect(shadow);
@@ -343,7 +347,7 @@ public class ReceptionistView extends View
 		addColorButton = new Button("Add", icon);
 		addColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		addColorButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("AddColor", null);
+			myController.stateChangeRequest("AddColor", null);
 		});
 		addColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			addColorButton.setEffect(shadow);
@@ -360,7 +364,7 @@ public class ReceptionistView extends View
 		updateColorButton = new Button("Update", icon);
 		updateColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		updateColorButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("UpdateColor", null);
+			myController.stateChangeRequest("UpdateColor", null);
 		});
 		updateColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			updateColorButton.setEffect(shadow);
@@ -377,7 +381,7 @@ public class ReceptionistView extends View
 		removeColorButton = new Button("Remove",icon);
 		removeColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		removeColorButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("RemoveColor", null);
+			myController.stateChangeRequest("RemoveColor", null);
 		});
 		removeColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			removeColorButton.setEffect(shadow);
@@ -410,7 +414,7 @@ public class ReceptionistView extends View
 		addClothingItemButton = new Button("Add", icon);
 		addClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		addClothingItemButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("AddClothingItem", null);
+			myController.stateChangeRequest("AddClothingItem", null);
 		});
 		addClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			addClothingItemButton.setEffect(shadow);
@@ -427,7 +431,7 @@ public class ReceptionistView extends View
 		updateClothingItemButton = new Button("Update",icon);
 		updateClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		updateClothingItemButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("UpdateClothingItem", null);
+			myController.stateChangeRequest("UpdateClothingItem", null);
 		});
 		updateClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			updateClothingItemButton.setEffect(shadow);
@@ -444,7 +448,7 @@ public class ReceptionistView extends View
 		removeClothingItemButton = new Button("Remove", icon);
 		removeClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		removeClothingItemButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("RemoveClothingItem", null);
+			myController.stateChangeRequest("RemoveClothingItem", null);
 		});
 		removeClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			removeClothingItemButton.setEffect(shadow);
@@ -477,7 +481,7 @@ public class ReceptionistView extends View
 		logRequestButton.setMinWidth(65);
 		logRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		logRequestButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("AddRequest", null);
+			myController.stateChangeRequest("AddRequest", null);
 		});
 		logRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			logRequestButton.setEffect(shadow);
@@ -495,7 +499,7 @@ public class ReceptionistView extends View
 		fulfillRequestButton.setMinWidth(85);
 		fulfillRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		fulfillRequestButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("FulfillRequest", null);
+			myController.stateChangeRequest("FulfillRequest", null);
 		});
 		fulfillRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			fulfillRequestButton.setEffect(shadow);
@@ -512,7 +516,7 @@ public class ReceptionistView extends View
 		removeRequestButton = new Button("Remove",icon);
 		removeRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		removeRequestButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("RemoveRequest", null);
+			myController.stateChangeRequest("RemoveRequest", null);
 		});
 		removeRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			removeRequestButton.setEffect(shadow);
@@ -538,7 +542,7 @@ public class ReceptionistView extends View
 
        		     @Override
        		     public void handle(ActionEvent e) {
-       		     	myModel.stateChangeRequest("Logout", null);    
+       		     	myController.stateChangeRequest("Logout", null);    
             	     }
         	});
 		cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
@@ -568,6 +572,8 @@ public class ReceptionistView extends View
 	}
         
 	//---------------------------------------------------------
+	
+	/*
 	public void updateState(String key, Object value)
 	{
 		if (key.equals("TransactionError") == true)
@@ -575,6 +581,14 @@ public class ReceptionistView extends View
 			// display the passed text
 			displayErrorMessage((String)value);
 		}
+	}
+	*/
+	
+	public void update(Observable o, Object value)
+	{
+		clearErrorMessage();
+		
+		displayErrorMessage((String)value);
 	}
 
 	/**

@@ -13,26 +13,24 @@ import exception.InvalidPrimaryKeyException;
 import exception.PasswordMismatchException;
 import database.*;
 
-import impresario.IView;
-
-/** The class containing the AccountHolder  for the ATM application */
+/** The class containing the Worker for the KSSPE application */
 //==============================================================
-public class AccountHolder extends EntityBase implements IView
+public class Worker extends EntityBase
 {
-	private static final String myTableName = "worker";
+	private static final String myTableName = "Worker";
 
 	// GUI Components
 
 	// constructor for this class
 	//----------------------------------------------------------
-	public AccountHolder(Properties props)
+	public Worker(Properties props)
 		throws InvalidPrimaryKeyException, PasswordMismatchException
 	{
 		super(myTableName);
 
-		String idToQuery = props.getProperty("bannerID");
+		String idToQuery = props.getProperty("BannerId");
 
-		String query = "SELECT * FROM " + myTableName + " WHERE (bannerID = " + idToQuery + ")";
+		String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + " AND Status = 'Active')";
 
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 
@@ -73,9 +71,9 @@ public class AccountHolder extends EntityBase implements IView
 			throw new InvalidPrimaryKeyException("No account found.");
 		}
 
-		String password = props.getProperty("password");
+		String password = props.getProperty("Password");
 
-		String accountPassword = persistentState.getProperty("password");
+		String accountPassword = persistentState.getProperty("Password");
 
 		if (accountPassword != null)
 		{
@@ -94,7 +92,7 @@ public class AccountHolder extends EntityBase implements IView
 	}
 
 	//----------------------------------------------------------
-	public AccountHolder(String idToQuery)
+	public Worker(String idToQuery)
 		throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
@@ -153,14 +151,7 @@ public class AccountHolder extends EntityBase implements IView
 	{
 		persistentState.setProperty(key, (String)value);
 
-		myRegistry.updateSubscribers(key, this);
-	}
-
-	/** Called via the IView relationship */
-	//----------------------------------------------------------
-	public void updateState(String key, Object value)
-	{
-		stateChangeRequest(key, value);
+		//myRegistry.updateSubscribers(key, this);
 	}
 
 	//-----------------------------------------------------------------------------------

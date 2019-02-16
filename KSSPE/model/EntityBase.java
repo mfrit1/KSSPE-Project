@@ -25,9 +25,6 @@ import javafx.stage.Stage;
 
 // project imports
 import database.Persistable;
-import impresario.ModelRegistry;
-import impresario.IModel;
-import impresario.IView;
 import impresario.ISlideShow;
 import event.Event;
 import userinterface.MainStageContainer;
@@ -39,9 +36,7 @@ import userinterface.WindowPosition;
  *  Persistable */
 //==============================================================
 public abstract class EntityBase extends Persistable
-implements IModel
 {
-	protected ModelRegistry myRegistry;	// registry for entities interested in our events
 	private int referenceCount;		// the number of others using us
 	protected boolean dirty;		// true if the data has changed
 	protected Properties persistentState;	// the field names and values from the database
@@ -73,33 +68,11 @@ implements IModel
 		// create a place to hold our state from the database
 		persistentState = new Properties();
 
-		// create a registry for subscribers
-		myRegistry = new ModelRegistry("EntityBase." + tablename);	// for now
-
 		// initialize the reference count
 		referenceCount = 0;
 		// indicate the data in persistentState matches the database contents
 		dirty = false;
 	}
-
-	/** Register objects to receive state updates. */
-	//----------------------------------------------------------
-	public void subscribe(String key, IView subscriber)
-	{
-		// DEBUG: System.out.println("EntityBase[" + myTableName + "].subscribe");
-		// forward to our registry
-		myRegistry.subscribe(key, subscriber);
-	}
-
-	/** Unregister previously registered objects. */
-	//----------------------------------------------------------
-	public void unSubscribe(String key, IView subscriber)
-	{
-		// DEBUG: System.out.println("EntityBase.unSubscribe");
-		// forward to our registry
-		myRegistry.unSubscribe(key, subscriber);
-	}
-
 
 	//-----------------------------------------------------------------------------------
 	// package level permission, only ObjectFactory should modify

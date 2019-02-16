@@ -23,9 +23,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.control.PasswordField;
 import java.util.Properties;
+import java.util.Observer;
+import java.util.Observable;
 
 // project imports
-import impresario.IModel;
+import controller.Transaction;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
@@ -36,7 +38,7 @@ import javafx.scene.input.MouseEvent;
  *  Closet application 
  */
 //==============================================================
-public class LoginView extends View
+public class LoginView extends View implements Observer
 {
 
 	// GUI components
@@ -45,18 +47,18 @@ public class LoginView extends View
 	
 	private Button submitButton;
 	protected Button cancelButton;
-	
-	//Valid variable lengths
 
 	// For showing error message
 	protected MessageView statusLog;
+	
+	private String userIdText;
 
-	// constructor for this class -- takes a model object
+	// constructor for this class
 	//----------------------------------------------------------
-	public LoginView(IModel teller)
+	public LoginView(Transaction t)
 	{
 
-		super(teller, "LoginView");
+		super(t);
 
 		// create a container for showing the contents
 		VBox container = new VBox(10);
@@ -76,9 +78,9 @@ public class LoginView extends View
 		getChildren().add(container);
 
 		populateFields();
+		
+		myController.addObserver(this);
 
-		// STEP 0: Be sure you tell your model what keys you are interested in
-		myModel.subscribe("LoginError", this);
 	}
 
 	//-------------------------------------------------------------
@@ -182,7 +184,7 @@ public class LoginView extends View
 		cancelButton = new Button("Leave", icon);
 		cancelButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		cancelButton.setOnAction((ActionEvent e) -> {
-			myModel.stateChangeRequest("ExitSystem", null);
+			myController.stateChangeRequest("ExitSystem", null);
 		});
                 cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
                     cancelButton.setEffect(new DropShadow());
@@ -236,7 +238,6 @@ public class LoginView extends View
 			{ 
 				// checking valid integer using parseInt() method 
 				Integer.parseInt(useridEntered);
-				
 
 				processUserIDAndPassword(useridEntered, passwordEntered);
 				
@@ -260,14 +261,15 @@ public class LoginView extends View
 		String passwordString)
 	{
 		Properties props = new Properties();
-		props.setProperty("bannerID", useridString);
-		props.setProperty("password", passwordString);
+		props.setProperty("BannerId", useridString);
+		props.setProperty("Password", passwordString);
 
 		// clear fields for next time around
+		userIdText = userid.getText();
 		userid.setText("");
 		password.setText("");
 
-		myModel.stateChangeRequest("Login", props);
+		myController.stateChangeRequest("Login", props);
 	}
 
 
@@ -289,29 +291,25 @@ public class LoginView extends View
 	public void populateFields()
 	{
 		clearValues();
-                clearErrorMessage();
+        clearErrorMessage();
 	}
 
-        public void clearValues()
-        {
-            userid.clear();
-            password.clear();
-        }
-	/**
-	 * Update method
-	 */
-	//---------------------------------------------------------
-	public void updateState(String key, Object value)
+    public void clearValues()
+    {
+        userid.clear();
+        password.clear();
+    }
+	
+	public void update(Observable o, Object value)
 	{
+		
 		clearErrorMessage();
 
-		// STEP 6: Be sure to finish the end of the 'perturbation'
-		// by indicating how the view state gets updated.
-		if (key.equals("LoginError") == true)
-		{
-			// display the passed text
-			displayErrorMessage((String)value);
-		}
+		if((String)value != "")           //if there was an error, replace the banner id. 
+			userid.setText(userIdText);
+		
+		displayErrorMessage((String)value);
+		
 	}
 
 	/**
