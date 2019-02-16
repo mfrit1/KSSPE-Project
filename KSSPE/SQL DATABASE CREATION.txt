@@ -5,7 +5,7 @@ CREATE TABLE PERSON(
     LastName varchar(30),
     Email varchar(30),
     PhoneNumber varchar(30),
-    PRIMARY KEY(bannerID)
+    PRIMARY KEY(BannerId)
 );
 
 DROP TABLE IF EXISTS Worker;
