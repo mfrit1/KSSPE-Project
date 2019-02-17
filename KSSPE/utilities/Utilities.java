@@ -253,7 +253,7 @@ public class Utilities
    	}
    	
    	//----------------------------------------------------
-   	protected boolean checkProperPhoneNumber(String value)
+   	public static boolean checkProperPhoneNumber(String value)
    	{
    		if ((value == null) || (value.length() < 7))
    		{
