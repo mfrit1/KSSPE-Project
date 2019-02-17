@@ -221,7 +221,7 @@ public class LoginView extends View implements Observer
 			displayErrorMessage("Please enter a banner id!");
 			userid.requestFocus();
 		}
-		else if(useridEntered.length() != 9)
+		else if(useridEntered.length() != GlobalVariables.BANNERID_LENGTH)
 		{
 			displayErrorMessage("Please enter a valid bannerid!");
 			userid.requestFocus();

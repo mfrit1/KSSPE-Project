@@ -3,6 +3,7 @@ package userinterface;
 
 // system imports
 import utilities.GlobalVariables;
+import utilities.Utilities;
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -20,6 +21,8 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
+import javafx.scene.control.PasswordField;
+
 import java.util.Properties;
 import java.util.Observer;
 import java.util.Observable;
@@ -51,7 +54,7 @@ public class AddWorkerView extends View implements Observer
 	protected TextField email;
 	protected TextField phoneNumber;
 	protected ComboBox credential;
-	protected TextField password;
+	protected PasswordField password;
 	protected Text actionText;
 	protected Text prompt;
 
@@ -160,14 +163,14 @@ public class AddWorkerView extends View implements Observer
 			bannerIdLabel.setFill(Color.GOLD);
 			bannerIdLabel.setFont(bannerFont);
 			bannerIdLabel.setUnderline(true);
-			
 			bannerIdLabel.setTextAlignment(TextAlignment.RIGHT);
 		bannerBox.getChildren().add(bannerIdLabel);
 
 		bannerId = new TextField();
 			bannerId.setMinWidth(150);
 			bannerId.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-				submitButton.fire();
+				clearErrorMessage();
+				clearOutlines();
 			});
 		bannerBox.getChildren().add(bannerId);
 		
@@ -187,11 +190,10 @@ public class AddWorkerView extends View implements Observer
 		
 		firstName = new TextField();
 			firstName.setMinWidth(150);
-            firstName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-                if (event.getCode() == KeyCode.ENTER) {
-                    submitButton.fire();
-                }
-            });
+			firstName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
+				clearErrorMessage();
+				clearOutlines();
+			});
 		grid.add(firstName, 1, 1);
 
 
@@ -203,11 +205,10 @@ public class AddWorkerView extends View implements Observer
 
 		lastName = new TextField();
 			lastName.setMinWidth(150);
-            lastName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-                if (event.getCode() == KeyCode.ENTER) {
-                    submitButton.fire();
-                }
-            });
+			lastName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
+				clearErrorMessage();
+				clearOutlines();
+			});
 		grid.add(lastName, 1, 2);
 		
 		Text passwordLabel = new Text(" Password : ");
@@ -216,13 +217,12 @@ public class AddWorkerView extends View implements Observer
 			passwordLabel.setTextAlignment(TextAlignment.RIGHT);
 		grid.add(passwordLabel, 0, 3);
 
-		password = new TextField();
+		password = new PasswordField();
 			password.setMinWidth(150);
-            password.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-                if (event.getCode() == KeyCode.ENTER) {
-                    submitButton.fire();
-                }
-            });
+			password.addEventFilter(KeyEvent.KEY_RELEASED, event->{
+				clearErrorMessage();
+				clearOutlines();
+			});
 		grid.add(password, 1, 3);
 
 		
@@ -234,11 +234,10 @@ public class AddWorkerView extends View implements Observer
 
 		email = new TextField();
 			email.setMinWidth(150);
-            email.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-				if (event.getCode() == KeyCode.ENTER) {
-                    submitButton.fire();
-                }
-            });
+			email.addEventFilter(KeyEvent.KEY_RELEASED, event->{
+				clearErrorMessage();
+				clearOutlines();
+			});
 		grid.add(email, 3, 1);
 
 					
@@ -250,11 +249,10 @@ public class AddWorkerView extends View implements Observer
 
 		phoneNumber = new TextField();
 			phoneNumber.setMinWidth(150);
-            phoneNumber.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-                if (event.getCode() == KeyCode.ENTER) {
-                    submitButton.fire();
-                }
-            });
+			phoneNumber.addEventFilter(KeyEvent.KEY_RELEASED, event->{
+				clearErrorMessage();
+				clearOutlines();
+			});
 		grid.add(phoneNumber, 3, 2);
 
 
@@ -266,63 +264,57 @@ public class AddWorkerView extends View implements Observer
 		
 		
 		credential = new ComboBox();
-        credential.getItems().addAll(
-            "Ordinary",
-            "Admin"
-        );
+			credential.getItems().addAll(
+				"Ordinary",
+				"Admin"
+			);
 			credential.setPromptText("Choose Credential");
 			credential.setMinWidth(150);
-            credential.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-                if (event.getCode() == KeyCode.ENTER) {
-                    submitButton.fire();
-                }
-            });
 		grid.add(credential, 3, 3);
 
 		
 		doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
-                doneCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-                    doneCont.setStyle("-fx-background-color: GOLD");
+            doneCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+            doneCont.setStyle("-fx-background-color: GOLD");
 		});
-                doneCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-                    doneCont.setStyle("-fx-background-color: SLATEGREY");
+        doneCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+            doneCont.setStyle("-fx-background-color: SLATEGREY");
 		});
+		
 		ImageView icon = new ImageView(new Image("/images/pluscolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
-		submitButton = new Button("Add", icon);
-		submitButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		submitButton.setOnAction((ActionEvent e) -> {
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
 			
-		});
-		submitButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			submitButton.setEffect(new DropShadow());
-		});
-		submitButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			submitButton.setEffect(null);
-		});
+		submitButton = new Button("Add", icon);
+			submitButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			submitButton.setOnAction((ActionEvent e) -> {
+				sendToController();
+			});
+			submitButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				submitButton.setEffect(new DropShadow());
+			});
+			submitButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				submitButton.setEffect(null);
+			});
 		doneCont.getChildren().add(submitButton);
+		
 		icon = new ImageView(new Image("/images/return.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		cancelButton = new Button("Return", icon);
-		cancelButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		cancelButton.setOnAction((ActionEvent e) -> {
-			clearErrorMessage();
-			myController.stateChangeRequest("CancelTransaction", null);
-		});
-		cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			cancelButton.setEffect(new DropShadow());
-		});
-		cancelButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			cancelButton.setEffect(null);
-		});
-		
-		icon = new ImageView(new Image("/images/editcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
-		
+			cancelButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			cancelButton.setOnAction((ActionEvent e) -> {
+				clearErrorMessage();
+				myController.stateChangeRequest("CancelTransaction", null);
+			});
+			cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				cancelButton.setEffect(new DropShadow());
+			});
+			cancelButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				cancelButton.setEffect(null);
+			});
 		doneCont.getChildren().add(cancelButton);
 		
 		vbox.getChildren().add(bannerBox);
@@ -334,8 +326,92 @@ public class AddWorkerView extends View implements Observer
 		return vbox;
 	}
 
+	private void sendToController()
+	{
+		clearErrorMessage();
+        clearOutlines();
+		
+		String BannerID = bannerId.getText();
+		String FirstName = firstName.getText();
+		String LastName = lastName.getText();
+		String Email = email.getText();
+		String PhoneNumber = phoneNumber.getText();
+		String Password = password.getText();
+		String Credential;
+		
+		if(BannerID.length() == GlobalVariables.BANNERID_LENGTH && BannerID.matches("\\d+")) 
+		{
+			if(FirstName.length() != 0 && FirstName.length() < GlobalVariables.NAME_LENGTH)
+			{
+				if(LastName.length() != 0 && LastName.length() < GlobalVariables.NAME_LENGTH)
+				{
+					if(Email.length() != 0 && Email.length() < GlobalVariables.EMAIL_LENGTH)
+					{
+						if(PhoneNumber.length() != 0 && PhoneNumber.length() < GlobalVariables.PHONE_LENGTH && Utilities.checkProperPhoneNumber(PhoneNumber))
+						{
+							if(Password.length() != 0 && Password.length() < GlobalVariables.PASSWORD_LENGTH)
+							{
+								if(credential.getValue() != null) //credential can't be null when sending it to controller. 
+								{
+									Credential = credential.getValue().toString();
+							
+									Properties props = new Properties();
+									props.setProperty("BannerId", BannerID);
+									props.setProperty("FirstName", FirstName);
+									props.setProperty("LastName", LastName);
+									props.setProperty("Email", Email);
+									props.setProperty("PhoneNumber", PhoneNumber);
+									props.setProperty("Credential", Credential);
+									props.setProperty("Password", Password);
+								
+									myController.stateChangeRequest("WorkerData", props);
+									
+								}
+								else
+								{
+									displayErrorMessage("Please enter a credential.");
+									credential.requestFocus();
+								}
+							}
+							else
+							{
+								displayErrorMessage("Please enter a valid password.");
+								password.requestFocus();
+							}
+						}
+						else
+						{
+							displayErrorMessage("Please enter a valid phone number.");
+							phoneNumber.requestFocus();
+						}
+					}
+					else
+					{
+						displayErrorMessage("Please enter a valid email.");
+						email.requestFocus();
+					}
+				}
+				else
+				{
+					displayErrorMessage("Please enter a valid last name.");
+					lastName.requestFocus();
+				}
+			}
+			else
+			{
+				displayErrorMessage("Please enter a valid first name.");
+				firstName.requestFocus();
+			}
+		}
+		else
+		{
+			displayErrorMessage("Please enter a valid Banner Id.");
+			bannerId.requestFocus();
+		}
+		
+	}
 	
-	// Create the status log field
+	
 	//-------------------------------------------------------------
 	protected MessageView createStatusLog(String initialMessage)
 	{
@@ -344,7 +420,8 @@ public class AddWorkerView extends View implements Observer
 		return statusLog;
 	}
 
-	public void clearValues(){
+	public void clearValues()
+	{
 		/*
 		barcode.clear();
 		gender.getSelectionModel().select(null);
@@ -365,7 +442,8 @@ public class AddWorkerView extends View implements Observer
 		*/
 	}
 
-	private void clearOutlines(){
+	private void clearOutlines()
+	{
 		/*
 		barcode.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
 		gender.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
