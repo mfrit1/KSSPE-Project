@@ -56,7 +56,7 @@ public class ReceptionistView extends View implements Observer
 	private final int labelHeight = 25;
 
 	// GUI components
-	private Button addArticleTypeButton;
+	private Button addWorkerButton;
 	private Button updateArticleTypeButton;
 	private Button removeArticleTypeButton;
 	private Button addColorButton;
@@ -83,30 +83,19 @@ public class ReceptionistView extends View implements Observer
 	{
 		super(t);
 
-		// create a container for showing the contents
 		VBox container = new VBox(10);
-		container.setPadding(new Insets(15, 5, 5, 5));
+		container.setPadding(new Insets(15, 15, 5, 15));
         container.setStyle("-fx-background-color: slategrey");
 
-		// Add a title for this panel
 		container.getChildren().add(createTitle());
 
-		//container.getChildren().add(new Label(" "));
-
-		// create our GUI components, add them to this Container
 		container.getChildren().add(createFormContents());
 
 		container.getChildren().add(createStatusLog("             "));
-               // container.setMinHeight(550);
-                //container.setMinWidth(550);
 
 		getChildren().add(container);
-
-		cancelButton.requestFocus();
 		
 		myController.addObserver(this);
-
-		//myModel.subscribe("TransactionError", this);
 	}
 
 	// Create the labels and fields
@@ -145,256 +134,219 @@ public class ReceptionistView extends View implements Observer
 	{
 
 		VBox container = new VBox(15);
-		// create the buttons, listen for events, add them to the container
 		HBox checkoutCont = new HBox(10);
-		checkoutCont.setAlignment(Pos.CENTER);
+			checkoutCont.setAlignment(Pos.CENTER);
+		
 		ImageView icon = new ImageView(new Image("/images/buyingcolor.png"));
-		icon.setFitHeight(25);
-		icon.setFitWidth(25);
-		checkoutClothingItemButton = new Button("Check Out Item", icon);
-		checkoutClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		checkoutClothingItemButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("CheckoutClothingItem", null);
-		});
-		checkoutClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			checkoutClothingItemButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Check Out a Clothing Item to a Student");
-		});
-		checkoutClothingItemButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			checkoutClothingItemButton.setEffect(null);
-                        clearErrorMessage();
-		});
+			icon.setFitHeight(25);
+			icon.setFitWidth(25);
+			
+		checkoutClothingItemButton = new Button("Reserve Items", icon);
+			checkoutClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			checkoutClothingItemButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("CheckoutClothingItem", null);
+			});
+			checkoutClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				checkoutClothingItemButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Check Out a Clothing Item to a Student");
+			});
+			checkoutClothingItemButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				checkoutClothingItemButton.setEffect(null);
+                clearErrorMessage();
+			});
+			
 		checkoutCont.getChildren().add(checkoutClothingItemButton);
-                checkoutCont.setAlignment(Pos.CENTER);
-
    
-                icon = new ImageView(new Image("/images/listcolor.png"));
-                icon.setFitHeight(20);
-                icon.setFitWidth(20);
-                MenuItem availInventory = new MenuItem("Available Inventory", icon );
-                icon = new ImageView(new Image("/images/datecolor.png"));
-                icon.setFitHeight(25);
-                icon.setFitWidth(25);
-                MenuItem itemCheckedOutTillDate = new MenuItem("Checked Out Items", icon);
-                icon = new ImageView(new Image("/images/medalcolor.png"));
-                icon.setFitHeight(25);
-                icon.setFitWidth(25);
-                MenuItem topDonators = new MenuItem("Top Donor", icon);
+		icon = new ImageView(new Image("/images/listcolor.png"));
+			icon.setFitHeight(20);
+			icon.setFitWidth(20);
+		MenuItem availInventory = new MenuItem("Available Inventory", icon);
+		
+		icon = new ImageView(new Image("/images/datecolor.png"));
+			icon.setFitHeight(25);
+			icon.setFitWidth(25);
+		MenuItem itemCheckedOutTillDate = new MenuItem("Checked Out Items", icon);
+		
+		icon = new ImageView(new Image("/images/medalcolor.png"));
+			icon.setFitHeight(25);
+			icon.setFitWidth(25);
+		MenuItem topDonators = new MenuItem("Top Donor", icon);
 
-                icon = new ImageView(new Image("/images/reportcolor.png"));
-		icon.setFitHeight(25);
-		icon.setFitWidth(25);
-                MenuButton reportsButton = new MenuButton("    Reports    ", icon, availInventory, itemCheckedOutTillDate, topDonators);
-		reportsButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-                reportsButton.setStyle("-fx-selection-bar:gold");
-		availInventory.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("ListAvailableInventory", null);
-		});
-                itemCheckedOutTillDate.setOnAction((ActionEvent e) -> {
-			Alert alert = new Alert(AlertType.INFORMATION);
-                        alert.setTitle("Checked Out Items Report");
-                        alert.setHeaderText("Enter a Date for the Checked Out Items Report!");
-                        alert.getDialogPane().setMinHeight(175);
-                        ((Stage)alert.getDialogPane().getScene().getWindow()).getIcons().add(new Image("images/BPT_LOGO_All-In-One_Color.png"));
-
-                        DatePicker datePicker = new DatePicker();
-
-                        datePicker.setShowWeekNumbers(false);
-                        String pattern = "MM-dd-yyyy";
-
-                        datePicker.setConverter(new StringConverter<LocalDate>() {
-                             DateTimeFormatter dateFormatter = DateTimeFormatter.ofPattern(pattern);
-
-                             @Override 
-                             public String toString(LocalDate date) {
-                                 if (date != null) {
-                                     return dateFormatter.format(date);
-                                 } else {
-                                     return "";
-                                 }
-                             }
-
-                             @Override 
-                             public LocalDate fromString(String string) {
-                                 if (string != null && !string.isEmpty()) {
-                                     return LocalDate.parse(string, dateFormatter);
-                                 } else {
-                                     return null;
-                                 }
-                             }
-                         });
-                        GridPane grid = new GridPane();
-                        Text label = new Text("           Date : ");
-                        grid.add(label, 0, 0);
-                        grid.add(datePicker, 1, 0);
-                        alert.getDialogPane().setContent(grid);
-                        
-                         final Button btOk = (Button) alert.getDialogPane().lookupButton(ButtonType.OK);
-                            btOk.addEventFilter(ActionEvent.ACTION, event -> {
-                                if(datePicker.getValue() != null){  
-                                    GlobalVariables.UNTILL_DATE = datePicker.getValue().format(DateTimeFormatter.ofPattern(pattern));
-                                    myController.stateChangeRequest("UntillDateReport", null); 
-                                }
-                                else{
-                                    Text error = new Text("Enter a date!");
-                                    error.setFill(Color.FIREBRICK);
-                                    grid.add(error, 1, 1);
-                                    alert.getDialogPane().setContent(grid);
-                                    event.consume();
-                                }
-                            });
-                        alert.showAndWait();
-		});
-                topDonators.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("TopDonatorReport", null);
-		});
-		reportsButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			reportsButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Displays List of Reports to Choose From");
-		});
-		reportsButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+        icon = new ImageView(new Image("/images/reportcolor.png"));
+			icon.setFitHeight(25);
+			icon.setFitWidth(25);
+        MenuButton reportsButton = new MenuButton("   Reports   ", icon, availInventory, itemCheckedOutTillDate, topDonators);
+			reportsButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+            reportsButton.setStyle("-fx-selection-bar:gold");
+			availInventory.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("ListAvailableInventory", null);
+			});
+			topDonators.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("TopDonatorReport", null);
+			});
+			reportsButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				reportsButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Displays List of Reports to Choose From");
+			});
+			reportsButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
 			reportsButton.setEffect(null);
                         clearErrorMessage();
-		});
-                checkoutCont.getChildren().add(reportsButton);
+			});
+        checkoutCont.getChildren().add(reportsButton);
+		
 		container.getChildren().add(checkoutCont);
+		//--------------------------------------------- Top Hbox done
 
-		HBox articleTypeCont = new HBox(10);
-		articleTypeCont.setAlignment(Pos.CENTER);
-		Label atLabel = new Label("ARTICLE TYPES      : ");
-                articleTypeCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-                    articleTypeCont.setStyle("-fx-background-color: DARKGREEN");
-		});
-                articleTypeCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-                    articleTypeCont.setStyle("-fx-background-color: SLATEGREY");
-		});
-                atLabel.setAlignment(Pos.CENTER_LEFT);
-		atLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
-		atLabel.setTextFill(Color.GOLD);
-		articleTypeCont.getChildren().add(atLabel);
+		HBox workerBox = new HBox(10);
+		    workerBox.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				workerBox.setStyle("-fx-background-color: DARKGREEN");
+			});
+            workerBox.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				workerBox.setStyle("-fx-background-color: SLATEGREY");
+			});
+		workerBox.setAlignment(Pos.CENTER);
+		
+		
+		Label atLabel = new Label("WORKERS              : ");
+            atLabel.setAlignment(Pos.CENTER_LEFT);
+			atLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
+			atLabel.setTextFill(Color.GOLD);
+		workerBox.getChildren().add(atLabel);
+		
 		icon = new ImageView(new Image("/images/pluscolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
-		addArticleTypeButton = new Button("Add",icon);
-		addArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		addArticleTypeButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("AddArticleType", null);
-		});
-		addArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			addArticleTypeButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Add new Article Types to the records");
-                        
-		});
-		addArticleTypeButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			addArticleTypeButton.setEffect(null);
-                        clearErrorMessage();
-		});
-		articleTypeCont.getChildren().add(addArticleTypeButton);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
+		addWorkerButton = new Button("Add",icon);
+			addWorkerButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			addWorkerButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("AddWorker", null);
+			});
+			addWorkerButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+			addWorkerButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Add New Workers");    
+			});
+			addWorkerButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+			addWorkerButton.setEffect(null);
+                clearErrorMessage();
+			});
+		workerBox.getChildren().add(addWorkerButton); // add worker
 
 		icon = new ImageView(new Image("/images/editcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		updateArticleTypeButton = new Button("Update", icon);
-		updateArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		updateArticleTypeButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("UpdateArticleType", null);
-		});
-		updateArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			updateArticleTypeButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Update Article Types in the records");
-		});
-		updateArticleTypeButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			updateArticleTypeButton.setEffect(null);
-                        clearErrorMessage();
-		});
-		articleTypeCont.getChildren().add(updateArticleTypeButton);
+			updateArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			updateArticleTypeButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("UpdateArticleType", null);
+			});
+			updateArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				updateArticleTypeButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Update Article Types in the records");
+			});
+			updateArticleTypeButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				updateArticleTypeButton.setEffect(null);
+                clearErrorMessage();
+			});
+		workerBox.getChildren().add(updateArticleTypeButton); // update worker
+		
 		icon = new ImageView(new Image("/images/trashcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		removeArticleTypeButton = new Button("Remove", icon);
-		removeArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		removeArticleTypeButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("RemoveArticleType", null);
-		});
-		removeArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			removeArticleTypeButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Remove Article Types from the records");
-		});
-		removeArticleTypeButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			removeArticleTypeButton.setEffect(null);
-                        clearErrorMessage();
-		});
-		articleTypeCont.getChildren().add(removeArticleTypeButton);
-                articleTypeCont.setAlignment(Pos.CENTER);
+			removeArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			removeArticleTypeButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("RemoveArticleType", null);
+			});
+			removeArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				removeArticleTypeButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Remove Article Types from the records");
+			});
+			removeArticleTypeButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				removeArticleTypeButton.setEffect(null);
+                clearErrorMessage();
+			});
+		workerBox.getChildren().add(removeArticleTypeButton); //remove worker
 
-		container.getChildren().add(articleTypeCont);
+		container.getChildren().add(workerBox);
 
+		//--------- Worker HBOX Done
+		
 		HBox colorCont = new HBox(10);
-		colorCont.setAlignment(Pos.CENTER_LEFT);
-		Label colorLabel = new Label("COLORS                 : ");
-                colorCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-                    colorCont.setStyle("-fx-background-color: DARKGREEN");
-		});
-                colorCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-                    colorCont.setStyle("-fx-background-color: SLATEGREY");
-		});
-		colorLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
-                colorLabel.setTextFill(Color.GOLD);
+			colorCont.setAlignment(Pos.CENTER);
+			colorCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				colorCont.setStyle("-fx-background-color: DARKGREEN");
+			});
+			colorCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				colorCont.setStyle("-fx-background-color: SLATEGREY");
+			});
+		
+		Label colorLabel = new Label("BORROWERS         : ");    
+			colorLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
+			colorLabel.setTextFill(Color.GOLD);
 		colorCont.getChildren().add(colorLabel);
+		
 		icon = new ImageView(new Image("/images/pluscolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		addColorButton = new Button("Add", icon);
-		addColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		addColorButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("AddColor", null);
-		});
-		addColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			addColorButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Add new Colors to the records");
-		});
-		addColorButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			addColorButton.setEffect(null);
-                        clearErrorMessage();
-		});
+			addColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			addColorButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("AddColor", null);
+			});
+			addColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				addColorButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Add new Colors to the records");
+			});
+			addColorButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				addColorButton.setEffect(null);
+                clearErrorMessage();
+			});
 		colorCont.getChildren().add(addColorButton);
+		
 		icon = new ImageView(new Image("/images/editcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		updateColorButton = new Button("Update", icon);
-		updateColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		updateColorButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("UpdateColor", null);
-		});
-		updateColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			updateColorButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Update Colors in the records");
-		});
-		updateColorButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			updateColorButton.setEffect(null);
-                        clearErrorMessage();
-		});
+			updateColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			updateColorButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("UpdateColor", null);
+			});
+			updateColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				updateColorButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Update Colors in the records");
+			});
+			updateColorButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				updateColorButton.setEffect(null);
+                clearErrorMessage();
+			});
 		colorCont.getChildren().add(updateColorButton);
+		
 		icon = new ImageView(new Image("/images/trashcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		removeColorButton = new Button("Remove",icon);
-		removeColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		removeColorButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("RemoveColor", null);
-		});
-		removeColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			removeColorButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Remove Colors from the records");
-		});
-		removeColorButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			removeColorButton.setEffect(null);
-                        clearErrorMessage();
-		});
+			removeColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			removeColorButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("RemoveColor", null);
+			});
+			removeColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				removeColorButton.setEffect(shadow);
+                 statusLog.displayInfoMessage("Remove Colors from the records");
+			});
+			removeColorButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				removeColorButton.setEffect(null);
+                 clearErrorMessage();
+			});
 		colorCont.getChildren().add(removeColorButton);
-                colorCont.setAlignment(Pos.CENTER);
-
 		container.getChildren().add(colorCont);
+		
+		//------------- Borrower Hbox Done
 
 		HBox clothingItemCont = new HBox(10);
 		clothingItemCont.setAlignment(Pos.CENTER_LEFT);
@@ -547,7 +499,7 @@ public class ReceptionistView extends View implements Observer
         	});
 		cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			cancelButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Go to Login Page");
+                        statusLog.displayInfoMessage("Go to Login Screen");
 		});
 		cancelButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
 			cancelButton.setEffect(null);
@@ -571,18 +523,7 @@ public class ReceptionistView extends View implements Observer
 		return statusLog;
 	}
         
-	//---------------------------------------------------------
-	
-	/*
-	public void updateState(String key, Object value)
-	{
-		if (key.equals("TransactionError") == true)
-		{
-			// display the passed text
-			displayErrorMessage((String)value);
-		}
-	}
-	*/
+
 	
 	public void update(Observable o, Object value)
 	{
@@ -591,19 +532,11 @@ public class ReceptionistView extends View implements Observer
 		displayErrorMessage((String)value);
 	}
 
-	/**
-	 * Display error message
-	 */
-	//----------------------------------------------------------
 	public void displayErrorMessage(String message)
 	{
 		statusLog.displayErrorMessage(message);
 	}
 
-	/**
-	 * Clear error message
-	 */
-	//----------------------------------------------------------
 	public void clearErrorMessage()
 	{
 		statusLog.clearErrorMessage();
