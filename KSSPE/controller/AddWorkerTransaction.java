@@ -30,9 +30,11 @@ public class AddWorkerTransaction extends Transaction
 	public void processTransaction(Properties props)
 	{
 		
+		System.out.println("HI");
+		
 	}
 	
-
+	//-----------------------------------------------------------
 	public Object getState(String key)
 	{
 		if (key.equals("Error") == true)
@@ -42,7 +44,6 @@ public class AddWorkerTransaction extends Transaction
 		return null;
 	}
 
-	//-----------------------------------------------------------
 	public void stateChangeRequest(String key, Object value)
 	{
 		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
@@ -51,6 +52,11 @@ public class AddWorkerTransaction extends Transaction
 			myReceptionist = (Receptionist)value;
 			doYourJob();
 		}
+		if (key.equals("WorkerData") == true)
+		{
+			processTransaction((Properties)value);
+		}
+	
 		if (key.equals("CancelTransaction") == true)
 		{
 			myReceptionist.stateChangeRequest("CancelTransaction", null);

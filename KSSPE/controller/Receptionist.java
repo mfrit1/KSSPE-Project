@@ -110,8 +110,6 @@ public class Receptionist extends Transaction
             (key.equals("UntillDateReport") == true) || (key.equals("TopDonatorReport") == true))
 			{
 				String transType = key;
-
-				transType = transType.trim();
 					
 				if (currentWorker != null)
 				{
