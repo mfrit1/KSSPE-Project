@@ -81,7 +81,7 @@ public class Receptionist extends Transaction
 			{
 				errorMessage = "";
 
-				boolean flag = loginAccountHolder((Properties)value);
+				boolean flag = loginWorker((Properties)value);
 				
 				if (flag == true)
 				{
@@ -140,7 +140,7 @@ public class Receptionist extends Transaction
 
 	// Login Worker corresponding to user name and password.
 	//----------------------------------------------------------
-	public boolean loginAccountHolder(Properties props)
+	public boolean loginWorker(Properties props)
 	{
 
 		try
