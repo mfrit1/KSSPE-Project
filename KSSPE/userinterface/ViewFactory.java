@@ -15,6 +15,10 @@ public class ViewFactory {
 		{
 			return new ReceptionistView(t);
 		}
+		else if(viewName.equals("AddWorkerView") == true)
+		{
+			return new AddWorkerView(t);
+		}
 		else
 			return null;
 	}
