@@ -100,7 +100,7 @@ public class Receptionist extends Transaction
 			System.exit(0);
 		}	
 		else
-		if ((key.equals("AddArticleType") == true) || (key.equals("UpdateArticleType") == true) ||
+		if ((key.equals("AddWorker") == true) || (key.equals("UpdateArticleType") == true) ||
 			(key.equals("RemoveArticleType") == true) || (key.equals("AddColor") == true) ||
 			(key.equals("UpdateColor") == true) || (key.equals("RemoveColor") == true) ||
 			(key.equals("AddClothingItem") == true) || (key.equals("UpdateClothingItem") == true) ||
@@ -115,7 +115,11 @@ public class Receptionist extends Transaction
 					
 				if (currentWorker != null)
 				{
-					doTransaction(transType);
+					if(key.equals("AddWorker") && !currentWorker.getState("Credential").equals("Admin")){
+						errorMessage = "You must be 'Admin' to do this.";
+					}
+					else
+						doTransaction(transType);
 				}
 				else
 				{
@@ -127,7 +131,7 @@ public class Receptionist extends Transaction
 		{
 			currentWorker = null;
 			myViews.remove("ReceptionistView");
-
+			errorMessage = "";
 			createAndShowLoginView();
 		}
 
@@ -149,19 +153,18 @@ public class Receptionist extends Transaction
 		}
 		catch (InvalidPrimaryKeyException ex)
 		{
-				errorMessage = "ERROR: " + ex.getMessage();
-				return false;
+			errorMessage = "ERROR: " + ex.getMessage();
+			return false;
 		}
 		catch (PasswordMismatchException exec)
 		{
-
-				errorMessage = "ERROR: " + exec.getMessage();
-				return false;
+			errorMessage = "ERROR: " + exec.getMessage();
+			return false;
 		}
 		catch (NullPointerException ex)
 		{
-				errorMessage = "ERROR: " + "Not Connected To Database";
-				return false;
+			errorMessage = "ERROR: " + "Not Connected To Database";
+			return false;
 			
 		}
 		
@@ -170,18 +173,15 @@ public class Receptionist extends Transaction
 	//----------------------------------------------------------
 	public void doTransaction(String transactionType)
 	{
-		//System.out.println(currentWorker.getState("Credential"));
 		
 		try
 		{
-			Transaction trans = TransactionFactory.createTransaction(
-					transactionType);
-
-			trans.stateChangeRequest("DoYourJob", "");
+			Transaction trans = TransactionFactory.createTransaction(transactionType);
+			trans.stateChangeRequest("DoYourJob", this);
 		}
 		catch (Exception ex)
 		{
-			errorMessage = "FATAL ERROR: TRANSACTION FAILURE: Unrecognized transaction!!";
+			errorMessage = "FATAL ERROR: Unrecognized transaction!!";
 			new Event(Event.getLeafLevelClassName(this), "createTransaction",
 					"Transaction Creation Failure: Unrecognized transaction " + ex.toString(),
 					Event.ERROR);

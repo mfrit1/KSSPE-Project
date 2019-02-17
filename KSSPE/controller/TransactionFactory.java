@@ -21,13 +21,10 @@ public class TransactionFactory
 	public static Transaction createTransaction(String transType) throws Exception
 	{
 		Transaction retValue = null;
-		
-		/*
-		if (transType.equals("AddArticleType") == true)
+		if (transType.equals("AddWorker") == true)
 		{
-			retValue = new AddArticleTypeTransaction();
+			retValue = new AddWorkerTransaction();
 		} 
-		*/
 		return retValue;
 	}
 }
