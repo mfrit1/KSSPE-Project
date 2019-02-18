@@ -11,6 +11,7 @@ import javax.swing.JFrame;
 // project imports
 import exception.InvalidPrimaryKeyException;
 import exception.PasswordMismatchException;
+import exception.MultiplePrimaryKeysException;
 import database.*;
 
 /** The class containing the Worker for the KSSPE application */
@@ -18,86 +19,35 @@ import database.*;
 public class Worker extends EntityBase
 {
 	private static final String myTableName = "Worker";
+	
+	private String updateStatusMessage = "";
 
-	// GUI Components
-
-	// constructor for this class
-	//----------------------------------------------------------
+	//--------------------------------------------------------- this is used to create a new worker. Check if it exists or not first. 
 	public Worker(Properties props)
-		throws InvalidPrimaryKeyException, PasswordMismatchException
 	{
 		super(myTableName);
 
-		String idToQuery = props.getProperty("BannerId");
-
-		String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + " AND Status = 'Active')";
-
-		Vector allDataRetrieved =  getSelectQueryResult(query);
-
-		// You must get one account at least
-		if (allDataRetrieved != null && allDataRetrieved.size() != 0)
+		persistentState = new Properties();
+		Enumeration allKeys = props.propertyNames();
+		while (allKeys.hasMoreElements() == true)
 		{
-			int size = allDataRetrieved.size();
+			String nextKey = (String)allKeys.nextElement();
+			String nextValue = props.getProperty(nextKey);
 
-			// There should be EXACTLY one account. More than that is an error
-			if (size != 1)
+			if (nextValue != null)
 			{
-				throw new InvalidPrimaryKeyException("Multiple accounts matching user id : "
-					+ idToQuery + " found.");
+				persistentState.setProperty(nextKey, nextValue);
 			}
-			else
-			{
-				// copy all the retrieved data into persistent state
-				Properties retrievedCustomerData = (Properties)allDataRetrieved.elementAt(0);
-				persistentState = new Properties();
-
-				Enumeration allKeys = retrievedCustomerData.propertyNames();
-				while (allKeys.hasMoreElements() == true)
-				{
-					String nextKey = (String)allKeys.nextElement();
-					String nextValue = retrievedCustomerData.getProperty(nextKey);
-
-					if (nextValue != null)
-					{
-						persistentState.setProperty(nextKey, nextValue);
-					}
-				}
-
-			}
-		}
-		// If no account found for this user name, throw an exception
-		else
-		{
-			throw new InvalidPrimaryKeyException("No account found.");
-		}
-
-		String password = props.getProperty("Password");
-
-		String accountPassword = persistentState.getProperty("Password");
-
-		if (accountPassword != null)
-		{
-			boolean passwordCheck = accountPassword.equals(password);
-			if (passwordCheck == false)
-			{
-				throw new PasswordMismatchException("Password not correct!");
-			}
-
-		}
-		else
-		{
-			throw new PasswordMismatchException("Password missing for account");
 		}
 
 	}
 
-	//----------------------------------------------------------
-	public Worker(String idToQuery)
-		throws InvalidPrimaryKeyException
+	//---------------------------------------------------------- This is used to check if worker exists or not. If so, get it. 
+	public Worker(String idToQuery) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException
 	{
 		super(myTableName);
 
-		String query = "SELECT * FROM " + myTableName + " WHERE (ID = " + idToQuery + ")";
+		String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + " AND Status = 'Active')";
 
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 
@@ -106,36 +56,44 @@ public class Worker extends EntityBase
 		{
 			int size = allDataRetrieved.size();
 
-			// There should be EXACTLY one account. More than that is an error
-			if (size != 1)
+			// There should be EXACTLY one Worker. More than that is an error
+			if (size == 0)
 			{
-				throw new InvalidPrimaryKeyException("Multiple accounts matching user id : "
-					+ idToQuery + " found.");
+				throw new InvalidPrimaryKeyException("No Worker matching : "
+						+ idToQuery + " found.");
 			}
 			else
 			{
-				// copy all the retrieved data into persistent state
-				Properties retrievedCustomerData = (Properties)allDataRetrieved.elementAt(0);
-				persistentState = new Properties();
-
-				Enumeration allKeys = retrievedCustomerData.propertyNames();
-				while (allKeys.hasMoreElements() == true)
+				// There should be EXACTLY one Worker. More than that is an error
+				if (size != 1)
 				{
-					String nextKey = (String)allKeys.nextElement();
-					String nextValue = retrievedCustomerData.getProperty(nextKey);
-
-					if (nextValue != null)
-					{
-						persistentState.setProperty(nextKey, nextValue);
-					}
+					throw new MultiplePrimaryKeysException("Multiple Workers matching Banner Id : " + idToQuery + " found.");
 				}
+				else
+				{
+					// copy all the retrieved data into persistent state
+					Properties retrievedCustomerData = (Properties)allDataRetrieved.elementAt(0);
+					persistentState = new Properties();
 
+					Enumeration allKeys = retrievedCustomerData.propertyNames();
+					while (allKeys.hasMoreElements() == true)
+					{
+						String nextKey = (String)allKeys.nextElement();
+						String nextValue = retrievedCustomerData.getProperty(nextKey);
+
+						if (nextValue != null)
+						{
+							persistentState.setProperty(nextKey, nextValue);
+						}
+					}
+
+				}
 			}
 		}
-		// If no account found for this user name, throw an exception
+		// If no Worker found for this user name, throw an exception
 		else
 		{
-			throw new InvalidPrimaryKeyException("No account matching user id : "
+			throw new InvalidPrimaryKeyException("No Worker matching banner id : "
 				+ idToQuery + " found.");
 		}
 	}
@@ -143,7 +101,10 @@ public class Worker extends EntityBase
 	//----------------------------------------------------------
 	public Object getState(String key)
 	{
-		return persistentState.getProperty(key);
+		if (key.equals("UpdateStatusMessage") == true)
+			return updateStatusMessage;
+		else
+			return persistentState.getProperty(key);
 	}
 
 	//----------------------------------------------------------------
@@ -152,6 +113,52 @@ public class Worker extends EntityBase
 		persistentState.setProperty(key, (String)value);
 
 		//myRegistry.updateSubscribers(key, this);
+	}
+	
+	public void update()
+	{
+		updateStateInDatabase();
+	}
+	
+	public void createNewRecord()
+	{
+		try
+		{
+			insertPersistentState(mySchema, persistentState);
+		}
+		catch (SQLException ex)
+		{
+			updateStatusMessage = "Error in installing Worker data in database!";
+		}
+		
+	}
+	
+	//-----------------------------------------------------------------------------------
+	private void updateStateInDatabase() 
+	{
+		try
+		{
+			if (persistentState.getProperty("BannerId") != null)
+			{
+				Properties whereClause = new Properties();
+				whereClause.setProperty("BannerId", persistentState.getProperty("BannerId"));
+				updatePersistentState(mySchema, persistentState, whereClause);
+				updateStatusMessage = "Worker with banner Id : " + persistentState.getProperty("BannerId") + " updated successfully!";
+			}
+			else //This looks wrong for this setting. workers shouldn't auto-increment at all. Fix later?
+			{
+				Integer atID =
+						insertAutoIncrementalPersistentState(mySchema, persistentState);
+				persistentState.setProperty("ID", "" + atID.intValue());
+				updateStatusMessage = "Worker with banner Id " +  persistentState.getProperty("BannerId")
+				+ " installed successfully!";
+			}
+		}
+		catch (SQLException ex)
+		{
+			updateStatusMessage = "Error in installing Worker data in database!";
+		}
+		//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
 	}
 
 	//-----------------------------------------------------------------------------------
