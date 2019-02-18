@@ -12,7 +12,7 @@ import javafx.scene.Scene;
 import impresario.ISlideShow;
 
 import exception.InvalidPrimaryKeyException;
-import exception.PasswordMismatchException;
+import exception.MultiplePrimaryKeysException;
 import event.Event;
 import userinterface.MainStageContainer;
 import userinterface.View;
@@ -145,19 +145,32 @@ public class Receptionist extends Transaction
 
 		try
 		{
-			currentWorker = new Worker(props);
-			// DEBUG System.out.println("Worker: " + currentWorker.getState("Name") + " successfully logged in");
-			return true;
+			currentWorker = new Worker((String)props.getProperty("BannerId"));
+			
+			if(props.getProperty("Password").equals(currentWorker.getState("Password")))
+			{
+				return true;
+			}
+			else
+			{
+				errorMessage = "ERROR: Password not correct.";
+				currentWorker = null;
+				return false;
+			}
 		}
 		catch (InvalidPrimaryKeyException ex)
 		{
 			errorMessage = "ERROR: " + ex.getMessage();
 			return false;
 		}
-		catch (PasswordMismatchException exec)
+		catch (MultiplePrimaryKeysException ex2) //how the heck did you get here?
 		{
-			errorMessage = "ERROR: " + exec.getMessage();
+			errorMessage = "ERROR: Multiple Workers with Banner ID!";
+			new Event(Event.getLeafLevelClassName(this), "processTransaction",
+					"Found multiple banner Ids with id : " + props.getProperty("BannerId") + ". Reason: " + ex2.toString(),
+					Event.ERROR);
 			return false;
+
 		}
 		catch (NullPointerException ex)
 		{
