@@ -25,6 +25,14 @@ public class TransactionFactory
 		{
 			retValue = new AddWorkerTransaction();
 		} 
+		else if (transType.equals("UpdateWorker") == true)
+		{
+			retValue = new UpdateWorkerTransaction();
+		} 
+		else if (transType.equals("SearchBanner") == true)
+		{
+			retValue = new SearchByBannerTransaction();
+		}
 		return retValue;
 	}
 }

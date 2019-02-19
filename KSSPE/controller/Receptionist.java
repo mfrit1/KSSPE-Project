@@ -100,14 +100,8 @@ public class Receptionist extends Transaction
 			System.exit(0);
 		}	
 		else
-		if ((key.equals("AddWorker") == true) || (key.equals("UpdateArticleType") == true) ||
-			(key.equals("RemoveArticleType") == true) || (key.equals("AddColor") == true) ||
-			(key.equals("UpdateColor") == true) || (key.equals("RemoveColor") == true) ||
-			(key.equals("AddClothingItem") == true) || (key.equals("UpdateClothingItem") == true) ||
-			(key.equals("RemoveClothingItem") == true) || (key.equals("CheckoutClothingItem") == true) ||
-			(key.equals("AddRequest") == true) || (key.equals("FulfillRequest") == true) ||
-			(key.equals("RemoveRequest") == true) || (key.equals("ListAvailableInventory") == true) ||
-            (key.equals("UntillDateReport") == true) || (key.equals("TopDonatorReport") == true))
+		if ((key.equals("AddWorker") == true) || (key.equals("SearchBanner") == true) || 
+			(key.equals("UpdateWorker") == true))
 			{
 				String transType = key;
 					

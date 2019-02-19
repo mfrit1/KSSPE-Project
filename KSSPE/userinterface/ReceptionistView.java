@@ -57,7 +57,7 @@ public class ReceptionistView extends View implements Observer
 
 	// GUI components
 	private Button addWorkerButton;
-	private Button updateArticleTypeButton;
+	private Button updateWorkerButton;
 	private Button removeArticleTypeButton;
 	private Button addColorButton;
 	private Button updateColorButton;
@@ -236,20 +236,20 @@ public class ReceptionistView extends View implements Observer
 			icon.setFitHeight(15);
 			icon.setFitWidth(15);
 			
-		updateArticleTypeButton = new Button("Update", icon);
-			updateArticleTypeButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-			updateArticleTypeButton.setOnAction((ActionEvent e) -> {
-				myController.stateChangeRequest("UpdateArticleType", null);
+		updateWorkerButton = new Button("Update", icon);
+			updateWorkerButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			updateWorkerButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("SearchBanner", null);
 			});
-			updateArticleTypeButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-				updateArticleTypeButton.setEffect(shadow);
-                statusLog.displayInfoMessage("Update Article Types in the records");
+			updateWorkerButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				updateWorkerButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Update Worker Information");
 			});
-			updateArticleTypeButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-				updateArticleTypeButton.setEffect(null);
+			updateWorkerButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				updateWorkerButton.setEffect(null);
                 clearErrorMessage();
 			});
-		workerBox.getChildren().add(updateArticleTypeButton); // update worker
+		workerBox.getChildren().add(updateWorkerButton); // update worker
 		
 		icon = new ImageView(new Image("/images/trashcolor.png"));
 			icon.setFitHeight(15);
