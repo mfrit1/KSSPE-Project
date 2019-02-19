@@ -4,6 +4,7 @@ package userinterface;
 // system imports
 import utilities.GlobalVariables;
 import utilities.Utilities;
+
 import javafx.event.ActionEvent;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -83,8 +84,6 @@ public class AddWorkerView extends View implements Observer
 
 		getChildren().add(container);
 
-		populateFields();
-
 		myController.addObserver(this);
 	}
 
@@ -94,7 +93,63 @@ public class AddWorkerView extends View implements Observer
 		return "** ADD NEW WORKER **";
 	}
 
-	public void populateFields(){
+	public void populateFields()
+	{
+		String Credential = null;
+		if(credential.getValue() != null)
+			Credential = credential.getValue().toString();
+		String BannerId = bannerId.getText();
+		String Password = password.getText();
+		String LastName = lastName.getText();
+		String FirstName = firstName.getText();
+		String Email = email.getText();
+		String PhoneNumber = phoneNumber.getText();
+		
+		
+		
+		myController.stateChangeRequest("getPersonData", bannerId.getText());
+		
+		
+		String firstNameState = (String)myController.getState("FirstName");
+		if(firstNameState != null)
+		{
+			firstName.setText(firstNameState);
+			credential.requestFocus();
+		}
+		else
+		{
+			firstName.setText(FirstName);
+			firstName.requestFocus();
+		}
+		
+		String lastNameState = (String)myController.getState("LastName");
+		if(lastNameState != null)
+		{
+			lastName.setText(lastNameState);
+		}
+		else
+			lastName.setText(LastName);
+		
+		String emailState = (String)myController.getState("Email");
+		if(emailState != null)
+		{
+			email.setText(emailState);
+		}
+		else
+			email.setText(Email);
+		
+		String phoneState = (String)myController.getState("PhoneNumber");
+		if(phoneState != null)
+		{
+			phoneNumber.setText(phoneState);
+		}
+		else
+			phoneNumber.setText(Email);
+		
+		
+		bannerId.setText(BannerId);
+		credential.setValue(Credential);
+		password.setText(Password);
 
 	}
 
@@ -171,6 +226,8 @@ public class AddWorkerView extends View implements Observer
 			bannerId.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
 				clearOutlines();
+				if(Utilities.checkBannerId(bannerId.getText()))
+					populateFields();
 			});
 		bannerBox.getChildren().add(bannerId);
 		
@@ -339,19 +396,19 @@ public class AddWorkerView extends View implements Observer
 		String Password = password.getText();
 		String Credential;
 		
-		if(BannerID.length() == GlobalVariables.BANNERID_LENGTH && BannerID.matches("\\d+")) 
+		if(Utilities.checkBannerId(BannerID)) 
 		{
-			if(FirstName.length() != 0 && FirstName.length() < GlobalVariables.NAME_LENGTH)
+			if(Utilities.checkName(FirstName))
 			{
-				if(LastName.length() != 0 && LastName.length() < GlobalVariables.NAME_LENGTH)
+				if(Utilities.checkName(LastName))
 				{
-					if(Email.length() != 0 && Email.length() < GlobalVariables.EMAIL_LENGTH)
+					if(Utilities.checkEmail(Email))
 					{
-						if(PhoneNumber.length() != 0 && PhoneNumber.length() < GlobalVariables.PHONE_LENGTH && Utilities.checkProperPhoneNumber(PhoneNumber))
+						if(Utilities.checkPhone(PhoneNumber))
 						{
-							if(Password.length() != 0 && Password.length() < GlobalVariables.PASSWORD_LENGTH)
+							if(Utilities.checkPassword(Password))
 							{
-								if(credential.getValue() != null) //credential can't be null when sending it to controller. 
+								if(credential.getValue() != null)  
 								{
 									Credential = credential.getValue().toString();
 							
@@ -422,7 +479,6 @@ public class AddWorkerView extends View implements Observer
 
 	public void clearValues()
 	{
-
 		bannerId.clear();
 		firstName.clear();
 		lastName.clear();
@@ -430,28 +486,11 @@ public class AddWorkerView extends View implements Observer
 		phoneNumber.clear();
 		password.clear();
 		credential.getSelectionModel().select(null);
-		/*
-		barcode.clear();
-		gender.getSelectionModel().select(null);
-		articleType.getSelectionModel().select(null);
-		color1.getSelectionModel().select(null);
-		color2.getSelectionModel().select(null);
-		bannerId.clear();
-		brand.clear();
-		notes.clear();
-		SaveDonorFName = donorFName.getText();
-		SaveDonorLName = donorLName.getText();
-		SaveDonorPhone = donorPhone.getText();
-		SaveDonorEmail = donorEmail.getText();
-		donorFName.clear();
-		donorLName.clear();
-		donorPhone.clear();
-		donorEmail.clear();
-		*/
 	}
 
 	private void clearOutlines()
 	{
+		
 		/*
 		barcode.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
 		gender.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
