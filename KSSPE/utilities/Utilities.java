@@ -7,12 +7,50 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import utilities.GlobalVariables;
+
 // project imports
 
 /** Useful Utilities */
 //==============================================================
 public class Utilities
 {
+	//input checks for views. 
+	public static boolean checkBannerId(String bannerId)
+	{
+		if(bannerId.length() == GlobalVariables.BANNERID_LENGTH && bannerId.matches("\\d+"))
+			return true;
+		else
+			return false;
+	}
+	public static boolean checkName(String firstName)
+	{
+		if(firstName.length() != 0 && firstName.length() < GlobalVariables.NAME_LENGTH)
+			return true;
+		else
+			return false;
+	}
+	public static boolean checkEmail(String email)
+	{
+		if(email.length() != 0 && email.length() < GlobalVariables.EMAIL_LENGTH)
+			return true;
+		else
+			return false;
+	}
+	public static boolean checkPhone(String PhoneNumber)
+	{
+		if(PhoneNumber.length() != 0 && PhoneNumber.length() < GlobalVariables.PHONE_LENGTH && Utilities.checkProperPhoneNumber(PhoneNumber))
+			return true;
+		else
+			return false;
+	}
+	public static boolean checkPassword(String Password)
+	{
+		if(Password.length() != 0 && Password.length() < GlobalVariables.PASSWORD_LENGTH)
+			return true;
+		else
+			return false;
+	}
 	//----------------------------------------------------------
 	public static String convertToDefaultDateFormat(Date theDate)
 	{
