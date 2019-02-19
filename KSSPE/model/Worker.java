@@ -18,7 +18,7 @@ import database.*;
 //==============================================================
 public class Worker extends EntityBase
 {
-	private static final String myTableName = "worker";
+	private static final String myTableName = "Worker";
 	
 	private String updateStatusMessage = "";
 
