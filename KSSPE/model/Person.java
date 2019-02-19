@@ -14,21 +14,23 @@ import exception.PasswordMismatchException;
 import exception.MultiplePrimaryKeysException;
 import database.*;
 
-/** The class containing the Worker for the KSSPE application */
+/** The class containing the Person for the KSSPE application */
 //==============================================================
-public class Worker extends EntityBase
+public class Person extends EntityBase
 {
-	private static final String myTableName = "worker";
+	private static final String myTableName = "person";
 	
 	private String updateStatusMessage = "";
 
-	//--------------------------------------------------------- this is used to create a new worker. Check if it exists or not first. 
-	public Worker(Properties props)
+	//--------------------------------------------------------- this is used to create a new person. Check if it exists or not first. 
+	public Person(Properties props)
 	{
 		super(myTableName);
 
 		insertNewInformation(props);
+
 	}
+	
 	
 	public void insertNewInformation(Properties props)
 	{
@@ -46,12 +48,12 @@ public class Worker extends EntityBase
 		}
 	}
 
-	//---------------------------------------------------------- This is used to check if worker exists or not. If so, get it. 
-	public Worker(String idToQuery) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException
+	//---------------------------------------------------------- This is used to check if person exists or not. If so, get it. 
+	public Person(String idToQuery) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException
 	{
 		super(myTableName);
 
-		String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + " AND Status = 'Active')";
+		String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + ")";
 
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 
@@ -60,18 +62,18 @@ public class Worker extends EntityBase
 		{
 			int size = allDataRetrieved.size();
 
-			// There should be EXACTLY one Worker. More than that is an error
+			// There should be EXACTLY one Person. More than that is an error
 			if (size == 0)
 			{
-				throw new InvalidPrimaryKeyException("No Worker matching : "
+				throw new InvalidPrimaryKeyException("No Person matching : "
 						+ idToQuery + " found.");
 			}
 			else
 			{
-				// There should be EXACTLY one Worker. More than that is an error
+				// There should be EXACTLY one Person. More than that is an error
 				if (size != 1)
 				{
-					throw new MultiplePrimaryKeysException("Multiple Workers matching Banner Id : " + idToQuery + " found.");
+					throw new MultiplePrimaryKeysException("Multiple Persons matching Banner Id : " + idToQuery + " found.");
 				}
 				else
 				{
@@ -97,7 +99,7 @@ public class Worker extends EntityBase
 		// If no Worker found for this user name, throw an exception
 		else
 		{
-			throw new InvalidPrimaryKeyException("No Worker matching banner id : "
+			throw new InvalidPrimaryKeyException("No Person matching banner id : "
 				+ idToQuery + " found.");
 		}
 	}
@@ -132,7 +134,7 @@ public class Worker extends EntityBase
 		}
 		catch (SQLException ex)
 		{
-			updateStatusMessage = "Error in installing Worker data in database!";
+			updateStatusMessage = "Error in installing Person data in database!";
 		}
 		
 	}
@@ -160,7 +162,7 @@ public class Worker extends EntityBase
 		}
 		catch (SQLException ex)
 		{
-			updateStatusMessage = "Error in installing Worker data in database!";
+			updateStatusMessage = "Error in installing Person data in database!";
 		}
 		//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
 	}
