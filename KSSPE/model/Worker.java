@@ -102,6 +102,29 @@ public class Worker extends EntityBase
 		}
 	}
 	
+	
+	
+	// This separetes only the pertinate worker information from a properties object.
+	public static Properties getWorkerInfo(Properties props)
+	{
+		Properties workerInfo = new Properties();
+		
+		Enumeration allKeys = props.propertyNames();
+		while (allKeys.hasMoreElements() == true)
+		{
+			String nextKey = (String)allKeys.nextElement();
+			String nextValue = props.getProperty(nextKey);
+			
+			if(nextKey.equals("BannerId") || nextKey.equals("Credential") || nextKey.equals("Password") 
+				|| nextKey.equals("Status") || nextKey.equals("DateAdded") || nextKey.equals("DateLastUpdated"))
+			{
+				workerInfo.setProperty(nextKey, nextValue);
+			}
+		}
+		
+		return workerInfo;
+	}
+	
 	//----------------------------------------------------------
 	public Object getState(String key)
 	{

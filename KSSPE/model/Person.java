@@ -104,6 +104,29 @@ public class Person extends EntityBase
 		}
 	}
 	
+	
+	
+	// This separetes only the pertinate person information from a properties object. make this able to work by inputting key names and putting in utilities?.
+	public static Properties getPersonInfo(Properties props)
+	{
+		Properties personInfo = new Properties();
+		
+		Enumeration allKeys = props.propertyNames();
+		while (allKeys.hasMoreElements() == true)
+		{
+			String nextKey = (String)allKeys.nextElement();
+			String nextValue = props.getProperty(nextKey);
+			
+			if(nextKey.equals("BannerId") || nextKey.equals("FirstName") || nextKey.equals("LastName") 
+				|| nextKey.equals("Email") || nextKey.equals("PhoneNumber"))
+			{
+				personInfo.setProperty(nextKey, nextValue);
+			}
+		}
+		
+		return personInfo;
+	}
+	
 	//----------------------------------------------------------
 	public Object getState(String key)
 	{
