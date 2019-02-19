@@ -178,7 +178,7 @@ public class AddWorkerView extends View implements Observer
 		GridPane grid = new GridPane();
 			grid.setHgap(15);
 			grid.setVgap(15);
-			grid.setPadding(new Insets(0, 20, 25, 20));
+			grid.setPadding(new Insets(0, 20, 25, 15));
 			grid.setAlignment(Pos.CENTER);
 
 		
@@ -422,13 +422,21 @@ public class AddWorkerView extends View implements Observer
 
 	public void clearValues()
 	{
+
+		bannerId.clear();
+		firstName.clear();
+		lastName.clear();
+		email.clear();
+		phoneNumber.clear();
+		password.clear();
+		credential.getSelectionModel().select(null);
 		/*
 		barcode.clear();
 		gender.getSelectionModel().select(null);
 		articleType.getSelectionModel().select(null);
 		color1.getSelectionModel().select(null);
 		color2.getSelectionModel().select(null);
-		size.clear();
+		bannerId.clear();
 		brand.clear();
 		notes.clear();
 		SaveDonorFName = donorFName.getText();
