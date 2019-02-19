@@ -26,13 +26,12 @@ public class AddWorkerTransaction extends Transaction
 {
 	private String errorMessage = "";
 	private Receptionist myReceptionist;
+	private Person myPerson = null;
 
 	public AddWorkerTransaction() throws Exception
 	{
 		super();
 	}
-
-	
 	/*
 		break up person/worker information. 
 		Check if person exists or not. If not, create it. If so, modify it.
@@ -54,9 +53,9 @@ public class AddWorkerTransaction extends Transaction
 		{
 			props.setProperty("Status", "Active");
 			
-			Properties personInfo = getPersonInfo(props);
+			Properties personInfo = Person.getPersonInfo(props);
+			Properties workerInfo = Worker.getWorkerInfo(props);
 			
-			Properties workerInfo = getWorkerInfo(props);
 			workerInfo.setProperty("DateAdded", new SimpleDateFormat("MM-dd-yyyy").format(new Date()));
 			workerInfo.setProperty("DateLastUpdated", new SimpleDateFormat("MM-dd-yyyy").format(new Date()));
 
@@ -103,52 +102,33 @@ public class AddWorkerTransaction extends Transaction
 	}
 	
 	
-	private void createNewWorker(Properties workerInfo)
+	private void createNewWorker(Properties workerInfo) //helper method. 
 	{
 		Worker newWorker = new Worker(workerInfo);
 		newWorker.createNewRecord();
 		errorMessage = (String)newWorker.getState("UpdateStatusMessage");
 	}
 	
-	// This separetes only the pertinate person information from a properties object. make this able to work by inputting key names and putting in utilities?.
-	public Properties getPersonInfo(Properties props)
+	private void getPersonData(String s)
 	{
-		Properties personInfo = new Properties();
-		
-		Enumeration allKeys = props.propertyNames();
-		while (allKeys.hasMoreElements() == true)
+		try
 		{
-			String nextKey = (String)allKeys.nextElement();
-			String nextValue = props.getProperty(nextKey);
-			
-			if(nextKey.equals("BannerId") || nextKey.equals("FirstName") || nextKey.equals("LastName") 
-				|| nextKey.equals("Email") || nextKey.equals("PhoneNumber"))
+			Worker oldWorker = new Worker(s);
+			errorMessage = "ERROR: Worker with ID: " + s + " already exists!";
+		}
+		catch (Exception ex)
+		{
+			try
 			{
-				personInfo.setProperty(nextKey, nextValue);
+				myPerson = new Person(s);
 			}
+			catch (Exception e)
+			{
+				//do nothing. Idc either way. 
+			}
+			errorMessage = "";
 		}
 		
-		return personInfo;
-	}
-	// This separetes only the pertinate worker information from a properties object.
-	public Properties getWorkerInfo(Properties props)
-	{
-		Properties workerInfo = new Properties();
-		
-		Enumeration allKeys = props.propertyNames();
-		while (allKeys.hasMoreElements() == true)
-		{
-			String nextKey = (String)allKeys.nextElement();
-			String nextValue = props.getProperty(nextKey);
-			
-			if(nextKey.equals("BannerId") || nextKey.equals("Credential") || nextKey.equals("Password") 
-				|| nextKey.equals("Status") || nextKey.equals("DateAdded") || nextKey.equals("DateLastUpdated"))
-			{
-				workerInfo.setProperty(nextKey, nextValue);
-			}
-		}
-		
-		return workerInfo;
 	}
 	
 	//-----------------------------------------------------------
@@ -158,7 +138,36 @@ public class AddWorkerTransaction extends Transaction
 		{
 			return errorMessage;
 		}
-		return null;
+		else if (key.equals("FirstName") == true)
+		{
+			if(myPerson != null)
+				return myPerson.getState("FirstName");
+			else
+				return null;
+		}
+		else if (key.equals("LastName") == true)
+		{
+			if(myPerson != null)
+				return myPerson.getState("LastName");
+			else
+				return null;
+		}
+		else if (key.equals("Email") == true)
+		{
+			if(myPerson != null)
+				return myPerson.getState("Email");
+			else
+				return null;
+		}
+		else if (key.equals("PhoneNumber") == true)
+		{
+			if(myPerson != null)
+				return myPerson.getState("PhoneNumber");
+			else
+				return null;
+		}
+		else
+			return null;
 	}
 
 	public void stateChangeRequest(String key, Object value)
@@ -173,7 +182,10 @@ public class AddWorkerTransaction extends Transaction
 		{
 			processTransaction((Properties)value);
 		}
-	
+		if(key.equals("getPersonData") == true)
+		{
+			getPersonData((String)value);
+		}
 		if (key.equals("CancelTransaction") == true)
 		{
 			myReceptionist.stateChangeRequest("CancelTransaction", null);
