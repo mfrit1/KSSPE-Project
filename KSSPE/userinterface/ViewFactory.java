@@ -19,6 +19,10 @@ public class ViewFactory {
 		{
 			return new AddWorkerView(t);
 		}
+		else if(viewName.equals("SearchBannerView") == true)
+		{
+			return new SearchByBannerView(t);
+		}
 		else
 			return null;
 	}
