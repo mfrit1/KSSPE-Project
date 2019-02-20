@@ -7,11 +7,11 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
 import javax.swing.JFrame;
+import event.Event;
 
 // project imports
 import exception.InvalidPrimaryKeyException;
 import exception.PasswordMismatchException;
-import exception.MultiplePrimaryKeysException;
 import database.*;
 
 /** The class containing the Worker for the KSSPE application */
@@ -19,176 +19,214 @@ import database.*;
 public class Worker extends EntityBase
 {
 	private static final String myTableName = "Worker";
-	
+	private boolean oldFlag = true;
+	private Person myPerson;
+
+	// GUI Components
 	private String updateStatusMessage = "";
 
-	//--------------------------------------------------------- this is used to create a new worker. Check if it exists or not first. 
-	public Worker(Properties props)
+	// constructor for this class
+	//----------------------------------------------------------
+	public Worker(Properties props)    //makes creates a worker based off a current id.  
+		throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
 
-		insertNewInformation(props);
-	}
-	
-	public void insertNewInformation(Properties props)
-	{
-		persistentState = new Properties();
-		Enumeration allKeys = props.propertyNames();
-		while (allKeys.hasMoreElements() == true)
-		{
-			String nextKey = (String)allKeys.nextElement();
-			String nextValue = props.getProperty(nextKey);
-
-			if (nextValue != null)
-			{
-				persistentState.setProperty(nextKey, nextValue);
-			}
-		}
-	}
-
-	//---------------------------------------------------------- This is used to check if worker exists or not. If so, get it. 
-	public Worker(String idToQuery) throws InvalidPrimaryKeyException, MultiplePrimaryKeysException
-	{
-		super(myTableName);
+		String idToQuery = props.getProperty("BannerId");
 
 		String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + " AND Status = 'Active')";
 
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 
-		// You must get one account at least
-		if (allDataRetrieved != null)
+		// You must get one worker at least
+		if (allDataRetrieved != null && allDataRetrieved.size() != 0)
 		{
 			int size = allDataRetrieved.size();
 
-			// There should be EXACTLY one Worker. More than that is an error
-			if (size == 0)
+			// There should be EXACTLY one worker. More than that is an error
+			if (size != 1)
 			{
-				throw new InvalidPrimaryKeyException("No Worker matching : "
-						+ idToQuery + " found.");
+				throw new InvalidPrimaryKeyException("Multiple workers matching user id : "
+					+ idToQuery + " found.");
 			}
 			else
 			{
-				// There should be EXACTLY one Worker. More than that is an error
-				if (size != 1)
+				// copy all the retrieved data into persistent state
+				Properties retrievedWorkerData = (Properties)allDataRetrieved.elementAt(0);
+				persistentState = new Properties();
+				
+				try //gets a worker, sets all the worker properties. Creates a person sucessfully with the bannerId. 
 				{
-					throw new MultiplePrimaryKeysException("Multiple Workers matching Banner Id : " + idToQuery + " found.");
+					Properties personProperties = new Properties();
+					personProperties.setProperty("BannerId", retrievedWorkerData.getProperty("BannerId"));
+					myPerson = new Person(personProperties);
+					persistentState.setProperty("Credential", retrievedWorkerData.getProperty("Credential"));
+					persistentState.setProperty("Password", retrievedWorkerData.getProperty("Password"));
+					persistentState.setProperty("Status", retrievedWorkerData.getProperty("Status"));
+					persistentState.setProperty("DateAdded", retrievedWorkerData.getProperty("DateAdded"));
+					persistentState.setProperty("DateLastUpdated", retrievedWorkerData.getProperty("DateLastUpdated"));
+					oldFlag = true;
 				}
-				else
+				catch (InvalidPrimaryKeyException invPKexcep)  //worker exists, but the person for it does not. Fatal Error. 
 				{
-					// copy all the retrieved data into persistent state
-					Properties retrievedCustomerData = (Properties)allDataRetrieved.elementAt(0);
-					persistentState = new Properties();
-
-					Enumeration allKeys = retrievedCustomerData.propertyNames();
-					while (allKeys.hasMoreElements() == true)
-					{
-						String nextKey = (String)allKeys.nextElement();
-						String nextValue = retrievedCustomerData.getProperty(nextKey);
-
-						if (nextValue != null)
-						{
-							persistentState.setProperty(nextKey, nextValue);
-						}
-					}
-
+					persistentState.setProperty("Credential", retrievedWorkerData.getProperty("Credential"));
+					persistentState.setProperty("Password", retrievedWorkerData.getProperty("Password"));
+					persistentState.setProperty("Status", retrievedWorkerData.getProperty("Status"));
+					persistentState.setProperty("DateAdded", retrievedWorkerData.getProperty("DateAdded"));
+					persistentState.setProperty("DateLastUpdated", retrievedWorkerData.getProperty("DateLastUpdated"));
+					oldFlag = true;
+					
+					updateStatusMessage = "ERROR: Worker record corrupted!";
+					new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Worker with BannerID : " + 
+						persistentState.getProperty("BannerId") + " does NOT have an associated Person record", Event.ERROR);
 				}
 			}
 		}
-		// If no Worker found for this user name, throw an exception
+		// If no Worker found for this banner Id, throw an exception
 		else
 		{
-			throw new InvalidPrimaryKeyException("No Worker matching banner id : "
-				+ idToQuery + " found.");
+			throw new InvalidPrimaryKeyException("ERROR: No worker found for Banner Id: " + idToQuery);
 		}
 	}
-	
-	
-	
-	// This separetes only the pertinate worker information from a properties object.
-	public static Properties getWorkerInfo(Properties props)
-	{
-		Properties workerInfo = new Properties();
-		
-		Enumeration allKeys = props.propertyNames();
-		while (allKeys.hasMoreElements() == true)
-		{
-			String nextKey = (String)allKeys.nextElement();
-			String nextValue = props.getProperty(nextKey);
-			
-			if(nextKey.equals("BannerId") || nextKey.equals("Credential") || nextKey.equals("Password") 
-				|| nextKey.equals("Status") || nextKey.equals("DateAdded") || nextKey.equals("DateLastUpdated"))
-			{
-				workerInfo.setProperty(nextKey, nextValue);
-			}
-		}
-		
-		return workerInfo;
-	}
-	
+
 	//----------------------------------------------------------
-	public Object getState(String key)
+	public Worker(Properties props, boolean check) //create a completely new worker. 
+		throws InvalidPrimaryKeyException
 	{
-		if (key.equals("UpdateStatusMessage") == true)
-			return updateStatusMessage;
-		else
-			return persistentState.getProperty(key);
+		super(myTableName);
+
+		oldFlag = false;
+		persistentState = new Properties();
+		
+		if (props.getProperty("BannerId") == null) throw new InvalidPrimaryKeyException("ERROR: Idiot - provide a banner Id at least");
+		
+		Properties personProperties = new Properties();
+		personProperties.setProperty("BannerId", props.getProperty("BannerId"));
+		
+		try
+		{
+			myPerson = new Person(personProperties);
+			persistentState.setProperty("BannerId", props.getProperty("BannerId"));
+			persistentState.setProperty("Credential", props.getProperty("Credential"));
+			persistentState.setProperty("Password", props.getProperty("Password"));
+			persistentState.setProperty("Status", props.getProperty("Status"));
+			persistentState.setProperty("DateAdded", props.getProperty("DateAdded"));
+			persistentState.setProperty("DateLastUpdated", props.getProperty("DateLastUpdated"));
+			oldFlag = false;
+		}
+		catch (InvalidPrimaryKeyException invPKexcep)
+		{
+			personProperties = new Properties();
+			personProperties.setProperty("BannerId", props.getProperty("BannerId"));
+			personProperties.setProperty("FirstName", props.getProperty("FirstName"));
+			personProperties.setProperty("LastName", props.getProperty("LastName"));
+			personProperties.setProperty("Email", props.getProperty("Email"));
+			personProperties.setProperty("PhoneNumber", props.getProperty("PhoneNumber"));
+			myPerson = new Person(personProperties, true);
+			persistentState.setProperty("BannerId", props.getProperty("BannerId"));
+			persistentState.setProperty("Credential", props.getProperty("Credential"));
+			persistentState.setProperty("Password", props.getProperty("Password"));
+			persistentState.setProperty("Status", props.getProperty("Status"));
+			persistentState.setProperty("DateAdded", props.getProperty("DateAdded"));
+			persistentState.setProperty("DateLastUpdated", props.getProperty("DateLastUpdated"));
+			oldFlag = false;
+		}
+		
+		
 	}
 
 	//----------------------------------------------------------------
-	public void stateChangeRequest(String key, Object value)
-	{
-		persistentState.setProperty(key, (String)value);
-
-		//myRegistry.updateSubscribers(key, this);
-	}
+	 public Object getState(String key)
+    {
+        String value = persistentState.getProperty(key);
+        
+        if (value != null)
+            return value;
+        else
+        {
+            if (myPerson != null)
+                return myPerson.getState(key);
+            else
+                return null;
+        }
+    }
 	
-	public void update()
+	//------------------------------------------------------------------
+	public void save()
 	{
 		updateStateInDatabase();
 	}
 	
-	public void createNewRecord()
+	//------------------------------------------------------------------
+	private void updateStateInDatabase()
 	{
-		try
+		if (myPerson != null)
 		{
-			insertPersistentState(mySchema, persistentState);
+			myPerson.save();
+			String personSaveMessage = (String)myPerson.getState("UpdateStatusMessage");
+			if ((personSaveMessage.startsWith("ERR")) || (personSaveMessage.startsWith("Err")))
+			{
+				updateStatusMessage = "ERROR: Could not save contained Person!";
+			}
+			else
+			{
+				try
+				{
+					if (oldFlag == true)
+					{
+						Properties whereClause = new Properties();
+						whereClause.setProperty("BannerId", persistentState.getProperty("BannerId"));
+						updatePersistentState(mySchema, persistentState, whereClause);
+						updateStatusMessage = "Worker: " + persistentState.getProperty("BannerId") + " updated successfully!";
+					}
+					else
+					{
+						insertPersistentState(mySchema, persistentState);
+						oldFlag = true;
+						updateStatusMessage = "Worker: " + persistentState.getProperty("BannerId") + " inserted successfully!";
+					}
+				}
+				catch (SQLException ex)
+				{
+					updateStatusMessage = "ERROR: Worker could not be installed in database!";
+					new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Worker with BannerID : " + 
+						persistentState.getProperty("BannerId") + " could not be saved in database: " + ex.toString(), Event.ERROR);
+				}
+			}
 		}
-		catch (SQLException ex)
+		else
 		{
-			updateStatusMessage = "Error in installing Worker data in database!";
+			updateStatusMessage = "ERROR: Worker record corrupted!";
+			new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Worker with BannerID : " + 
+				persistentState.getProperty("BannerId") + " does NOT have an associated Person record", Event.ERROR);
 		}
-		
 	}
 	
-	//-----------------------------------------------------------------------------------
-	private void updateStateInDatabase() 
+	//------------------------------------------------------------------
+	public void checkPasswordMatch(String givenPassword) throws PasswordMismatchException
 	{
-		try
+		if (persistentState.getProperty("Password") != null)
 		{
-			if (persistentState.getProperty("BannerId") != null)
+			boolean passwordCheck = givenPassword.equals(persistentState.getProperty("Password"));
+			
+			if (passwordCheck == false)
 			{
-				Properties whereClause = new Properties();
-				whereClause.setProperty("BannerId", persistentState.getProperty("BannerId"));
-				updatePersistentState(mySchema, persistentState, whereClause);
-				updateStatusMessage = "Worker with banner Id : " + persistentState.getProperty("BannerId") + " updated successfully!";
+				throw new PasswordMismatchException("ERROR: Password not correct!");
 			}
-			else //This looks wrong for this setting. workers shouldn't auto-increment at all. Fix later?
-			{
-				Integer atID =
-						insertAutoIncrementalPersistentState(mySchema, persistentState);
-				persistentState.setProperty("ID", "" + atID.intValue());
-				updateStatusMessage = "Worker with banner Id " +  persistentState.getProperty("BannerId")
-				+ " installed successfully!";
-			}
-		}
-		catch (SQLException ex)
-		{
-			updateStatusMessage = "Error in installing Worker data in database!";
-		}
-		//DEBUG System.out.println("updateStateInDatabase " + updateStatusMessage);
-	}
 
-	//-----------------------------------------------------------------------------------
+		}
+		else
+		{
+			throw new PasswordMismatchException("ERROR: Password missing for Worker");
+		}
+	}
+	
+	public void stateChangeRequest(String key, Object value)
+	{
+		persistentState.setProperty(key, (String)value);
+	}
+	
+	//------------------------------------------------------------------
 	protected void initializeSchema(String tableName)
 	{
 		if (mySchema == null)

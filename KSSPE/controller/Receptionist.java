@@ -8,16 +8,20 @@ import java.util.Properties;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
+
 // project imports
 import impresario.ISlideShow;
-
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
-import event.Event;
 import userinterface.MainStageContainer;
 import userinterface.View;
 import userinterface.ViewFactory;
 import userinterface.WindowPosition;
+
+import exception.InvalidPrimaryKeyException;
+import exception.MultiplePrimaryKeysException;
+import exception.PasswordMismatchException;
+import event.Event;
+
+
 
 import controller.TransactionFactory;
 import model.Worker;
@@ -136,9 +140,33 @@ public class Receptionist extends Transaction
 	//----------------------------------------------------------
 	public boolean loginWorker(Properties props)
 	{
-
+		
 		try
 		{
+			currentWorker = new Worker(props);
+			try
+			{
+				currentWorker.checkPasswordMatch(props.getProperty("Password"));
+				return true;
+			}
+			catch (PasswordMismatchException px)
+			{
+				errorMessage = px.getMessage();
+				
+				return false;
+			} 
+			
+		}
+		catch (InvalidPrimaryKeyException ex)
+		{
+			errorMessage = ex.getMessage();
+			
+			return false;
+		}
+/*
+		try
+		{
+			
 			currentWorker = new Worker((String)props.getProperty("BannerId"));
 			
 			if(props.getProperty("Password").equals(currentWorker.getState("Password")))
@@ -173,7 +201,7 @@ public class Receptionist extends Transaction
 			
 		}
 		
-
+*/
 	}
 	//----------------------------------------------------------
 	public void doTransaction(String transactionType)

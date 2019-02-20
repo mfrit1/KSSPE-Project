@@ -105,52 +105,76 @@ public class AddWorkerView extends View implements Observer
 		String Email = email.getText();
 		String PhoneNumber = phoneNumber.getText();
 		
+		Properties props = new Properties();
+		props.setProperty("BannerId", BannerId);
 		
+		myController.stateChangeRequest("removePersonData", props); //cleans it out of past person.
 		
-		myController.stateChangeRequest("getPersonData", bannerId.getText());
+		myController.stateChangeRequest("getPersonData", props);
 		
-		
-		String firstNameState = (String)myController.getState("FirstName");
-		if(firstNameState != null)
+		if((Boolean)myController.getState("TestWorker"))
 		{
-			firstName.setText(firstNameState);
-			credential.requestFocus();
+			clearValues();
+			bannerId.setText(BannerId);
+			setDisables();
+			cancelButton.requestFocus();
 		}
-		else
+		else //if the worker exists, continue on testing if it can autofill or not. 
 		{
-			firstName.setText(FirstName);
-			firstName.requestFocus();
-		}
-		
-		String lastNameState = (String)myController.getState("LastName");
-		if(lastNameState != null)
-		{
-			lastName.setText(lastNameState);
-		}
-		else
-			lastName.setText(LastName);
-		
-		String emailState = (String)myController.getState("Email");
-		if(emailState != null)
-		{
-			email.setText(emailState);
-		}
-		else
-			email.setText(Email);
-		
-		String phoneState = (String)myController.getState("PhoneNumber");
-		if(phoneState != null)
-		{
-			phoneNumber.setText(phoneState);
-		}
-		else
-			phoneNumber.setText(Email);
-		
-		
-		bannerId.setText(BannerId);
-		credential.setValue(Credential);
-		password.setText(Password);
+			removeDisables();
+			
+			String firstNameState = (String)myController.getState("FirstName");
+			if(firstNameState != null)
+			{
+				firstName.setText(firstNameState);
+				credential.requestFocus();
+				firstName.setDisable(true);
+			}
+			else
+			{
+				firstName.setText(FirstName);
+				firstName.requestFocus();
+			}
+			
+			String lastNameState = (String)myController.getState("LastName");
+			if(lastNameState != null)
+			{
+				lastName.setText(lastNameState);
+				lastName.setDisable(true);
+			}
+			else
+			{
+				lastName.setText(LastName);
+			}
+			
+			String emailState = (String)myController.getState("Email");
+			if(emailState != null)
+			{
+				email.setText(emailState);
+				email.setDisable(true);
+			}
+			else
+			{
+				email.setText(Email);
+			}
+			
+			String phoneState = (String)myController.getState("PhoneNumber");
+			if(phoneState != null)
+			{
+				phoneNumber.setText(phoneState);
+				phoneNumber.setDisable(true);
+			}
+			else
+			{
+				phoneNumber.setText(Email);
+			}
+			
+			bannerId.setText(BannerId);
+			credential.setValue(Credential);
+			password.setText(Password);
 
+		}
+		
 	}
 
 	// Create the title container
@@ -226,6 +250,7 @@ public class AddWorkerView extends View implements Observer
 			bannerId.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
 				clearOutlines();
+				removeDisables();
 				if(Utilities.checkBannerId(bannerId.getText()))
 					populateFields();
 			});
@@ -420,7 +445,7 @@ public class AddWorkerView extends View implements Observer
 									props.setProperty("PhoneNumber", PhoneNumber);
 									props.setProperty("Credential", Credential);
 									props.setProperty("Password", Password);
-								
+									removeDisables();
 									myController.stateChangeRequest("WorkerData", props);
 									
 								}
@@ -486,6 +511,26 @@ public class AddWorkerView extends View implements Observer
 		phoneNumber.clear();
 		password.clear();
 		credential.getSelectionModel().select(null);
+	}
+	
+	private void removeDisables()
+	{
+		firstName.setDisable(false);
+		lastName.setDisable(false);
+		email.setDisable(false);
+		phoneNumber.setDisable(false);
+		password.setDisable(false);
+		credential.setDisable(false);
+	}
+	
+	private void setDisables()
+	{
+		firstName.setDisable(true);
+		lastName.setDisable(true);
+		email.setDisable(true);
+		phoneNumber.setDisable(true);
+		password.setDisable(true);
+		credential.setDisable(true);
 	}
 
 	private void clearOutlines()
