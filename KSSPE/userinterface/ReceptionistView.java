@@ -295,7 +295,7 @@ public class ReceptionistView extends View implements Observer
 		addColorButton = new Button("Add", icon);
 			addColorButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 			addColorButton.setOnAction((ActionEvent e) -> {
-				myController.stateChangeRequest("AddColor", null);
+				myController.stateChangeRequest("AddBorrower", null);
 			});
 			addColorButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 				addColorButton.setEffect(shadow);
