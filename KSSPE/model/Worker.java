@@ -27,7 +27,7 @@ public class Worker extends EntityBase
 
 	// constructor for this class
 	//----------------------------------------------------------
-	public Worker(Properties props)    //makes creates a worker based off a current id.  
+	public Worker(Properties props)    //creates and stores worker object based off a current id. DOES NOT MAKE A NEW WORKER
 		throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
