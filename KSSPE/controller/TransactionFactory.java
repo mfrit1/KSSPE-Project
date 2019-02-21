@@ -24,6 +24,10 @@ public class TransactionFactory
 		if (transType.equals("AddWorker") == true)
 		{
 			retValue = new AddWorkerTransaction();
+		}
+		if (transType.equals("AddBorrower") == true)
+		{
+			retValue = new AddBorrowerTransaction();
 		} 
 		return retValue;
 	}

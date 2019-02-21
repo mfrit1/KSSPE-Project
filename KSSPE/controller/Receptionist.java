@@ -105,7 +105,7 @@ public class Receptionist extends Transaction
 		}	
 		else
 		if ((key.equals("AddWorker") == true) || (key.equals("SearchBanner") == true) || 
-			(key.equals("UpdateWorker") == true))
+			(key.equals("UpdateWorker") == true) || (key.equals("AddBorrower") == true))
 			{
 				String transType = key;
 					
@@ -163,45 +163,7 @@ public class Receptionist extends Transaction
 			
 			return false;
 		}
-/*
-		try
-		{
-			
-			currentWorker = new Worker((String)props.getProperty("BannerId"));
-			
-			if(props.getProperty("Password").equals(currentWorker.getState("Password")))
-			{
-				return true;
-			}
-			else
-			{
-				errorMessage = "ERROR: Password not correct.";
-				currentWorker = null;
-				return false;
-			}
-		}
-		catch (InvalidPrimaryKeyException ex)
-		{
-			errorMessage = "ERROR: " + ex.getMessage();
-			return false;
-		}
-		catch (MultiplePrimaryKeysException ex2) //how the heck did you get here?
-		{
-			errorMessage = "ERROR: Multiple Workers with Banner ID!";
-			new Event(Event.getLeafLevelClassName(this), "processTransaction",
-					"Found multiple banner Ids with id : " + props.getProperty("BannerId") + ". Reason: " + ex2.toString(),
-					Event.ERROR);
-			return false;
 
-		}
-		catch (NullPointerException ex)
-		{
-			errorMessage = "ERROR: " + "Not Connected To Database";
-			return false;
-			
-		}
-		
-*/
 	}
 	//----------------------------------------------------------
 	public void doTransaction(String transactionType)
@@ -247,11 +209,9 @@ public class Receptionist extends Transaction
 		
 		if (currentScene == null)
 		{
-			
 			View newView = ViewFactory.createView("ReceptionistView", this); // USE VIEW FACTORY
 			currentScene = new Scene(newView);
 			myViews.put("ReceptionistView", currentScene);
-			
 		}
 
         return currentScene;
