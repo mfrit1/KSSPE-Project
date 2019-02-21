@@ -27,6 +27,7 @@ public class AddWorkerTransaction extends Transaction
 	private String errorMessage = "";
 	private Receptionist myReceptionist;
 	private Worker myWorker;
+	private Person myPerson; 
 
 	public AddWorkerTransaction() throws Exception
 	{
@@ -37,35 +38,29 @@ public class AddWorkerTransaction extends Transaction
 	{
 		try
 		{
-			Worker newWorker = new Worker(props);
+			new Worker(props);
 			
-			if(myWorker.getState("Credential") != null) //if I can get the credential, the worker must exist already.
-			{
-				errorMessage = "ERROR: Worker already exists!";											
-			}
-			else
-			{
-				
-				try
-				{
-					props.setProperty("Status", "Active");
-					props.setProperty("DateAdded", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-					props.setProperty("DateLastUpdated", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
-					
-					newWorker = new Worker(props, true);
-					newWorker.save();
-					
-					errorMessage = "Worker Added Successfully";
-				}
-				catch (InvalidPrimaryKeyException ex2) 
-				{
-					errorMessage = ex2.getMessage();
-				}
-			}
+			errorMessage = "ERROR: Worker already exists!";	
 		}
 		catch (InvalidPrimaryKeyException ex) 
 		{
-			errorMessage = ex.getMessage();
+			
+			try
+			{
+				props.setProperty("Status", "Active");
+				props.setProperty("DateAdded", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+				props.setProperty("DateLastUpdated", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+				
+				myWorker = new Worker(props, true);
+				myWorker.save();
+				
+				errorMessage = "Worker Added Successfully";
+			}
+			catch (InvalidPrimaryKeyException ex2) 
+			{
+				errorMessage = ex2.getMessage();
+			}
+			
 		}
 	}
 	
@@ -78,34 +73,34 @@ public class AddWorkerTransaction extends Transaction
 		}
 		else if (key.equals("TestWorker") == true)
 		{
-			if(myWorker.getState("Credential") != null)
+			if(myWorker != null)
 			{
-				return myWorker.getState("Credential");
+				return true;
 			}
-			return null;
+			return false;
 		}
 		else if (key.equals("FirstName") == true)
 		{
-			if(myWorker != null)
-				return myWorker.getState("FirstName");
+			if(myPerson != null)
+				return myPerson.getState("FirstName");
 			return null;
 		}
 		else if (key.equals("LastName") == true)
 		{
-			if(myWorker != null)
-				return myWorker.getState("LastName");
+			if(myPerson != null)
+				return myPerson.getState("LastName");
 			return null;
 		}
 		else if (key.equals("Email") == true)
 		{
-			if(myWorker != null)
-				return myWorker.getState("Email");
+			if(myPerson != null)
+				return myPerson.getState("Email");
 			return null;
 		}
 		else if (key.equals("PhoneNumber") == true)
 		{
-			if(myWorker != null)
-				return myWorker.getState("PhoneNumber");
+			if(myPerson != null)
+				return myPerson.getState("PhoneNumber");
 			return null;
 		}
 		else
@@ -131,23 +126,27 @@ public class AddWorkerTransaction extends Transaction
 			try
 			{
 				myWorker = new Worker((Properties)value);
+				
+				errorMessage = "ERROR: Worker already exists!";
 		
-				if(myWorker.getState("Credential") != null)
-				{
-					errorMessage = "ERROR: Worker already exists!";											
-				}
-				else if(myWorker.getState("FirstName") != null)
-					errorMessage = "Person found!";
-				else
-					errorMessage = "";
 			}
 			catch(Exception ex)
 			{
-				errorMessage = (String)myWorker.getState("UpdateStatusMessage");
+				try
+				{
+					myPerson = new Person((Properties)value);
+					
+					errorMessage = "Person Found!";
+				}
+				catch(Exception ex2)
+				{
+					//do nothing. Idc if nobody was found. 
+				}
 			}
 		}
 		if(key.equals("removePersonData") == true)
 		{
+			myPerson = null;
 			myWorker = null;
 		}
 		if (key.equals("CancelTransaction") == true)
