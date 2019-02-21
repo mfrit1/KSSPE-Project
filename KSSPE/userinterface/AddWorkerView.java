@@ -112,7 +112,7 @@ public class AddWorkerView extends View implements Observer
 		
 		myController.stateChangeRequest("getPersonData", props);
 		
-		if(myController.getState("TestWorker") != null)
+		if((Boolean)myController.getState("TestWorker"))
 		{
 			clearValues();
 			bannerId.setText(BannerId);
