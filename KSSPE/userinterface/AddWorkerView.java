@@ -166,7 +166,7 @@ public class AddWorkerView extends View implements Observer
 			}
 			else
 			{
-				phoneNumber.setText(Email);
+				phoneNumber.setText(PhoneNumber);
 			}
 			
 			bannerId.setText(BannerId);
