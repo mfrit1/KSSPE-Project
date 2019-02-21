@@ -31,61 +31,56 @@ public class Worker extends EntityBase
 		throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
-
-		String idToQuery = props.getProperty("BannerId");
-
-		String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + " AND Status = 'Active')";
-
-		Vector allDataRetrieved =  getSelectQueryResult(query);
-
-		// You must get one worker at least
-		if (allDataRetrieved != null && allDataRetrieved.size() != 0)
+		
+		try
 		{
-			int size = allDataRetrieved.size();
+			myPerson = new Person(props); //if this fails, go to the catch.
+			
+			updateStatusMessage = "Person Found Sucessfully!";
+			
+			String idToQuery = props.getProperty("BannerId");
 
-			// There should be EXACTLY one worker. More than that is an error
-			if (size != 1)
+			String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + " AND Status = 'Active')";
+
+			Vector allDataRetrieved =  getSelectQueryResult(query);
+
+			// You must get one worker at least
+			if (allDataRetrieved != null && allDataRetrieved.size() != 0)
 			{
-				throw new InvalidPrimaryKeyException("Multiple workers matching user id : "
-					+ idToQuery + " found.");
+				int size = allDataRetrieved.size();
+
+				// There should be EXACTLY one worker. More than that is an error
+				if (size != 1)
+				{
+					throw new InvalidPrimaryKeyException("Multiple workers matching user id : "
+						+ idToQuery + " found.");
+				}
+				else
+				{
+					// copy all the retrieved data into persistent state
+					Properties retrievedWorkerData = (Properties)allDataRetrieved.elementAt(0);
+					persistentState = new Properties();
+					
+					persistentState.setProperty("Credential", retrievedWorkerData.getProperty("Credential"));
+					persistentState.setProperty("Password", retrievedWorkerData.getProperty("Password"));
+					persistentState.setProperty("Status", retrievedWorkerData.getProperty("Status"));
+					persistentState.setProperty("DateAdded", retrievedWorkerData.getProperty("DateAdded"));
+					persistentState.setProperty("DateLastUpdated", retrievedWorkerData.getProperty("DateLastUpdated"));
+					
+					updateStatusMessage = "Worker created sucessfully!";
+				}
 			}
+			// If no Worker found for this banner Id, throw an exception
 			else
 			{
-				// copy all the retrieved data into persistent state
-				Properties retrievedWorkerData = (Properties)allDataRetrieved.elementAt(0);
-				persistentState = new Properties();
-				
-				try //gets a worker, sets all the worker properties. Creates a person sucessfully with the bannerId. 
-				{
-					Properties personProperties = new Properties();
-					personProperties.setProperty("BannerId", retrievedWorkerData.getProperty("BannerId"));
-					myPerson = new Person(personProperties);
-					persistentState.setProperty("Credential", retrievedWorkerData.getProperty("Credential"));
-					persistentState.setProperty("Password", retrievedWorkerData.getProperty("Password"));
-					persistentState.setProperty("Status", retrievedWorkerData.getProperty("Status"));
-					persistentState.setProperty("DateAdded", retrievedWorkerData.getProperty("DateAdded"));
-					persistentState.setProperty("DateLastUpdated", retrievedWorkerData.getProperty("DateLastUpdated"));
-					oldFlag = true;
-				}
-				catch (InvalidPrimaryKeyException invPKexcep)  //worker exists, but the person for it does not. Fatal Error. 
-				{
-					persistentState.setProperty("Credential", retrievedWorkerData.getProperty("Credential"));
-					persistentState.setProperty("Password", retrievedWorkerData.getProperty("Password"));
-					persistentState.setProperty("Status", retrievedWorkerData.getProperty("Status"));
-					persistentState.setProperty("DateAdded", retrievedWorkerData.getProperty("DateAdded"));
-					persistentState.setProperty("DateLastUpdated", retrievedWorkerData.getProperty("DateLastUpdated"));
-					oldFlag = true;
-					
-					updateStatusMessage = "ERROR: Worker record corrupted!";
-					new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Worker with BannerID : " + 
-						persistentState.getProperty("BannerId") + " does NOT have an associated Person record", Event.ERROR);
-				}
+				throw new InvalidPrimaryKeyException("ERROR: No worker found for Banner Id: " + idToQuery);
 			}
+			
+			oldFlag = true; //The person and/or worker are both old. 
 		}
-		// If no Worker found for this banner Id, throw an exception
-		else
+		catch(InvalidPrimaryKeyException ex)   //Person doesn't exist. Thus, worker cannot exist.
 		{
-			throw new InvalidPrimaryKeyException("ERROR: No worker found for Banner Id: " + idToQuery);
+			updateStatusMessage = ex.getMessage();
 		}
 	}
 
@@ -140,8 +135,14 @@ public class Worker extends EntityBase
     {
         String value = persistentState.getProperty(key);
         
-        if (value != null)
+		if (key.equals("UpdateStatusMessage") == true)
+		{
+			return updateStatusMessage;
+		}
+        else if (value != null)
+		{
             return value;
+		}
         else
         {
             if (myPerson != null)
@@ -217,7 +218,7 @@ public class Worker extends EntityBase
 		}
 		else
 		{
-			throw new PasswordMismatchException("ERROR: Password missing for Worker");
+			throw new PasswordMismatchException("ERROR: Worker does not exist!");
 		}
 	}
 	

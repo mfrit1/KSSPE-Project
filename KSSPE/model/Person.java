@@ -71,11 +71,8 @@ public class Person extends EntityBase
 		// If no Person found for this user name, throw an exception
 		else
 		{
-			throw new InvalidPrimaryKeyException("No Person found for Banner Id: " + idToQuery);
+			throw new InvalidPrimaryKeyException("ERROR: No Person found for Banner Id: " + idToQuery);
 		}
-
-		
-
 	}
 
 	//----------------------------------------------------------
