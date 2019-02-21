@@ -22,7 +22,6 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
-import javafx.scene.control.PasswordField;
 
 import java.util.Properties;
 import java.util.Observer;
@@ -45,7 +44,7 @@ import controller.Transaction;
  *  Closet application 
  */
 //==============================================================
-public class AddWorkerView extends View implements Observer
+public class AddBorrowerView extends View implements Observer
 {
 
 	// GUI components
@@ -54,12 +53,14 @@ public class AddWorkerView extends View implements Observer
 	protected TextField lastName;
 	protected TextField email;
 	protected TextField phoneNumber;
-	protected ComboBox credential;
-	protected PasswordField password;
+	protected TextField notes;
+
 	protected Text actionText;
 	protected Text prompt;
 
 	protected HBox bannerBox;
+	protected HBox notesBox;
+	
 	protected HBox doneCont;
 	protected Button submitButton;
 	protected Button cancelButton;
@@ -68,7 +69,7 @@ public class AddWorkerView extends View implements Observer
 
 	// constructor for this class -- takes a controller object
 	//----------------------------------------------------------
-	public AddWorkerView(Transaction t)
+	public AddBorrowerView(Transaction t)
 	{
 		super(t);
 
@@ -90,52 +91,50 @@ public class AddWorkerView extends View implements Observer
 	//-------------------------------------------------------------
 	protected String getActionText()
 	{
-		return "** ADD NEW WORKER **";
+		return "** ADD NEW BORROWER **";
 	}
 
 	public void populateFields()
 	{
-
+		
 		String BannerId = bannerId.getText();
-
 		
 		Properties props = new Properties();
 		props.setProperty("BannerId", BannerId);
 		
-		myController.stateChangeRequest("removePersonData", props); //cleans it out of past person.
+		myController.stateChangeRequest("removePersonData", props); //cleans it out the past person.
 		
 		myController.stateChangeRequest("getPersonData", props);
 		
-		if((Boolean)myController.getState("TestWorker"))
+		if((Boolean)myController.getState("TestBorrower"))
 		{
 			clearValues();
 			bannerId.setText(BannerId);
 			setDisables();
 			cancelButton.requestFocus();
 		}
-		else //if the worker doesn't exist, continue on testing if it can autofill or not. 
+		else //if the borrower doesn't exist, continue on testing if it can autofill or not. 
 		{
 			removeDisables();
 			
-			String firstNameState = (String)myController.getState("FirstName");
+			String firstNameState = (String)myController.getState("FirstName"); 
 			String lastNameState = (String)myController.getState("LastName");
 			String emailState = (String)myController.getState("Email");
 			String phoneState = (String)myController.getState("PhoneNumber");
 			
-			
-			if(firstNameState != null)
+			if(firstNameState != null) //checks if the person exists or not. 
 			{
 				firstName.setText(firstNameState);
 				lastName.setText(lastNameState);
 				email.setText(emailState);
 				phoneNumber.setText(phoneState);
-			
+				
 				firstName.setDisable(true);
 				lastName.setDisable(true);
 				email.setDisable(true);
 				phoneNumber.setDisable(true);
 				
-				credential.requestFocus();
+				notes.requestFocus();
 			}
 			else
 			{
@@ -143,7 +142,6 @@ public class AddWorkerView extends View implements Observer
 			}
 			
 			bannerId.setText(BannerId);
-
 
 		}
 		
@@ -229,11 +227,11 @@ public class AddWorkerView extends View implements Observer
 			});
 		bannerBox.getChildren().add(bannerId);
 		
-
+		//---------------------------------------------------------------- BannerBox done
 		GridPane grid = new GridPane();
 			grid.setHgap(15);
 			grid.setVgap(15);
-			grid.setPadding(new Insets(0, 20, 25, 15));
+			grid.setPadding(new Insets(0, 20, 20, 15));
 			grid.setAlignment(Pos.CENTER);
 
 		
@@ -266,21 +264,6 @@ public class AddWorkerView extends View implements Observer
 			});
 		grid.add(lastName, 1, 2);
 		
-		Text passwordLabel = new Text(" Password : ");
-			passwordLabel.setFill(Color.GOLD);
-			passwordLabel.setFont(myFont);
-			passwordLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(passwordLabel, 0, 3);
-
-		password = new PasswordField();
-			password.setMinWidth(150);
-			password.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-				clearErrorMessage();
-				clearOutlines();
-			});
-		grid.add(password, 1, 3);
-
-		
 		Text emailLabel = new Text(" Email : ");
 			emailLabel.setFill(Color.GOLD);
 			emailLabel.setFont(myFont);
@@ -309,24 +292,29 @@ public class AddWorkerView extends View implements Observer
 				clearOutlines();
 			});
 		grid.add(phoneNumber, 3, 2);
-
-
-		Text credentialLabel = new Text(" Credential : ");
-		credentialLabel.setFill(Color.GOLD);
-		credentialLabel.setFont(myFont);
-		credentialLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(credentialLabel, 2, 3);
 		
 		
-		credential = new ComboBox();
-			credential.getItems().addAll(
-				"Ordinary",
-				"Admin"
-			);
-			credential.setPromptText("Choose Credential");
-			credential.setMinWidth(150);
-		grid.add(credential, 3, 3);
+		//-------------------------------------------  grid done
+		
+		notesBox = new HBox(10);
+		notesBox.setAlignment(Pos.CENTER);
+		notesBox.setPadding(new Insets(0, 20, 20, 0));
+		
+		Text notesLabel = new Text("Notes :");
+			notesLabel.setFill(Color.GOLD);
+			notesLabel.setFont(myFont);
+			notesLabel.setTextAlignment(TextAlignment.RIGHT);
+		notesBox.getChildren().add(notesLabel);
 
+		notes = new TextField();
+			notes.setMinWidth(150);
+			notes.addEventFilter(KeyEvent.KEY_RELEASED, event->{
+				clearErrorMessage();
+				clearOutlines();
+			});
+		notesBox.getChildren().add(notes);
+
+		//------------------------------------------------------------  notes box done
 		
 		doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
@@ -374,6 +362,7 @@ public class AddWorkerView extends View implements Observer
 		
 		vbox.getChildren().add(bannerBox);
 		vbox.getChildren().add(grid);
+		vbox.getChildren().add(notesBox);
 		vbox.getChildren().add(doneCont);
 	
 		clearOutlines();
@@ -391,8 +380,7 @@ public class AddWorkerView extends View implements Observer
 		String LastName = lastName.getText();
 		String Email = email.getText();
 		String PhoneNumber = phoneNumber.getText();
-		String Password = password.getText();
-		String Credential;
+		String Notes = notes.getText();
 		
 		if(Utilities.checkBannerId(BannerID)) 
 		{
@@ -404,35 +392,17 @@ public class AddWorkerView extends View implements Observer
 					{
 						if(Utilities.checkPhone(PhoneNumber))
 						{
-							if(Utilities.checkPassword(Password))
-							{
-								if(credential.getValue() != null)  
-								{
-									Credential = credential.getValue().toString();
 							
-									Properties props = new Properties();
-									props.setProperty("BannerId", BannerID);
-									props.setProperty("FirstName", FirstName);
-									props.setProperty("LastName", LastName);
-									props.setProperty("Email", Email);
-									props.setProperty("PhoneNumber", PhoneNumber);
-									props.setProperty("Credential", Credential);
-									props.setProperty("Password", Password);
-									removeDisables();
-									myController.stateChangeRequest("WorkerData", props);
-									
-								}
-								else
-								{
-									displayErrorMessage("Please enter a credential.");
-									credential.requestFocus();
-								}
-							}
-							else
-							{
-								displayErrorMessage("Please enter a valid password.");
-								password.requestFocus();
-							}
+							Properties props = new Properties();
+							props.setProperty("BannerId", BannerID);
+							props.setProperty("FirstName", FirstName);
+							props.setProperty("LastName", LastName);
+							props.setProperty("Email", Email);
+							props.setProperty("PhoneNumber", PhoneNumber);
+							props.setProperty("Notes", Notes);
+							removeDisables();
+							myController.stateChangeRequest("WorkerData", props);
+										
 						}
 						else
 						{
@@ -482,8 +452,7 @@ public class AddWorkerView extends View implements Observer
 		lastName.clear();
 		email.clear();
 		phoneNumber.clear();
-		password.clear();
-		credential.getSelectionModel().select(null);
+		notes.clear();
 	}
 	
 	private void removeDisables()
@@ -492,8 +461,7 @@ public class AddWorkerView extends View implements Observer
 		lastName.setDisable(false);
 		email.setDisable(false);
 		phoneNumber.setDisable(false);
-		password.setDisable(false);
-		credential.setDisable(false);
+		notes.setDisable(false);
 	}
 	
 	private void setDisables()
@@ -502,8 +470,7 @@ public class AddWorkerView extends View implements Observer
 		lastName.setDisable(true);
 		email.setDisable(true);
 		phoneNumber.setDisable(true);
-		password.setDisable(true);
-		credential.setDisable(true);
+		notes.setDisable(true);
 	}
 
 	private void clearOutlines()

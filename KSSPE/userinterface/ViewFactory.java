@@ -19,6 +19,10 @@ public class ViewFactory {
 		{
 			return new AddWorkerView(t);
 		}
+		else if(viewName.equals("AddBorrowerView") == true)
+		{
+			return new AddBorrowerView(t);
+		}
 		else
 			return null;
 	}
