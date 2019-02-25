@@ -68,6 +68,7 @@ public class ReceptionistView extends View implements Observer
 	private Button logRequestButton;
 	private Button fulfillRequestButton;
 	private Button removeRequestButton;
+	private Button licenceButton;
 
 	private Button checkoutClothingItemButton;
 	private MenuButton reportsButton;
@@ -350,153 +351,169 @@ public class ReceptionistView extends View implements Observer
 
 		HBox clothingItemCont = new HBox(10);
 		clothingItemCont.setAlignment(Pos.CENTER_LEFT);
-		Label ciLabel = new Label("CLOTHING ITEMS : ");
-                clothingItemCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-                    clothingItemCont.setStyle("-fx-background-color: DARKGREEN");
-		});
-                clothingItemCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-                    clothingItemCont.setStyle("-fx-background-color: SLATEGREY");
-		});
-		ciLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
-                ciLabel.setTextFill(Color.GOLD);
+			clothingItemCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				clothingItemCont.setStyle("-fx-background-color: DARKGREEN");
+			});
+            clothingItemCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				clothingItemCont.setStyle("-fx-background-color: SLATEGREY");
+			});  
+		Label ciLabel = new Label   ("CATEGORIES          : ");
+			ciLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
+            ciLabel.setTextFill(Color.GOLD);
 		clothingItemCont.getChildren().add(ciLabel);
+		
 		icon = new ImageView(new Image("/images/pluscolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		addClothingItemButton = new Button("Add", icon);
-		addClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		addClothingItemButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("AddClothingItem", null);
-		});
-		addClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			addClothingItemButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Add new Clothing Items to the records");
-		});
-		addClothingItemButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			addClothingItemButton.setEffect(null);
-                        clearErrorMessage();
-		});
+			addClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			addClothingItemButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("AddClothingItem", null);
+			});
+			addClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				addClothingItemButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Add new Clothing Items to the records");
+			});
+			addClothingItemButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				addClothingItemButton.setEffect(null);
+				clearErrorMessage();
+			});
 		clothingItemCont.getChildren().add(addClothingItemButton);
+		
 		icon = new ImageView(new Image("/images/editcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		updateClothingItemButton = new Button("Update",icon);
-		updateClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		updateClothingItemButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("UpdateClothingItem", null);
-		});
-		updateClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			updateClothingItemButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Update Clothing Items in the records");
-		});
-		updateClothingItemButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			updateClothingItemButton.setEffect(null);
-                        clearErrorMessage();
-		});
+			updateClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			updateClothingItemButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("UpdateClothingItem", null);
+			});
+			updateClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				updateClothingItemButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Update Clothing Items in the records");
+			});
+			updateClothingItemButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				updateClothingItemButton.setEffect(null);
+                clearErrorMessage();
+			});
 		clothingItemCont.getChildren().add(updateClothingItemButton);
+		
 		icon = new ImageView(new Image("/images/trashcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		removeClothingItemButton = new Button("Remove", icon);
-		removeClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		removeClothingItemButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("RemoveClothingItem", null);
-		});
-		removeClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			removeClothingItemButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Remove Clothing Items from the records");
-		});
-		removeClothingItemButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			removeClothingItemButton.setEffect(null);
-                        clearErrorMessage();
-		});
-		clothingItemCont.getChildren().add(removeClothingItemButton);
-                clothingItemCont.setAlignment(Pos.CENTER);
+			removeClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			removeClothingItemButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("RemoveClothingItem", null);
+			});
+			removeClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				removeClothingItemButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Remove Clothing Items from the records");
+			});
+			removeClothingItemButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				removeClothingItemButton.setEffect(null);
+                clearErrorMessage();
+			});
+			clothingItemCont.getChildren().add(removeClothingItemButton);
+			
+        clothingItemCont.setAlignment(Pos.CENTER);
 		container.getChildren().add(clothingItemCont);
+		
+		//------------------------------------ category hbox done
 
 		HBox requestCont = new HBox(10);
 		requestCont.setAlignment(Pos.CENTER_LEFT);
-		Label reqLabel = new Label("REQUESTS             : ");
-                requestCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-                    requestCont.setStyle("-fx-background-color: DARKGREEN");
-		});
-                requestCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-                    requestCont.setStyle("-fx-background-color: SLATEGREY");
-		});
-		reqLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
-                reqLabel.setTextFill(Color.GOLD);
+            requestCont.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				requestCont.setStyle("-fx-background-color: DARKGREEN");
+			});
+            requestCont.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				requestCont.setStyle("-fx-background-color: SLATEGREY");
+			});
+		
+		Label reqLabel = new Label("EQUIPEMNT           : ");
+			reqLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
+            reqLabel.setTextFill(Color.GOLD);
 		requestCont.getChildren().add(reqLabel);
+		
 		icon = new ImageView(new Image("/images/logcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		logRequestButton = new Button("Log", icon);
-		logRequestButton.setMinWidth(65);
-		logRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		logRequestButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("AddRequest", null);
-		});
-		logRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			logRequestButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Log new Requests to the records");
-		});
-		logRequestButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			logRequestButton.setEffect(null);
-                        clearErrorMessage();
-		});
+			logRequestButton.setMinWidth(65);
+			logRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			logRequestButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("AddRequest", null);
+			});
+			logRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				logRequestButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Log new Requests to the records");
+			});
+			logRequestButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				logRequestButton.setEffect(null);
+                clearErrorMessage();
+			});
 		requestCont.getChildren().add(logRequestButton);
+		
 		icon = new ImageView(new Image("/images/entercolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		fulfillRequestButton = new Button(" Fulfill ", icon);
-		fulfillRequestButton.setMinWidth(85);
-		fulfillRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		fulfillRequestButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("FulfillRequest", null);
-		});
-		fulfillRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+			fulfillRequestButton.setMinWidth(85);
+			fulfillRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			fulfillRequestButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("FulfillRequest", null);
+			});
+			fulfillRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			fulfillRequestButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Fulfill Requests in the records");
-		});
-		fulfillRequestButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			fulfillRequestButton.setEffect(null);
-                        clearErrorMessage();
-		});
+                statusLog.displayInfoMessage("Fulfill Requests in the records");
+			});
+			fulfillRequestButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				fulfillRequestButton.setEffect(null);
+                clearErrorMessage();
+			});
 		requestCont.getChildren().add(fulfillRequestButton);
+		
 		icon = new ImageView(new Image("/images/trashcolor.png"));
-		icon.setFitHeight(15);
-		icon.setFitWidth(15);
+			icon.setFitHeight(15);
+			icon.setFitWidth(15);
+			
 		removeRequestButton = new Button("Remove",icon);
-		removeRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		removeRequestButton.setOnAction((ActionEvent e) -> {
-			myController.stateChangeRequest("RemoveRequest", null);
-		});
-		removeRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-			removeRequestButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Remove Requests from the records");
-		});
-		removeRequestButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-			removeRequestButton.setEffect(null);
-                        clearErrorMessage();
-		});
+			removeRequestButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+			removeRequestButton.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("RemoveRequest", null);
+			});
+			removeRequestButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				removeRequestButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Remove Requests from the records");
+			});
+			removeRequestButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+				removeRequestButton.setEffect(null);
+                clearErrorMessage();
+			});
 		requestCont.getChildren().add(removeRequestButton);
-                requestCont.setAlignment(Pos.CENTER);
-
+		
+        requestCont.setAlignment(Pos.CENTER);
 		container.getChildren().add(requestCont);
+
+		//------------------------------------------------- logout/licencebox start
 
 		HBox doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
+		
 		icon = new ImageView(new Image("/images/exitcolor.png"));
 		icon.setFitHeight(15);
 		icon.setFitWidth(15);
 		cancelButton = new Button("Logout",icon);
 		cancelButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() {
-
-       		     @Override
-       		     public void handle(ActionEvent e) {
-       		     	myController.stateChangeRequest("Logout", null);    
-            	     }
-        	});
+		cancelButton.setOnAction((ActionEvent e) -> {
+			myController.stateChangeRequest("Logout", null);    
+		});
+		
 		cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			cancelButton.setEffect(shadow);
                         statusLog.displayInfoMessage("Go to Login Screen");
@@ -506,7 +523,34 @@ public class ReceptionistView extends View implements Observer
                         clearErrorMessage();
 		});
 		doneCont.getChildren().add(cancelButton);
-                doneCont.setAlignment(Pos.CENTER);
+		
+		
+		
+		icon = new ImageView(new Image("/images/log.png"));
+		icon.setFitHeight(15);
+		icon.setFitWidth(15);
+		licenceButton = new Button("Licence",icon);
+		licenceButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+		licenceButton.setOnAction((ActionEvent e) -> {
+			Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Licencing");
+				alert.setHeaderText("Copyright: Dream Team");
+				alert.setContentText("Members: Lucas Wing, Nick Bernard, Matt Frichie, Liam Allport \n\nLicenced to: The College At Brockport for commercial use.");
+				alert.showAndWait();
+		});
+		licenceButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+			licenceButton.setEffect(shadow);
+                        statusLog.displayInfoMessage("Licence for software use");
+		});
+		licenceButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+			licenceButton.setEffect(null);
+                        clearErrorMessage();
+		});
+		doneCont.getChildren().add(licenceButton);
+		
+		
+		
+        doneCont.setAlignment(Pos.CENTER);
 
 		container.getChildren().add(doneCont);
 
