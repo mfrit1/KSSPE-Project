@@ -535,7 +535,7 @@ public class ReceptionistView extends View implements Observer
 			Alert alert = new Alert(AlertType.INFORMATION);
 				alert.setTitle("Licencing");
 				alert.setHeaderText("Copyright: Dream Team");
-				alert.setContentText("Members: Lucas Wing, Nick Bernard, Matt Frichie, Liam Allport \n\nLicenced to: The College At Brockport for commercial use.");
+				alert.setContentText("Members: Lucas Wing, Nick Bernard, Matt Frichie, Liam Allport \n\nLicenced to: The College At Brockport \nFor: commercial use, non-commercial use, modification.");
 				alert.showAndWait();
 		});
 		licenceButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
