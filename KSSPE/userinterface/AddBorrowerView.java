@@ -220,10 +220,17 @@ public class AddBorrowerView extends View implements Observer
 			bannerId.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
 				clearOutlines();
-				removeDisables();
+				setDisables();
 				
 				if(Utilities.checkBannerId(bannerId.getText()))
+				{
+					removeDisables();
 					populateFields();
+				}
+				else
+				{
+					clearValuesExceptBanner();
+				}
 			});
 		bannerBox.getChildren().add(bannerId);
 		
@@ -366,6 +373,8 @@ public class AddBorrowerView extends View implements Observer
 		vbox.getChildren().add(doneCont);
 	
 		clearOutlines();
+		
+		setDisables(); //disable everything until the bannerId is entered.
                
 		return vbox;
 	}
@@ -402,6 +411,7 @@ public class AddBorrowerView extends View implements Observer
 							props.setProperty("Notes", Notes);
 							removeDisables();
 							myController.stateChangeRequest("WorkerData", props);
+							setDisables();
 										
 						}
 						else
@@ -448,6 +458,15 @@ public class AddBorrowerView extends View implements Observer
 	public void clearValues()
 	{
 		bannerId.clear();
+		firstName.clear();
+		lastName.clear();
+		email.clear();
+		phoneNumber.clear();
+		notes.clear();
+	}
+	
+	private void clearValuesExceptBanner()
+	{
 		firstName.clear();
 		lastName.clear();
 		email.clear();
