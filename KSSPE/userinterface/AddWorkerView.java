@@ -277,7 +277,11 @@ public class AddWorkerView extends View implements Observer
 		password = new PasswordField();
 			password.setMinWidth(150);
 			password.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-				clearErrorMessage();
+				if(!password.getText().equals(""))
+				{
+					System.out.println("here");
+					clearErrorMessage();
+				}
 			});
 		grid.add(password, 1, 3);
 

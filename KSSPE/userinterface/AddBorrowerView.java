@@ -311,7 +311,8 @@ public class AddBorrowerView extends View implements Observer
 		notes = new TextField();
 			notes.setMinWidth(150);
 			notes.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-				clearErrorMessage();
+				if(!notes.getText().equals(""))
+					clearErrorMessage();
 			});
 		notesBox.getChildren().add(notes);
 
