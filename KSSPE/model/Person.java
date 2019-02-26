@@ -36,12 +36,12 @@ public class Person extends EntityBase
 
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 
-		// You must get one account at least
+		// You must get one person at least
 		if (allDataRetrieved != null && allDataRetrieved.size() != 0)
 		{
 			int size = allDataRetrieved.size();
 
-			// There should be EXACTLY one account. More than that is an error
+			// There should be EXACTLY one person. More than that is an error
 			if (size != 1)
 			{
 				throw new InvalidPrimaryKeyException("Multiple persons matching banner id : "
