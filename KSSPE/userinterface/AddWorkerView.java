@@ -279,7 +279,6 @@ public class AddWorkerView extends View implements Observer
 			password.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				if(!password.getText().equals(""))
 				{
-					System.out.println("here");
 					clearErrorMessage();
 				}
 			});
