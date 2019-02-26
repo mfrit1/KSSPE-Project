@@ -219,7 +219,6 @@ public class AddBorrowerView extends View implements Observer
 			bannerId.setMinWidth(150);
 			bannerId.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 				setDisables();
 				
 				if(Utilities.checkBannerId(bannerId.getText()))
@@ -252,7 +251,6 @@ public class AddBorrowerView extends View implements Observer
 			firstName.setMinWidth(150);
 			firstName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(firstName, 1, 1);
 
@@ -267,7 +265,6 @@ public class AddBorrowerView extends View implements Observer
 			lastName.setMinWidth(150);
 			lastName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(lastName, 1, 2);
 		
@@ -281,7 +278,6 @@ public class AddBorrowerView extends View implements Observer
 			email.setMinWidth(150);
 			email.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(email, 3, 1);
 
@@ -296,7 +292,6 @@ public class AddBorrowerView extends View implements Observer
 			phoneNumber.setMinWidth(150);
 			phoneNumber.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(phoneNumber, 3, 2);
 		
@@ -317,7 +312,6 @@ public class AddBorrowerView extends View implements Observer
 			notes.setMinWidth(150);
 			notes.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		notesBox.getChildren().add(notes);
 
@@ -372,7 +366,7 @@ public class AddBorrowerView extends View implements Observer
 		vbox.getChildren().add(notesBox);
 		vbox.getChildren().add(doneCont);
 	
-		clearOutlines();
+		setOutlines();
 		
 		setDisables(); //disable everything until the bannerId is entered.
                
@@ -382,7 +376,6 @@ public class AddBorrowerView extends View implements Observer
 	private void sendToController()
 	{
 		clearErrorMessage();
-        clearOutlines();
 		
 		String BannerID = bannerId.getText();
 		String FirstName = firstName.getText();
@@ -492,23 +485,14 @@ public class AddBorrowerView extends View implements Observer
 		notes.setDisable(true);
 	}
 
-	private void clearOutlines()
+	private void setOutlines()
 	{
-		
-		/*
-		barcode.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
-		gender.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
-		articleType.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
-		color1.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
-		color2.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
-		size.setStyle("-fx-border-color: transparent;  -fx-focus-color: darkgreen;");
-		brand.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		notes.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		donorFName.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		donorLName.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		donorPhone.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		donorEmail.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		*/
+		bannerId.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		firstName.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		lastName.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		email.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		phoneNumber.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		notes.setStyle("-fx-border-color: transparent;  -fx-focus-color: darkgreen;");
 	}
 
 	/**

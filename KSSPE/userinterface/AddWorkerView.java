@@ -122,7 +122,6 @@ public class AddWorkerView extends View implements Observer
 			String emailState = (String)myController.getState("Email");
 			String phoneState = (String)myController.getState("PhoneNumber");
 			
-			
 			if(firstNameState != null)
 			{
 				firstName.setText(firstNameState);
@@ -135,7 +134,7 @@ public class AddWorkerView extends View implements Observer
 				email.setDisable(true);
 				phoneNumber.setDisable(true);
 				
-				credential.requestFocus();
+				password.requestFocus();
 			}
 			else
 			{
@@ -143,7 +142,6 @@ public class AddWorkerView extends View implements Observer
 			}
 			
 			bannerId.setText(BannerId);
-
 
 		}
 		
@@ -221,7 +219,6 @@ public class AddWorkerView extends View implements Observer
 			bannerId.setMinWidth(150);
 			bannerId.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 				setDisables();
 				
 				if(Utilities.checkBannerId(bannerId.getText()))
@@ -254,7 +251,6 @@ public class AddWorkerView extends View implements Observer
 			firstName.setMinWidth(150);
 			firstName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(firstName, 1, 1);
 
@@ -269,7 +265,6 @@ public class AddWorkerView extends View implements Observer
 			lastName.setMinWidth(150);
 			lastName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(lastName, 1, 2);
 		
@@ -283,7 +278,6 @@ public class AddWorkerView extends View implements Observer
 			password.setMinWidth(150);
 			password.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(password, 1, 3);
 
@@ -298,7 +292,6 @@ public class AddWorkerView extends View implements Observer
 			email.setMinWidth(150);
 			email.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(email, 3, 1);
 
@@ -313,7 +306,6 @@ public class AddWorkerView extends View implements Observer
 			phoneNumber.setMinWidth(150);
 			phoneNumber.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				clearOutlines();
 			});
 		grid.add(phoneNumber, 3, 2);
 
@@ -383,7 +375,7 @@ public class AddWorkerView extends View implements Observer
 		vbox.getChildren().add(grid);
 		vbox.getChildren().add(doneCont);
 	
-		clearOutlines();
+		setOutlines();
 		
 		setDisables(); //disable everything until the bannerId is entered.
                
@@ -393,7 +385,6 @@ public class AddWorkerView extends View implements Observer
 	private void sendToController()
 	{
 		clearErrorMessage();
-        clearOutlines();
 		
 		String BannerID = bannerId.getText();
 		String FirstName = firstName.getText();
@@ -525,23 +516,15 @@ public class AddWorkerView extends View implements Observer
 		credential.setDisable(true);
 	}
 
-	private void clearOutlines()
+	private void setOutlines()
 	{
-		
-		/*
-		barcode.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
-		gender.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
-		articleType.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
-		color1.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
-		color2.setStyle("-fx-background-color: white; -fx-selection-bar:green;");
-		size.setStyle("-fx-border-color: transparent;  -fx-focus-color: darkgreen;");
-		brand.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		notes.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		donorFName.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		donorLName.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		donorPhone.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		donorEmail.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
-		*/
+		bannerId.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		firstName.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		lastName.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		email.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		phoneNumber.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
+		password.setStyle("-fx-border-color: transparent;  -fx-focus-color: darkgreen;");
+		credential.setStyle("-fx-border-color: transparent;  -fx-focus-color: darkgreen;");
 	}
 
 	/**
