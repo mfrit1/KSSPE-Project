@@ -105,7 +105,7 @@ public class Receptionist extends Transaction
 		}	
 		else
 		if ((key.equals("AddWorker") == true) || (key.equals("SearchBanner") == true) || 
-			(key.equals("UpdateWorker") == true) || (key.equals("AddBorrower") == true))
+			(key.equals("UpdateWorker") == true) || (key.equals("AddBorrower") == true) || (key.equals("AddCategory") == true))
 			{
 				String transType = key;
 					
@@ -127,6 +127,7 @@ public class Receptionist extends Transaction
 		{
 			currentWorker = null;
 			myViews.remove("ReceptionistView");
+			myViews.remove("LoginView"); //resets loginview back to the origional state.
 			errorMessage = "";
 			createAndShowLoginView();
 		}
