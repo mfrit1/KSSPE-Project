@@ -369,7 +369,7 @@ public class ReceptionistView extends View implements Observer
 		addClothingItemButton = new Button("Add", icon);
 			addClothingItemButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 			addClothingItemButton.setOnAction((ActionEvent e) -> {
-				myController.stateChangeRequest("AddClothingItem", null);
+				myController.stateChangeRequest("AddCategory", null);
 			});
 			addClothingItemButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 				addClothingItemButton.setEffect(shadow);
@@ -433,7 +433,7 @@ public class ReceptionistView extends View implements Observer
 				requestCont.setStyle("-fx-background-color: SLATEGREY");
 			});
 		
-		Label reqLabel = new Label("EQUIPEMNT           : ");
+		Label reqLabel = new Label("EQUIPMENT           : ");
 			reqLabel.setFont(Font.font("Copperplate", FontWeight.BOLD, 18));
             reqLabel.setTextFill(Color.GOLD);
 		requestCont.getChildren().add(reqLabel);
