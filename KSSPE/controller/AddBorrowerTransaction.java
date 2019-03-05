@@ -49,7 +49,7 @@ public class AddBorrowerTransaction extends Transaction
 			{
 				props.setProperty("Status", "Active");
 				props.setProperty("BlockStatus", "Unblocked");
-				props.setProperty("Penalty", "None");
+				props.setProperty("Penalty", "0");
 				props.setProperty("DateAdded", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 				props.setProperty("DateLastUpdated", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
 				
