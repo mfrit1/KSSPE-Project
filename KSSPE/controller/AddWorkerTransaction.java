@@ -126,7 +126,7 @@ public class AddWorkerTransaction extends Transaction
 			{
 				myWorker = new Worker((Properties)value);
 				
-				errorMessage = "ERROR: Worker already exists!";
+				errorMessage = "ERROR: Worker with Bannerid " + ((Properties)value).getProperty("BannerId") + " already exists!";
 		
 			}
 			catch(Exception ex)
@@ -135,7 +135,7 @@ public class AddWorkerTransaction extends Transaction
 				{
 					myPerson = new Person((Properties)value);
 					
-					errorMessage = "Person Found!";
+					errorMessage = "Person with Bannerid " + ((Properties)value).getProperty("BannerId") +  " Found!";
 				}
 				catch(Exception ex2)
 				{

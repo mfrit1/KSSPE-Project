@@ -128,7 +128,7 @@ public class AddBorrowerTransaction extends Transaction
 			{
 				myBorrower = new Borrower((Properties)value);
 				
-				errorMessage = "ERROR: Borrower already exists!";
+				errorMessage = "ERROR: Borrower with Bannerid " + ((Properties)value).getProperty("BannerId") + " already exists!";
 		
 			}
 			catch(Exception ex)
@@ -137,7 +137,7 @@ public class AddBorrowerTransaction extends Transaction
 				{
 					myPerson = new Person((Properties)value);
 					
-					errorMessage = "Person Found!";
+					errorMessage = "Person with Bannerid " + ((Properties)value).getProperty("BannerId") +  " Found!";
 				}
 				catch(Exception ex2)
 				{
