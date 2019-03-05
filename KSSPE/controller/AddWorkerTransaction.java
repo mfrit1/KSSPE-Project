@@ -20,7 +20,7 @@ import userinterface.ViewFactory;
 import model.Worker;
 import model.Person;
 
-/** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
+/** The class containing the AddWorkerTransaction for the KSSPE application */
 //==============================================================
 public class AddWorkerTransaction extends Transaction
 {
@@ -109,7 +109,6 @@ public class AddWorkerTransaction extends Transaction
 
 	public void stateChangeRequest(String key, Object value)
 	{
-		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 		errorMessage = "";
 		
 		if (key.equals("DoYourJob") == true)

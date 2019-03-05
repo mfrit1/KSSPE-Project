@@ -20,7 +20,7 @@ import userinterface.ViewFactory;
 import model.Borrower;
 import model.Person;
 
-/** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
+/** The class containing the AddBorrowerTransaction for the KSSPE application */
 //==============================================================
 public class AddBorrowerTransaction extends Transaction
 {
@@ -111,7 +111,6 @@ public class AddBorrowerTransaction extends Transaction
 
 	public void stateChangeRequest(String key, Object value)
 	{
-		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
 		errorMessage = "";
 		
 		if (key.equals("DoYourJob") == true)
