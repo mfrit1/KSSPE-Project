@@ -83,6 +83,8 @@ public class AddWorkerView extends View implements Observer
 		container.getChildren().add(createStatusLog("             "));
 
 		getChildren().add(container);
+		
+		populateFields();
 
 		myController.addObserver(this);
 	}
@@ -92,13 +94,15 @@ public class AddWorkerView extends View implements Observer
 	{
 		return "** ADD NEW WORKER **";
 	}
-
+	
 	public void populateFields()
 	{
-
-		String BannerId = bannerId.getText();
-
 		
+	}
+
+	protected void processBannerId(String BannerId)
+	{
+
 		Properties props = new Properties();
 		props.setProperty("BannerId", BannerId);
 		
@@ -109,9 +113,7 @@ public class AddWorkerView extends View implements Observer
 		if((Boolean)myController.getState("TestWorker"))
 		{
 			clearValues();
-			bannerId.setText(BannerId);
 			setDisables();
-			cancelButton.requestFocus();
 		}
 		else //if the worker doesn't exist, continue on testing if it can autofill or not. 
 		{
@@ -224,7 +226,7 @@ public class AddWorkerView extends View implements Observer
 				if(Utilities.checkBannerId(bannerId.getText()))
 				{
 					removeDisables();
-					populateFields();
+					processBannerId(bannerId.getText());
 				}
 				else
 				{

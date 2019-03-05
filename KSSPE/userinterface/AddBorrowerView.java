@@ -84,6 +84,8 @@ public class AddBorrowerView extends View implements Observer
 		container.getChildren().add(createStatusLog("             "));
 
 		getChildren().add(container);
+		
+		populateFields();
 
 		myController.addObserver(this);
 	}
@@ -93,25 +95,26 @@ public class AddBorrowerView extends View implements Observer
 	{
 		return "** ADD NEW BORROWER **";
 	}
-
+	
 	public void populateFields()
 	{
 		
-		String BannerId = bannerId.getText();
+	}
+
+	protected void processBannerId(String BannerId)
+	{
 		
 		Properties props = new Properties();
 		props.setProperty("BannerId", BannerId);
 		
-		myController.stateChangeRequest("removePersonData", props); //cleans it out the past person.
+		myController.stateChangeRequest("removePersonData", props); //cleans out the past person.
 		
 		myController.stateChangeRequest("getPersonData", props);
 		
 		if((Boolean)myController.getState("TestBorrower"))
 		{
 			clearValues();
-			bannerId.setText(BannerId);
 			setDisables();
-			cancelButton.requestFocus();
 		}
 		else //if the borrower doesn't exist, continue on testing if it can autofill or not. 
 		{
@@ -224,7 +227,7 @@ public class AddBorrowerView extends View implements Observer
 				if(Utilities.checkBannerId(bannerId.getText()))
 				{
 					removeDisables();
-					populateFields();
+					processBannerId(bannerId.getText());
 				}
 				else
 				{
