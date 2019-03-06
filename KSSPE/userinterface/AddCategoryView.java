@@ -165,6 +165,10 @@ public class AddCategoryView extends View implements Observer
 
 		barcodePrefix = new TextField();
 			barcodePrefix.setMinWidth(150);
+			barcodePrefix.setOnKeyTyped(event ->{
+				if(barcodePrefix.getText().length() > GlobalVariables.BARCODEPREFIX_LENGTH - 1)
+					event.consume();
+			});
 			barcodePrefix.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
 				if(Utilities.checkBarcodePrefix(barcodePrefix.getText()))
@@ -270,7 +274,7 @@ public class AddCategoryView extends View implements Observer
 		}
 		else
 		{
-			displayErrorMessage("Please enter a valid Barcode Prefix.");
+			displayErrorMessage("Please enter a valid Barcode Prefix (Digits).");
 			barcodePrefix.requestFocus();
 		}
 	}
