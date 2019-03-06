@@ -40,8 +40,8 @@ import javafx.util.StringConverter;
 
 import controller.Transaction;
 
-/** The class containing the Add clothing item View  for the Professional Clothes
- *  Closet application 
+/** The class containing the Add Borrower View for the KSSPE
+ *  application 
  */
 //==============================================================
 public class AddBorrowerView extends View implements Observer

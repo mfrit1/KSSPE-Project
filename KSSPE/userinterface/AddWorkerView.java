@@ -41,8 +41,8 @@ import javafx.util.StringConverter;
 
 import controller.Transaction;
 
-/** The class containing the Add clothing item View  for the Professional Clothes
- *  Closet application 
+/** The class containing the Add Worker View  for the KSSPE
+ *  application 
  */
 //==============================================================
 public class AddWorkerView extends View implements Observer
