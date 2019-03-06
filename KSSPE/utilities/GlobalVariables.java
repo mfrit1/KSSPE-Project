@@ -15,4 +15,6 @@ public class GlobalVariables
 	public static final int NAME_LENGTH = 30;
 	public static final int EMAIL_LENGTH = 30;
 	public static final int PHONE_LENGTH = 30;
+	public static final int BARCODEPREFIX_LENGTH = 3;
+	public static final int CATEGORYNAME_LENGTH = 50;
 }
