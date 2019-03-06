@@ -29,6 +29,10 @@ public class TransactionFactory
 		{
 			retValue = new AddBorrowerTransaction();
 		} 
+		if (transType.equals("AddCategory") == true)
+		{
+			retValue = new AddCategoryTransaction();
+		} 
 		return retValue;
 	}
 }
