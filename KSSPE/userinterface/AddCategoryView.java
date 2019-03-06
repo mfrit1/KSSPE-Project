@@ -297,7 +297,8 @@ public class AddCategoryView extends View implements Observer
 
 	public void clearValues()
 	{
-		
+		barcodePrefix.clear();
+		name.clear();
 	}
 
 	private void setOutlines()
