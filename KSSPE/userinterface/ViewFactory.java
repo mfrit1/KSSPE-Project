@@ -23,6 +23,10 @@ public class ViewFactory {
 		{
 			return new AddBorrowerView(t);
 		}
+		else if(viewName.equals("AddCategoryView") == true)
+		{
+			return new AddCategoryView(t);
+		}
 		else
 			return null;
 	}
