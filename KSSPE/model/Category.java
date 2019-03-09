@@ -98,6 +98,27 @@ public class Category extends EntityBase
 		
 		
 	}
+	
+	public Vector<String> getEntryListView()
+	{
+		Vector<String> v = new Vector<String>();
+
+		v.addElement(persistentState.getProperty("BarcodePrefix"));
+		v.addElement(persistentState.getProperty("Name"));
+		v.addElement(persistentState.getProperty("Status"));
+
+		return v;
+	}
+	
+	
+	//-----------------------------------------------------------------------------------
+	public static int compare(Category a, Category b)
+	{
+		String aVal = (String)a.getState("BarcodePrefix");
+		String bVal = (String)b.getState("BarcodePrefix");
+
+		return aVal.compareTo(bVal);
+	}
 
 	//----------------------------------------------------------
 	public Object getState(String key)
@@ -114,6 +135,7 @@ public class Category extends EntityBase
 		persistentState.setProperty(key, (String)value);
 
 	}
+	
 	
 	//------------------------------------------------------------------
 	public void save()
@@ -145,8 +167,7 @@ public class Category extends EntityBase
 			updateStatusMessage = "ERROR: Category could not be installed in database!";
 			new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Category with BannerID : " + 
 				persistentState.getProperty("BarcodePrefix") + " could not be saved in database: " + ex.toString(), Event.ERROR);
-		}
-			
+		}	
 	}
 	
 	//------------------------------------------------------------------
