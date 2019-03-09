@@ -62,6 +62,13 @@ public class Utilities
 		else
 			return false;
 	}
+	public static boolean checkIsNumber(String s)
+	{
+		if(s.matches("\\d+"))
+			return true;
+		else
+			return false;
+	}
 	public static boolean checkCategoryName(String name)
 	{
 		if(name.length() != 0 && name.length() < GlobalVariables.CATEGORYNAME_LENGTH)
