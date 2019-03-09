@@ -22,7 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
-import javafx.scene.control.PasswordField;
+import javafx.scene.layout.ColumnConstraints;
 
 import java.util.Properties;
 import java.util.Observer;
@@ -41,11 +41,11 @@ import javafx.util.StringConverter;
 
 import controller.Transaction;
 
-/** The class containing the Add Category View  for the KSSPE
+/** The class containing the Search Category View for the KSSPE
  *  application 
  */
 //==============================================================
-public class AddCategoryView extends View implements Observer
+public class SearchCategoryView extends View implements Observer
 {
 
 	// GUI components
@@ -64,7 +64,7 @@ public class AddCategoryView extends View implements Observer
 
 	// constructor for this class -- takes a controller object
 	//----------------------------------------------------------
-	public AddCategoryView(Transaction t)
+	public SearchCategoryView(Transaction t)
 	{
 		super(t);
 
@@ -79,8 +79,6 @@ public class AddCategoryView extends View implements Observer
 		container.getChildren().add(createStatusLog("             "));
 
 		getChildren().add(container);
-		
-		populateFields();
 
 		myController.addObserver(this);
 	}
@@ -88,7 +86,7 @@ public class AddCategoryView extends View implements Observer
 	//-------------------------------------------------------------
 	protected String getActionText()
 	{
-		return "** ADD NEW CATEGORY **";
+		return "** SEARCH FOR CATEGORY **";
 	}
 
 	public void populateFields()
@@ -158,13 +156,14 @@ public class AddCategoryView extends View implements Observer
 			grid.setPadding(new Insets(0, 20, 25, 20));
 			grid.setAlignment(Pos.CENTER);
 			
-			
-		Text barcodePrefixLabel = new Text(" Barcode Prefix : "); //autofill with newest autoinc number?
-			barcodePrefixLabel.setFill(Color.GOLD);
-			barcodePrefixLabel.setFont(myFont);
-			barcodePrefixLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(barcodePrefixLabel, 0, 1);
 
+		Text barcodePrefixHeader = new Text("Barcode Prefix :"); //autofill with newest autoinc number
+			barcodePrefixHeader.setFill(Color.GOLD);
+			barcodePrefixHeader.setFont(myFont);
+			barcodePrefixHeader.setTextAlignment(TextAlignment.RIGHT);
+		grid.add(barcodePrefixHeader, 0, 1);
+			
+			
 		barcodePrefix = new TextField();
 			barcodePrefix.setMinWidth(150);
 			barcodePrefix.setOnKeyTyped(event ->{
@@ -173,26 +172,39 @@ public class AddCategoryView extends View implements Observer
 			});
 			barcodePrefix.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				if(Utilities.checkBarcodePrefix(barcodePrefix.getText()))
-				{
-					processBarcodePrefix(barcodePrefix.getText());
-				}
 			});
 		grid.add(barcodePrefix, 1, 1);
-
 		
-		Text nameLabel =  new Text(" Category Name : ");
-			nameLabel.setFill(Color.GOLD);
-			nameLabel.setFont(myFont);
-			nameLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(nameLabel, 0, 2);
+		
+		HBox orCont = new HBox(10);
+			orCont.setAlignment(Pos.CENTER);
+			
+		Text orHeader = new Text("---------- OR SEARCH BY ----------"); //autofill with newest autoinc number
+			orHeader.setFill(Color.GOLD);
+			orHeader.setFont(myFont);
+			orHeader.setTextAlignment(TextAlignment.RIGHT);
+		orCont.getChildren().add(orHeader);
+		
+		
+		GridPane grid2 = new GridPane();
+			grid2.setHgap(15);
+			grid2.setVgap(15);
+			grid2.setPadding(new Insets(10, 20, 30, 20));
+			grid2.setAlignment(Pos.CENTER);
+		
+		
+		Text nameHeader = new Text("Category Name :"); //autofill with newest autoinc number
+			nameHeader.setFill(Color.GOLD);
+			nameHeader.setFont(myFont);
+			nameHeader.setTextAlignment(TextAlignment.RIGHT);
+		grid2.add(nameHeader, 0, 1);
 		
 		name = new TextField();
 			name.setMinWidth(150);
 			name.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
 			});
-		grid.add(name, 1, 2);
+		grid2.add(name, 1, 1);
 		
 		//---------------------------------------------------------------------------------
 
@@ -206,11 +218,11 @@ public class AddCategoryView extends View implements Observer
             doneCont.setStyle("-fx-background-color: SLATEGREY");
 		});
 		
-		ImageView icon = new ImageView(new Image("/images/pluscolor.png"));
+		ImageView icon = new ImageView(new Image("/images/searchcolor.png"));
 			icon.setFitHeight(15);
 			icon.setFitWidth(15);
 			
-		submitButton = new Button("Add", icon);
+		submitButton = new Button("Search", icon);
 			submitButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 			submitButton.setOnAction((ActionEvent e) -> {
 				sendToController();
@@ -242,6 +254,8 @@ public class AddCategoryView extends View implements Observer
 		doneCont.getChildren().add(cancelButton);
 		
 		vbox.getChildren().add(grid);
+		vbox.getChildren().add(orCont);
+		vbox.getChildren().add(grid2);
 		vbox.getChildren().add(doneCont);
 	
 		setOutlines();
@@ -255,18 +269,28 @@ public class AddCategoryView extends View implements Observer
 		
 		String BarcodePrefix = barcodePrefix.getText();
 		String Name = name.getText();
+		Properties props = new Properties();
 		
-		if(Utilities.checkBarcodePrefix(BarcodePrefix)) 
+		if(!BarcodePrefix.equals(""))
+		{
+			if(Utilities.checkIsNumber(BarcodePrefix))
+			{
+				props.setProperty("BarcodePrefix", BarcodePrefix);
+				myController.stateChangeRequest("SearchCategory", props);			
+			}
+			else
+			{
+				displayErrorMessage("Please enter a valid Barcode Prefix (Digits).");
+				barcodePrefix.requestFocus();
+			}
+			
+		}
+		else if(!Name.equals(""))
 		{
 			if(Utilities.checkCategoryName(Name))
 			{
-		
-				Properties props = new Properties();
-				props.setProperty("BarcodePrefix", BarcodePrefix);
 				props.setProperty("Name", Name);
-			
-				myController.stateChangeRequest("CategoryData", props);					
-						
+				myController.stateChangeRequest("SearchCategory", props);						
 			}
 			else
 			{
@@ -276,18 +300,9 @@ public class AddCategoryView extends View implements Observer
 		}
 		else
 		{
-			displayErrorMessage("Please enter a valid Barcode Prefix (Digits).");
-			barcodePrefix.requestFocus();
+			myController.stateChangeRequest("SearchCategory", props);
 		}
 	}
-	
-	protected void processBarcodePrefix(String BarcodePrefix)
-	{
-		
-		
-		
-	}
-	
 	
 	//-------------------------------------------------------------
 	protected MessageView createStatusLog(String initialMessage)

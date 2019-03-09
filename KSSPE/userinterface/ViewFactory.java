@@ -27,6 +27,18 @@ public class ViewFactory {
 		{
 			return new AddCategoryView(t);
 		}
+		else if(viewName.equals("SearchCategoryView") == true)
+		{
+			return new SearchCategoryView(t);
+		}
+		else if(viewName.equals("CategoryCollectionView") == true)
+		{
+			return new CategoryCollectionView(t);
+		}
+		else if(viewName.equals("UpdateCategoryView") == true)
+		{
+			return new UpdateCategoryView(t);
+		}
 		else
 			return null;
 	}
