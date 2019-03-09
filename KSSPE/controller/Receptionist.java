@@ -105,7 +105,8 @@ public class Receptionist extends Transaction
 		}	
 		else
 		if ((key.equals("AddWorker") == true) || (key.equals("SearchBanner") == true) || 
-			(key.equals("UpdateWorker") == true) || (key.equals("AddBorrower") == true) || (key.equals("AddCategory") == true))
+			(key.equals("UpdateWorker") == true) || (key.equals("AddBorrower") == true) || (key.equals("AddCategory") == true) || (key.equals("ModifyCategory") == true)
+			|| (key.equals("RemoveCategory") == true))
 			{
 				String transType = key;
 					
@@ -126,7 +127,7 @@ public class Receptionist extends Transaction
 		if (key.equals("Logout") == true)
 		{
 			currentWorker = null;
-			myViews.remove("ReceptionistView");
+			myViews.remove("ReceptionistView"); //resets receptionist view back to the origional state.
 			myViews.remove("LoginView"); //resets loginview back to the origional state.
 			errorMessage = "";
 			createAndShowLoginView();
@@ -134,7 +135,7 @@ public class Receptionist extends Transaction
 
 		setChanged();
         notifyObservers(errorMessage);
-		//myRegistry.updateSubscribers(key, this);
+
 	}
 
 	// Login Worker corresponding to user name and password.

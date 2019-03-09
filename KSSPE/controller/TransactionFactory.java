@@ -32,6 +32,14 @@ public class TransactionFactory
 		if (transType.equals("AddCategory") == true)
 		{
 			retValue = new AddCategoryTransaction();
+		}
+		if (transType.equals("ModifyCategory") == true)
+		{
+			retValue = new UpdateCategoryTransaction();
+		} 
+		if (transType.equals("RemoveCategory") == true)
+		{
+			retValue = new RemoveCategoryTransaction();
 		} 
 		return retValue;
 	}
