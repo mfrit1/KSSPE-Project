@@ -10,8 +10,8 @@ import javafx.scene.image.ImageView;
 
 import controller.Transaction;
 
-/** The class containing the Modify Article Type View  for the Professional Clothes
- *  Closet application 
+/** The class containing the Update Category View  for the KSSPE
+ *  application 
  */
 //==============================================================
 public class UpdateCategoryView extends AddCategoryView

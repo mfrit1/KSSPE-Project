@@ -341,6 +341,7 @@ public class SearchCategoryView extends View implements Observer
 		else
 		{
 			clearValues();
+			barcodePrefix.requestFocus();
 			displayMessage(val);
 		}
 		

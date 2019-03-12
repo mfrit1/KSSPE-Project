@@ -244,7 +244,7 @@ private Node createTitle()
 		cancelButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		cancelButton.setOnAction((ActionEvent e) -> {
 			clearErrorMessage();
-			myController.stateChangeRequest("CancelTransaction", null);
+			myController.stateChangeRequest("CancelCategoryList", null);
 		});
 		cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			cancelButton.setEffect(new DropShadow());
