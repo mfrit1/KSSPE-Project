@@ -149,6 +149,11 @@ public class Person extends EntityBase
 		}
 			
 	}
+
+	public static int compare(Person p1, Person p2)
+	{
+		return 1;
+	}
 	
 	//------------------------------------------------------------------
 	protected void initializeSchema(String tableName)
