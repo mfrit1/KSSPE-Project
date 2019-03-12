@@ -191,7 +191,26 @@ public class Worker extends EntityBase
 				persistentState.getProperty("BannerId") + " does NOT have an associated Person record", Event.ERROR);
 		}
 	}
+
+	public Vector<String> getEntryListView()
+	{
+		Vector<String> v = new Vector<String>();
+
+		v.addElement(persistentState.getProperty("BannerId"));
+		v.addElement(persistentState.getProperty("FirstName"));
+		v.addElement(persistentState.getProperty("LastName"));
+		v.addElement(persistentState.getProperty("PhoneNumber"));
+		v.addElement(persistentState.getProperty("Email"));
+		v.addElement(persistentState.getProperty("Status"));
+
+		return v;
+	}
 	
+	public static int compare(Worker w1, Worker w2)
+	{
+		return 1;
+	}
+
 	//------------------------------------------------------------------
 	public void checkPasswordMatch(String givenPassword) throws PasswordMismatchException
 	{
