@@ -104,9 +104,10 @@ public class Receptionist extends Transaction
 			System.exit(0);
 		}	
 		else
-		if ((key.equals("AddWorker") == true) || (key.equals("SearchBanner") == true) || 
-			(key.equals("UpdateWorker") == true) || (key.equals("AddBorrower") == true) || (key.equals("AddCategory") == true) || (key.equals("ModifyCategory") == true)
-			|| (key.equals("RemoveCategory") == true))
+		if ((key.equals("AddWorker") == true) || (key.equals("ModifyWorker") == true) || 
+			(key.equals("UpdateWorker") == true) || (key.equals("AddBorrower") == true) || 
+			(key.equals("AddCategory") == true) || (key.equals("ModifyCategory") == true) || 
+			(key.equals("RemoveCategory") == true))
 			{
 				String transType = key;
 					
