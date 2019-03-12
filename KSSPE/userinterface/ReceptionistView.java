@@ -244,7 +244,7 @@ public class ReceptionistView extends View implements Observer
 		updateWorkerButton = new Button("Update", icon);
 			updateWorkerButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 			updateWorkerButton.setOnAction((ActionEvent e) -> {
-				myController.stateChangeRequest("SearchBanner", null);
+				myController.stateChangeRequest("ModifyWorker", null);
 			});
 			updateWorkerButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 				updateWorkerButton.setEffect(shadow);
