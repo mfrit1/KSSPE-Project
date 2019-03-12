@@ -33,6 +33,10 @@ public class TransactionFactory
 		{
 			retValue = new AddCategoryTransaction();
 		}
+		if (transType.equals("ModifyWorker") == true)
+		{
+			retValue = new UpdateWorkerTransaction();
+		} 
 		if (transType.equals("ModifyCategory") == true)
 		{
 			retValue = new UpdateCategoryTransaction();
