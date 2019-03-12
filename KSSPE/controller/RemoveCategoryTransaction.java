@@ -113,6 +113,11 @@ public class RemoveCategoryTransaction extends Transaction
 			
 			removeCategoryHelper();
 		}
+		if (key.equals("CancelCategoryList") == true)
+		{
+			Scene oldScene = createView();	
+			swapToView(oldScene);
+		}
 		if (key.equals("CancelTransaction") == true)
 		{
 			myReceptionist.stateChangeRequest("CancelTransaction", null);

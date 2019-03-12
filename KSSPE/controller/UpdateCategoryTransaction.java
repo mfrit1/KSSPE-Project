@@ -123,6 +123,7 @@ public class UpdateCategoryTransaction extends Transaction
 		}
 		if (key.equals("CancelCategoryList") == true)
 		{
+			
 			Scene oldScene = createView();	
 			swapToView(oldScene);
 		}
