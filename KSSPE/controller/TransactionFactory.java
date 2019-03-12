@@ -24,15 +24,27 @@ public class TransactionFactory
 		if (transType.equals("AddWorker") == true)
 		{
 			retValue = new AddWorkerTransaction();
+		}
+		if (transType.equals("AddBorrower") == true)
+		{
+			retValue = new AddBorrowerTransaction();
 		} 
-		else if (transType.equals("UpdateWorker") == true)
+		if (transType.equals("AddCategory") == true)
+		{
+			retValue = new AddCategoryTransaction();
+		}
+		if (transType.equals("ModifyWorker") == true)
 		{
 			retValue = new UpdateWorkerTransaction();
 		} 
-		else if (transType.equals("SearchBanner") == true)
+		if (transType.equals("ModifyCategory") == true)
 		{
-			retValue = new SearchByBannerTransaction();
-		}
+			retValue = new UpdateCategoryTransaction();
+		} 
+		if (transType.equals("RemoveCategory") == true)
+		{
+			retValue = new RemoveCategoryTransaction();
+		} 
 		return retValue;
 	}
 }

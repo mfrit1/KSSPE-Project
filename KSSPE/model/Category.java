@@ -11,14 +11,13 @@ import event.Event;
 
 // project imports
 import exception.InvalidPrimaryKeyException;
-import exception.PasswordMismatchException;
 import database.*;
 
-/** The class containing the Person for the KSSPE application */
+/** The class containing the Category for the KSSPE application */
 //==============================================================
-public class Person extends EntityBase
+public class Category extends EntityBase
 {
-	private static final String myTableName = "Person";
+	private static final String myTableName = "Category";
 	private boolean oldFlag = true;
 	
 	// GUI Components
@@ -26,25 +25,25 @@ public class Person extends EntityBase
 
 	// constructor for this class
 	//----------------------------------------------------------
-	public Person(Properties props) throws InvalidPrimaryKeyException
+	public Category(Properties props) throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
 
-		String idToQuery = props.getProperty("BannerId");
+		String idToQuery = props.getProperty("BarcodePrefix");
 
-		String query = "SELECT * FROM " + myTableName + " WHERE (BannerId = " + idToQuery + " )";
+		String query = "SELECT * FROM " + myTableName + " WHERE (BarcodePrefix = " + idToQuery + " )";
 
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 
-		// You must get one person at least
+		// You must get one category at least
 		if (allDataRetrieved != null && allDataRetrieved.size() != 0)
 		{
 			int size = allDataRetrieved.size();
 
-			// There should be EXACTLY one person. More than that is an error
+			// There should be EXACTLY one category. More than that is an error
 			if (size != 1)
 			{
-				throw new InvalidPrimaryKeyException("Multiple persons matching banner id : "
+				throw new InvalidPrimaryKeyException("Multiple categories matching prefix : "
 					+ idToQuery + " found.");
 			}
 			else
@@ -68,22 +67,22 @@ public class Person extends EntityBase
 				oldFlag = true;
 			}
 		}
-		// If no Person found for this user name, throw an exception
+		// If no Categories found for this user name, throw an exception
 		else
 		{
-			throw new InvalidPrimaryKeyException("ERROR: No Person found for Banner Id: " + idToQuery);
+			throw new InvalidPrimaryKeyException("ERROR: No Categories found for Banner Id: " + idToQuery);
 		}
 	}
 
 	//----------------------------------------------------------
-	public Person(Properties props, boolean check) throws InvalidPrimaryKeyException
+	public Category(Properties props, boolean check) throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
 
 		oldFlag = false;
 		persistentState = new Properties();
 		
-		if (props.getProperty("BannerId") == null) throw new InvalidPrimaryKeyException("ERROR: Idiot - provide a banner Id at least");
+		if (props.getProperty("BarcodePrefix") == null) throw new InvalidPrimaryKeyException("ERROR: provide a prefix at least");
 		
 		Enumeration allKeys = props.propertyNames();
 		while (allKeys.hasMoreElements() == true)
@@ -98,6 +97,27 @@ public class Person extends EntityBase
 		}
 		
 		
+	}
+	
+	public Vector<String> getEntryListView()
+	{
+		Vector<String> v = new Vector<String>();
+
+		v.addElement(persistentState.getProperty("BarcodePrefix"));
+		v.addElement(persistentState.getProperty("Name"));
+		v.addElement(persistentState.getProperty("Status"));
+
+		return v;
+	}
+	
+	
+	//-----------------------------------------------------------------------------------
+	public static int compare(Category a, Category b)
+	{
+		String aVal = (String)a.getState("BarcodePrefix");
+		String bVal = (String)b.getState("BarcodePrefix");
+
+		return aVal.compareTo(bVal);
 	}
 
 	//----------------------------------------------------------
@@ -116,6 +136,7 @@ public class Person extends EntityBase
 
 	}
 	
+	
 	//------------------------------------------------------------------
 	public void save()
 	{
@@ -130,24 +151,23 @@ public class Person extends EntityBase
 			if (oldFlag == true)
 			{
 				Properties whereClause = new Properties();
-				whereClause.setProperty("BannerId", persistentState.getProperty("BannerId"));
+				whereClause.setProperty("BarcodePrefix", persistentState.getProperty("BarcodePrefix"));
 				updatePersistentState(mySchema, persistentState, whereClause);
-				updateStatusMessage = "Person: " + persistentState.getProperty("BannerId") + " updated successfully!";
+				updateStatusMessage = "Category: " + persistentState.getProperty("BarcodePrefix") + " updated successfully!";
 			}
 			else
 			{
 				insertPersistentState(mySchema, persistentState);
 				oldFlag = true;
-				updateStatusMessage = "Person: " + persistentState.getProperty("BannerId") + " inserted successfully!";
+				updateStatusMessage = "Category: " + persistentState.getProperty("BarcodePrefix") + " inserted successfully!";
 			}
 		}
 		catch (SQLException ex)
 		{
-			updateStatusMessage = "ERROR: Person could not be installed in database!";
-			new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Person with BannerID : " + 
-				persistentState.getProperty("BannerId") + " could not be saved in database: " + ex.toString(), Event.ERROR);
-		}
-			
+			updateStatusMessage = "ERROR: Category could not be installed in database!";
+			new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Category with BannerID : " + 
+				persistentState.getProperty("BarcodePrefix") + " could not be saved in database: " + ex.toString(), Event.ERROR);
+		}	
 	}
 	
 	//------------------------------------------------------------------

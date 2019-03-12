@@ -19,9 +19,25 @@ public class ViewFactory {
 		{
 			return new AddWorkerView(t);
 		}
-		else if(viewName.equals("SearchBannerView") == true)
+		else if(viewName.equals("AddBorrowerView") == true)
 		{
-			return new SearchByBannerView(t);
+			return new AddBorrowerView(t);
+		}
+		else if(viewName.equals("AddCategoryView") == true)
+		{
+			return new AddCategoryView(t);
+		}
+		else if(viewName.equals("SearchCategoryView") == true)
+		{
+			return new SearchCategoryView(t);
+		}
+		else if(viewName.equals("CategoryCollectionView") == true)
+		{
+			return new CategoryCollectionView(t);
+		}
+		else if(viewName.equals("UpdateCategoryView") == true)
+		{
+			return new UpdateCategoryView(t);
 		}
 		else
 			return null;

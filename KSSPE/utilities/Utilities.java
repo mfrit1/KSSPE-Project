@@ -16,6 +16,8 @@ import utilities.GlobalVariables;
 public class Utilities
 {
 	//input checks for views. 
+	
+	//Worker/borrower views
 	public static boolean checkBannerId(String bannerId)
 	{
 		if(bannerId.length() == GlobalVariables.BANNERID_LENGTH && bannerId.matches("\\d+"))
@@ -23,9 +25,9 @@ public class Utilities
 		else
 			return false;
 	}
-	public static boolean checkName(String firstName)
+	public static boolean checkName(String name)
 	{
-		if(firstName.length() != 0 && firstName.length() < GlobalVariables.NAME_LENGTH)
+		if(name.length() != 0 && name.length() < GlobalVariables.NAME_LENGTH)
 			return true;
 		else
 			return false;
@@ -51,6 +53,31 @@ public class Utilities
 		else
 			return false;
 	}
+	
+	//category view
+	public static boolean checkBarcodePrefix(String barcodePrefix)
+	{
+		if(barcodePrefix.length() == GlobalVariables.BARCODEPREFIX_LENGTH && barcodePrefix.matches("\\d+"))
+			return true;
+		else
+			return false;
+	}
+	public static boolean checkIsNumber(String s)
+	{
+		if(s.matches("\\d+"))
+			return true;
+		else
+			return false;
+	}
+	public static boolean checkCategoryName(String name)
+	{
+		if(name.length() != 0 && name.length() < GlobalVariables.CATEGORYNAME_LENGTH)
+			return true;
+		else
+			return false;
+	}
+	
+	
 	//----------------------------------------------------------
 	public static String convertToDefaultDateFormat(Date theDate)
 	{

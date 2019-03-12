@@ -24,6 +24,7 @@ import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.scene.text.Text;
 import javafx.stage.Stage;
+import javafx.scene.control.Hyperlink;
 
 // project imports
 import event.Event;
@@ -51,9 +52,9 @@ public class KSSPE extends Application
 	public void start(Stage primaryStage)
 	{
 	   System.out.println("Brockport KSSPE Reservation System Version 1.00");
-	   System.out.println("Copyright 2018 Sandeep Mitra and Students");
+	   System.out.println("Copyright 2019 Brockport Dream Team: Lucas Wing, Nick Barnard, Liam Allport, Matt Fritschi");
 
-	   MainStageContainer.setStage(primaryStage, "KSSPE Version 1.00");
+	   MainStageContainer.setStage(primaryStage, "KSSPE Version 1.00  |  Copyright: Dream Team");
 	   mainStage = MainStageContainer.getInstance();
        mainStage.getIcons().add(new Image("/images/BPT_LOGO_All-In-One_Color.png")); // set small icon in top left to bport icon
 	   

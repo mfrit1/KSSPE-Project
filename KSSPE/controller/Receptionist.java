@@ -8,16 +8,20 @@ import java.util.Properties;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
 
+
 // project imports
 import impresario.ISlideShow;
-
-import exception.InvalidPrimaryKeyException;
-import exception.MultiplePrimaryKeysException;
-import event.Event;
 import userinterface.MainStageContainer;
 import userinterface.View;
 import userinterface.ViewFactory;
 import userinterface.WindowPosition;
+
+import exception.InvalidPrimaryKeyException;
+import exception.MultiplePrimaryKeysException;
+import exception.PasswordMismatchException;
+import event.Event;
+
+
 
 import controller.TransactionFactory;
 import model.Worker;
@@ -100,8 +104,10 @@ public class Receptionist extends Transaction
 			System.exit(0);
 		}	
 		else
-		if ((key.equals("AddWorker") == true) || (key.equals("SearchBanner") == true) || 
-			(key.equals("UpdateWorker") == true))
+		if ((key.equals("AddWorker") == true) || (key.equals("ModifyWorker") == true) || 
+			(key.equals("UpdateWorker") == true) || (key.equals("AddBorrower") == true) || 
+			(key.equals("AddCategory") == true) || (key.equals("ModifyCategory") == true) || 
+			(key.equals("RemoveCategory") == true))
 			{
 				String transType = key;
 					
@@ -122,57 +128,44 @@ public class Receptionist extends Transaction
 		if (key.equals("Logout") == true)
 		{
 			currentWorker = null;
-			myViews.remove("ReceptionistView");
+			myViews.remove("ReceptionistView"); //resets receptionist view back to the origional state.
+			myViews.remove("LoginView"); //resets loginview back to the origional state.
 			errorMessage = "";
 			createAndShowLoginView();
 		}
 
 		setChanged();
         notifyObservers(errorMessage);
-		//myRegistry.updateSubscribers(key, this);
+
 	}
 
 	// Login Worker corresponding to user name and password.
 	//----------------------------------------------------------
 	public boolean loginWorker(Properties props)
 	{
-
+		
 		try
 		{
-			currentWorker = new Worker((String)props.getProperty("BannerId"));
-			
-			if(props.getProperty("Password").equals(currentWorker.getState("Password")))
+			currentWorker = new Worker(props);
+			try
 			{
+				currentWorker.checkPasswordMatch(props.getProperty("Password"));
 				return true;
 			}
-			else
+			catch (PasswordMismatchException px)
 			{
-				errorMessage = "ERROR: Password not correct.";
-				currentWorker = null;
+				errorMessage = px.getMessage();
+				
 				return false;
-			}
+			} 
+			
 		}
 		catch (InvalidPrimaryKeyException ex)
 		{
-			errorMessage = "ERROR: " + ex.getMessage();
-			return false;
-		}
-		catch (MultiplePrimaryKeysException ex2) //how the heck did you get here?
-		{
-			errorMessage = "ERROR: Multiple Workers with Banner ID!";
-			new Event(Event.getLeafLevelClassName(this), "processTransaction",
-					"Found multiple banner Ids with id : " + props.getProperty("BannerId") + ". Reason: " + ex2.toString(),
-					Event.ERROR);
-			return false;
-
-		}
-		catch (NullPointerException ex)
-		{
-			errorMessage = "ERROR: " + "Not Connected To Database";
-			return false;
+			errorMessage = ex.getMessage();
 			
+			return false;
 		}
-		
 
 	}
 	//----------------------------------------------------------
@@ -219,11 +212,9 @@ public class Receptionist extends Transaction
 		
 		if (currentScene == null)
 		{
-			
 			View newView = ViewFactory.createView("ReceptionistView", this); // USE VIEW FACTORY
 			currentScene = new Scene(newView);
 			myViews.put("ReceptionistView", currentScene);
-			
 		}
 
         return currentScene;

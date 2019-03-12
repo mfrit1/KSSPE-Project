@@ -14,11 +14,11 @@ import exception.InvalidPrimaryKeyException;
 import exception.PasswordMismatchException;
 import database.*;
 
-/** The class containing the Worker for the KSSPE application */
+/** The class containing the Borrower for the KSSPE application */
 //==============================================================
-public class Worker extends EntityBase
+public class Borrower extends EntityBase
 {
-	private static final String myTableName = "Worker";
+	private static final String myTableName = "Borrower";
 	private boolean oldFlag = true;
 	private Person myPerson;
 
@@ -27,7 +27,7 @@ public class Worker extends EntityBase
 
 	// constructor for this class
 	//----------------------------------------------------------
-	public Worker(Properties props)    //creates and stores worker object based off a current id. DOES NOT MAKE A NEW WORKER
+	public Borrower(Properties props)    //creates and stores borrower object based off a current id. DOES NOT MAKE A NEW Borrower
 		throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
@@ -38,43 +38,44 @@ public class Worker extends EntityBase
 
 		Vector allDataRetrieved =  getSelectQueryResult(query);
 
-		// You must get one worker at least
+		// You must get one Borrower at least
 		if (allDataRetrieved != null && allDataRetrieved.size() != 0)
 		{
 			int size = allDataRetrieved.size();
 
-			// There should be EXACTLY one worker. More than that is an error
+			// There should be EXACTLY one Borrower. More than that is an error
 			if (size != 1)
 			{
-				throw new InvalidPrimaryKeyException("Multiple workers matching user id : "
+				throw new InvalidPrimaryKeyException("Multiple borrowers matching user id : "
 					+ idToQuery + " found.");
 			}
 			else
 			{
 				// copy all the retrieved data into persistent state
-				Properties retrievedWorkerData = (Properties)allDataRetrieved.elementAt(0);
+				Properties retrievedBorrowerData = (Properties)allDataRetrieved.elementAt(0);
 				persistentState = new Properties();
 				myPerson = new Person(props);
-				persistentState.setProperty("Credential", retrievedWorkerData.getProperty("Credential"));
-				persistentState.setProperty("Password", retrievedWorkerData.getProperty("Password"));
-				persistentState.setProperty("Status", retrievedWorkerData.getProperty("Status"));
-				persistentState.setProperty("DateAdded", retrievedWorkerData.getProperty("DateAdded"));
-				persistentState.setProperty("DateLastUpdated", retrievedWorkerData.getProperty("DateLastUpdated"));
+				persistentState.setProperty("BlockStatus", retrievedBorrowerData.getProperty("BlockStatus"));
+				persistentState.setProperty("Penalty", retrievedBorrowerData.getProperty("Penalty"));
+				persistentState.setProperty("Notes", retrievedBorrowerData.getProperty("Notes"));
+				persistentState.setProperty("Status", retrievedBorrowerData.getProperty("Status"));
+				persistentState.setProperty("DateLastUpdated", retrievedBorrowerData.getProperty("DateLastUpdated"));
+				persistentState.setProperty("DateAdded", retrievedBorrowerData.getProperty("DateAdded"));
 				
-				updateStatusMessage = "Worker created sucessfully!";
+				updateStatusMessage = "Borrower created sucessfully!";
 			}
 		}
-		// If no Worker found for this banner Id, throw an exception
+		// If no Borrower found for this banner Id, throw an exception
 		else
 		{
-			throw new InvalidPrimaryKeyException("ERROR: No worker found for Banner Id: " + idToQuery);
+			throw new InvalidPrimaryKeyException("ERROR: No borrower found for Banner Id: " + idToQuery);
 		}
 		
-		oldFlag = true; //The person and/or worker are both old. 
+		oldFlag = true; //The person and/or borrower are both old. 
 	}
 
 	//----------------------------------------------------------
-	public Worker(Properties props, boolean check) //create a completely new worker. 
+	public Borrower(Properties props, boolean check) //create a completely new worker. 
 		throws InvalidPrimaryKeyException
 	{
 		super(myTableName);
@@ -91,11 +92,12 @@ public class Worker extends EntityBase
 		{
 			myPerson = new Person(personProperties);
 			persistentState.setProperty("BannerId", props.getProperty("BannerId"));
-			persistentState.setProperty("Credential", props.getProperty("Credential"));
-			persistentState.setProperty("Password", props.getProperty("Password"));
+			persistentState.setProperty("BlockStatus", props.getProperty("BlockStatus"));
+			persistentState.setProperty("Penalty", props.getProperty("Penalty"));
+			persistentState.setProperty("Notes", props.getProperty("Notes"));
 			persistentState.setProperty("Status", props.getProperty("Status"));
-			persistentState.setProperty("DateAdded", props.getProperty("DateAdded"));
 			persistentState.setProperty("DateLastUpdated", props.getProperty("DateLastUpdated"));
+			persistentState.setProperty("DateAdded", props.getProperty("DateAdded"));
 			oldFlag = false;
 		}
 		catch (InvalidPrimaryKeyException invPKexcep)
@@ -107,12 +109,14 @@ public class Worker extends EntityBase
 			personProperties.setProperty("Email", props.getProperty("Email"));
 			personProperties.setProperty("PhoneNumber", props.getProperty("PhoneNumber"));
 			myPerson = new Person(personProperties, true);
+			
 			persistentState.setProperty("BannerId", props.getProperty("BannerId"));
-			persistentState.setProperty("Credential", props.getProperty("Credential"));
-			persistentState.setProperty("Password", props.getProperty("Password"));
+			persistentState.setProperty("BlockStatus", props.getProperty("BlockStatus"));
+			persistentState.setProperty("Penalty", props.getProperty("Penalty"));
+			persistentState.setProperty("Notes", props.getProperty("Notes"));
 			persistentState.setProperty("Status", props.getProperty("Status"));
-			persistentState.setProperty("DateAdded", props.getProperty("DateAdded"));
 			persistentState.setProperty("DateLastUpdated", props.getProperty("DateLastUpdated"));
+			persistentState.setProperty("DateAdded", props.getProperty("DateAdded"));
 			oldFlag = false;
 		}
 		
@@ -142,6 +146,7 @@ public class Worker extends EntityBase
     }
 	
 	//------------------------------------------------------------------
+	
 	public void save()
 	{
 		updateStateInDatabase();
@@ -167,56 +172,39 @@ public class Worker extends EntityBase
 						Properties whereClause = new Properties();
 						whereClause.setProperty("BannerId", persistentState.getProperty("BannerId"));
 						updatePersistentState(mySchema, persistentState, whereClause);
-						updateStatusMessage = "Worker: " + persistentState.getProperty("BannerId") + " updated successfully!";
+						updateStatusMessage = "Borrower: " + persistentState.getProperty("BannerId") + " updated successfully!";
 					}
 					else
 					{
 						insertPersistentState(mySchema, persistentState);
 						oldFlag = true;
-						updateStatusMessage = "Worker: " + persistentState.getProperty("BannerId") + " inserted successfully!";
+						updateStatusMessage = "Borrower: " + persistentState.getProperty("BannerId") + " inserted successfully!";
 					}
 				}
 				catch (SQLException ex)
 				{
-					updateStatusMessage = "ERROR: Worker could not be installed in database!";
-					new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Worker with BannerID : " + 
+					updateStatusMessage = "ERROR: Borrower could not be installed in database!";
+					new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Borrower with BannerID : " + 
 						persistentState.getProperty("BannerId") + " could not be saved in database: " + ex.toString(), Event.ERROR);
 				}
 			}
 		}
 		else
 		{
-			updateStatusMessage = "ERROR: Worker record corrupted!";
-			new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Worker with BannerID : " + 
+			updateStatusMessage = "ERROR: Borrower record corrupted!";
+			new Event(Event.getLeafLevelClassName(this), "updateStateInDatabase", "Borrower with BannerID : " + 
 				persistentState.getProperty("BannerId") + " does NOT have an associated Person record", Event.ERROR);
 		}
 	}
 	
-	//------------------------------------------------------------------
-	public void checkPasswordMatch(String givenPassword) throws PasswordMismatchException
-	{
-		if (persistentState.getProperty("Password") != null)
-		{
-			boolean passwordCheck = givenPassword.equals(persistentState.getProperty("Password"));
-			
-			if (passwordCheck == false)
-			{
-				throw new PasswordMismatchException("ERROR: Password not correct!");
-			}
-
-		}
-		else
-		{
-			throw new PasswordMismatchException("ERROR: Worker does not exist!");
-		}
-	}
+	//-------------------------------------------------------------------
 	
 	public void stateChangeRequest(String key, Object value)
 	{
 		persistentState.setProperty(key, (String)value);
 	}
 	
-	//------------------------------------------------------------------
+
 	protected void initializeSchema(String tableName)
 	{
 		if (mySchema == null)

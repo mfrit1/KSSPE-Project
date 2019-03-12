@@ -446,3 +446,17 @@ Caused by: java.net.SocketException: Software caused connection abort: socket wr
 [1/31/19 12:21 PM]|AccountHolder|getSelectQueryResult|Error|NOTAG|null<SQL Exception: 1146: Table 'ksspe.worker' doesn't exist>
 [1/31/19 1:32 PM]|KSSPE|KSSPE.<init>|Error|NOTAG|null<Unable to create Receptionist object>
 [1/31/19 1:33 PM]|KSSPE|KSSPE.<init>|Error|NOTAG|null<Unable to create Receptionist object>
+[2/19/19 8:37 PM]|Worker|insertPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'BannerId' doesn't have a default value>
+[2/19/19 8:37 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null could not be saved in database: java.sql.SQLException: Field 'BannerId' doesn't have a default value>
+[2/19/19 8:44 PM]|Worker|insertPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'BannerId' doesn't have a default value>
+[2/19/19 8:44 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null could not be saved in database: java.sql.SQLException: Field 'BannerId' doesn't have a default value>
+[2/19/19 9:07 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null does NOT have an associated Person record>
+[2/19/19 9:07 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null does NOT have an associated Person record>
+[2/19/19 9:12 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null does NOT have an associated Person record>
+[2/19/19 9:12 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null does NOT have an associated Person record>
+[2/19/19 9:19 PM]|Worker|insertPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'BannerId' doesn't have a default value>
+[2/19/19 9:19 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null could not be saved in database: java.sql.SQLException: Field 'BannerId' doesn't have a default value>
+[2/19/19 9:22 PM]|Worker|insertPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'BannerId' doesn't have a default value>
+[2/19/19 9:22 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null could not be saved in database: java.sql.SQLException: Field 'BannerId' doesn't have a default value>
+[2/19/19 9:22 PM]|Worker|insertPersistentState|Error|NOTAG|null<SQL Exception: 1364: Field 'BannerId' doesn't have a default value>
+[2/19/19 9:22 PM]|Worker|updateStateInDatabase|Error|NOTAG|null<Worker with BannerID : null could not be saved in database: java.sql.SQLException: Field 'BannerId' doesn't have a default value>

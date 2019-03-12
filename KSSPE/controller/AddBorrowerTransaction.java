@@ -17,54 +17,53 @@ import exception.MultiplePrimaryKeysException;
 
 import userinterface.View;
 import userinterface.ViewFactory;
-import model.Worker;
+import model.Borrower;
 import model.Person;
 
-/** The class containing the AddArticleTypeTransaction for the Professional Clothes Closet application */
+/** The class containing the AddBorrowerTransaction for the KSSPE application */
 //==============================================================
-public class SearchByBannerTransaction extends Transaction
+public class AddBorrowerTransaction extends Transaction
 {
 	private String errorMessage = "";
 	private Receptionist myReceptionist;
-	private Person myPerson = null;
+	private Borrower myBorrower;
+	private Person myPerson; 
 
-	public SearchByBannerTransaction() throws Exception
+	public AddBorrowerTransaction() throws Exception
 	{
 		super();
 	}
 
 	public void processTransaction(Properties props)
 	{
-		
-	}
-		
-	private void createNewWorker(Properties workerInfo) //helper method. 
-	{
-		Worker newWorker = new Worker(workerInfo);
-		newWorker.createNewRecord();
-		errorMessage = (String)newWorker.getState("UpdateStatusMessage");
-	}
-	
-	private void getPersonData(String s)
-	{
 		try
 		{
-			Worker oldWorker = new Worker(s);
-			errorMessage = "ERROR: Worker with ID: " + s + " already exists!";
+			new Borrower(props);
+			
+			errorMessage = "ERROR: Borrower already exists!";	
 		}
-		catch (Exception ex)
+		catch (InvalidPrimaryKeyException ex) 
 		{
+			
 			try
 			{
-				myPerson = new Person(s);
+				props.setProperty("Status", "Active");
+				props.setProperty("BlockStatus", "Unblocked");
+				props.setProperty("Penalty", "0");
+				props.setProperty("DateAdded", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+				props.setProperty("DateLastUpdated", new SimpleDateFormat("yyyy-MM-dd").format(new Date()));
+				
+				myBorrower = new Borrower(props, true);
+				myBorrower.save();
+				
+				errorMessage = "Borrower Added Successfully";
 			}
-			catch (Exception e)
+			catch (InvalidPrimaryKeyException ex2) 
 			{
-				//do nothing. Idc either way. 
+				errorMessage = ex2.getMessage();
 			}
-			errorMessage = "";
+			
 		}
-		
 	}
 	
 	//-----------------------------------------------------------
@@ -74,33 +73,37 @@ public class SearchByBannerTransaction extends Transaction
 		{
 			return errorMessage;
 		}
+		else if (key.equals("TestBorrower") == true)
+		{
+			if(myBorrower != null)
+			{
+				return true;
+			}
+			return false;
+		}
 		else if (key.equals("FirstName") == true)
 		{
 			if(myPerson != null)
 				return myPerson.getState("FirstName");
-			else
-				return null;
+			return null;
 		}
 		else if (key.equals("LastName") == true)
 		{
 			if(myPerson != null)
 				return myPerson.getState("LastName");
-			else
-				return null;
+			return null;
 		}
 		else if (key.equals("Email") == true)
 		{
 			if(myPerson != null)
 				return myPerson.getState("Email");
-			else
-				return null;
+			return null;
 		}
 		else if (key.equals("PhoneNumber") == true)
 		{
 			if(myPerson != null)
 				return myPerson.getState("PhoneNumber");
-			else
-				return null;
+			return null;
 		}
 		else
 			return null;
@@ -108,7 +111,8 @@ public class SearchByBannerTransaction extends Transaction
 
 	public void stateChangeRequest(String key, Object value)
 	{
-		// DEBUG System.out.println("AddArticleTypeTransaction.sCR: key: " + key);
+		errorMessage = "";
+		
 		if (key.equals("DoYourJob") == true)
 		{
 			myReceptionist = (Receptionist)value;
@@ -120,7 +124,31 @@ public class SearchByBannerTransaction extends Transaction
 		}
 		if(key.equals("getPersonData") == true)
 		{
-			getPersonData((String)value);
+			try
+			{
+				myBorrower = new Borrower((Properties)value);
+				
+				errorMessage = "ERROR: Borrower with Bannerid " + ((Properties)value).getProperty("BannerId") + " already exists!";
+		
+			}
+			catch(Exception ex)
+			{
+				try
+				{
+					myPerson = new Person((Properties)value);
+					
+					errorMessage = "Person with Bannerid " + ((Properties)value).getProperty("BannerId") +  " Found!";
+				}
+				catch(Exception ex2)
+				{
+					//do nothing. Idc if nobody was found. 
+				}
+			}
+		}
+		if(key.equals("removePersonData") == true)
+		{
+			myPerson = null;
+			myBorrower = null;
 		}
 		if (key.equals("CancelTransaction") == true)
 		{
@@ -134,13 +162,13 @@ public class SearchByBannerTransaction extends Transaction
 	//------------------------------------------------------
 	protected Scene createView()
 	{
-		Scene currentScene = myViews.get("SearchByBannerView");
+		Scene currentScene = myViews.get("AddBorrowerView");
 
 		if (currentScene == null)
 		{
-			View newView = ViewFactory.createView("SearchBannerView", this);
+			View newView = ViewFactory.createView("AddBorrowerView", this);
 			currentScene = new Scene(newView);
-			myViews.put("SearchBannerView", currentScene);
+			myViews.put("AddBorrowerView", currentScene);
 
 			return currentScene;
 		}

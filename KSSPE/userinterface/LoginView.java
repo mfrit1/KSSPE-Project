@@ -25,14 +25,15 @@ import javafx.scene.control.PasswordField;
 import java.util.Properties;
 import java.util.Observer;
 import java.util.Observable;
-
-// project imports
-import controller.Transaction;
 import javafx.scene.control.TextArea;
 import javafx.scene.effect.DropShadow;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+
+// project imports
+import controller.Transaction;
+import utilities.Utilities;
 
 /** The class containing the Add Article Type View  for the Professional Clothes
  *  Closet application 
@@ -42,7 +43,7 @@ public class LoginView extends View implements Observer
 {
 
 	// GUI components
-	private TextField userid;
+	private TextField bannerId;
 	private PasswordField password;
 	
 	private Button submitButton;
@@ -51,7 +52,7 @@ public class LoginView extends View implements Observer
 	// For showing error message
 	protected MessageView statusLog;
 	
-	private String userIdText;
+	private String bannerIdText;
 
 	// constructor for this class
 	//----------------------------------------------------------
@@ -134,15 +135,15 @@ public class LoginView extends View implements Observer
             grid.setVgap(10);
             grid.setPadding(new Insets(0, 25, 20, 0));
 
-		Text userIDLabel = new Text(" Banner ID : ");
-			userIDLabel.setFill(Color.GOLD);
-			userIDLabel.setFont(myFont);
-			userIDLabel.setWrappingWidth(150);
-			userIDLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(userIDLabel, 0, 1);
+		Text bannerIdLabel = new Text(" Banner ID : ");
+			bannerIdLabel.setFill(Color.GOLD);
+			bannerIdLabel.setFont(myFont);
+			bannerIdLabel.setWrappingWidth(150);
+			bannerIdLabel.setTextAlignment(TextAlignment.RIGHT);
+		grid.add(bannerIdLabel, 0, 1);
 
-		userid = new TextField();
-		grid.add(userid, 1, 1);
+		bannerId = new TextField();
+		grid.add(bannerId, 1, 1);
 
 		Text passwordLabel = new Text(" Password : ");
             passwordLabel.setFill(Color.GOLD);
@@ -213,20 +214,16 @@ public class LoginView extends View implements Observer
 		clearErrorMessage();
         clearOutlines();
 
-		String useridEntered = userid.getText();
-		String passwordEntered = password.getText();
+		String BannerId = bannerId.getText();
+		String Password = password.getText();
 
-		if ((useridEntered == null) || (useridEntered.length() == 0))
+		
+		if (!Utilities.checkBannerId(BannerId))
 		{
 			displayErrorMessage("Please enter a banner id!");
-			userid.requestFocus();
+			bannerId.requestFocus();
 		}
-		else if(useridEntered.length() != GlobalVariables.BANNERID_LENGTH)
-		{
-			displayErrorMessage("Please enter a valid bannerid!");
-			userid.requestFocus();
-		}
-		else if(passwordEntered == null || passwordEntered.length() == 0)
+		else if(!Utilities.checkPassword(Password))
 		{
 			displayErrorMessage("Please enter a password!");
 			password.requestFocus();
@@ -236,15 +233,15 @@ public class LoginView extends View implements Observer
 			try 
 			{ 
 				// checking valid integer using parseInt() method 
-				Integer.parseInt(useridEntered);
+				Integer.parseInt(BannerId);
 
-				processUserIDAndPassword(useridEntered, passwordEntered);
+				processBannerIdAndPassword(BannerId, Password);
 				
 			}  
 			catch (NumberFormatException e)  
 			{ 
 				displayErrorMessage("Please enter a valid bannerid!");
-				userid.requestFocus();
+				bannerId.requestFocus();
 			} 
 			
 		}
@@ -252,18 +249,18 @@ public class LoginView extends View implements Observer
 	}
 	
 	/**
-	 * Process userid and pwd supplied when Submit button is hit.
+	 * Process bannerid and pwd supplied when Submit button is hit.
 	 */
 	//----------------------------------------------------------
-	private void processUserIDAndPassword(String useridString, String passwordString)
+	private void processBannerIdAndPassword(String bannerIdString, String passwordString)
 	{
 		Properties props = new Properties();
-		props.setProperty("BannerId", useridString);
+		props.setProperty("BannerId", bannerIdString);
 		props.setProperty("Password", passwordString);
 
 		// clear fields for next time around
-		userIdText = userid.getText();
-		userid.setText("");
+		bannerIdText = bannerId.getText();
+		bannerId.setText("");
 		password.setText("");
 
 		myController.stateChangeRequest("Login", props);
@@ -276,7 +273,7 @@ public class LoginView extends View implements Observer
 	}
         
     private void clearOutlines(){
-        userid.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
+        bannerId.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
         password.setStyle("-fx-border-color: transparent; -fx-focus-color: darkgreen;");
     }
 	
@@ -288,7 +285,7 @@ public class LoginView extends View implements Observer
 
     public void clearValues()
     {
-        userid.clear();
+        bannerId.clear();
         password.clear();
     }
 	
@@ -297,7 +294,7 @@ public class LoginView extends View implements Observer
 		clearErrorMessage();
 
 		if((String)value != "")           //if there was an error, replace the banner id. 
-			userid.setText(userIdText);
+			bannerId.setText(bannerIdText);
 		
 		displayErrorMessage((String)value);
 	}
