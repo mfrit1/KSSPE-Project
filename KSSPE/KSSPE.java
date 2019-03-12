@@ -52,7 +52,7 @@ public class KSSPE extends Application
 	public void start(Stage primaryStage)
 	{
 	   System.out.println("Brockport KSSPE Reservation System Version 1.00");
-	   System.out.println("Copyright 2019 Brockport Dream Team: Lucas Wing, Nick Bernard, Liam Allport, Matt Fritschi");
+	   System.out.println("Copyright 2019 Brockport Dream Team: Lucas Wing, Nick Barnard, Liam Allport, Matt Fritschi");
 
 	   MainStageContainer.setStage(primaryStage, "KSSPE Version 1.00  |  Copyright: Dream Team");
 	   mainStage = MainStageContainer.getInstance();
