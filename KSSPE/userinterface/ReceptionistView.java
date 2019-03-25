@@ -142,25 +142,39 @@ public class ReceptionistView extends View implements Observer
 		HBox checkoutCont = new HBox(10);
 			checkoutCont.setAlignment(Pos.CENTER);
 		
-		ImageView icon = new ImageView(new Image("/images/buyingcolor.png"));
+		
+		ImageView icon = new ImageView(new Image("/images/datecolor.png"));
 			icon.setFitHeight(25);
 			icon.setFitWidth(25);
-			
-		reserveButton = new Button("Reserve Items", icon);
-			reserveButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
-			reserveButton.setOnAction((ActionEvent e) -> {
-				myController.stateChangeRequest("CheckoutClothingItem", null);
+		MenuItem reserveItems = new MenuItem("Reserve Equipment", icon);
+		
+		icon = new ImageView(new Image("/images/entercolor.png"));
+			icon.setFitHeight(25);
+			icon.setFitWidth(25);
+		MenuItem returnItems = new MenuItem("Return Equipment", icon);
+		
+		icon = new ImageView(new Image("/images/buyingcolor.png"));
+			icon.setFitHeight(25);
+			icon.setFitWidth(25);
+        MenuButton manageButton = new MenuButton("Reservation", icon, reserveItems, returnItems);
+			manageButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
+            manageButton.setStyle("-fx-selection-bar:gold");
+			reserveItems.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("ListAvailableInventory", null);
 			});
-			reserveButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
-				reserveButton.setEffect(shadow);
-                statusLog.displayInfoMessage("Check Out a Clothing Item to a Student");
+			returnItems.setOnAction((ActionEvent e) -> {
+				myController.stateChangeRequest("TopDonatorReport", null);
 			});
-			reserveButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
-				reserveButton.setEffect(null);
-                clearErrorMessage();
+			manageButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
+				manageButton.setEffect(shadow);
+                statusLog.displayInfoMessage("Reserve or Return Equipment");
 			});
-			
-		checkoutCont.getChildren().add(reserveButton);
+			manageButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
+			manageButton.setEffect(null);
+                        clearErrorMessage();
+			});
+        checkoutCont.getChildren().add(manageButton);
+		
    
 		icon = new ImageView(new Image("/images/listcolor.png"));
 			icon.setFitHeight(20);
