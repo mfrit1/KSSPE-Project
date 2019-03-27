@@ -534,7 +534,7 @@ public class ReceptionistView extends View implements Observer
 		
 		cancelButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			cancelButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Go to Login Screen");
+                        statusLog.displayInfoMessage("Return to Login Screen");
 		});
 		cancelButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
 			cancelButton.setEffect(null);
@@ -547,18 +547,18 @@ public class ReceptionistView extends View implements Observer
 		icon = new ImageView(new Image("/images/log.png"));
 		icon.setFitHeight(15);
 		icon.setFitWidth(15);
-		licenceButton = new Button("Licence",icon);
+		licenceButton = new Button("License",icon);
 		licenceButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 		licenceButton.setOnAction((ActionEvent e) -> {
 			Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Licencing");
-				alert.setHeaderText("Copyright: Dream Team");
-				alert.setContentText("Members: Lucas Wing, Nick Bernard, Matt Frichie, Liam Allport \n\nLicenced to: The College At Brockport \nFor: commercial use, non-commercial use, modification.");
+				alert.setTitle("Licensing");
+				alert.setHeaderText("Copyright (c): Dream Team");
+				alert.setContentText("Members: Lucas Wing, Nicholas Barnard, Matthew Fritschi, Liam Allport \n\nLicensed to: The College At Brockport \nFor: Commercial use, Non-commercial use, Modification.");
 				alert.showAndWait();
 		});
 		licenceButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 			licenceButton.setEffect(shadow);
-                        statusLog.displayInfoMessage("Licence for software use");
+                        statusLog.displayInfoMessage("License for software use");
 		});
 		licenceButton.addEventHandler(MouseEvent.MOUSE_EXITED, (MouseEvent e) -> {
 			licenceButton.setEffect(null);
