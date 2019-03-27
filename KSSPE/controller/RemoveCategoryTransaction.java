@@ -29,11 +29,13 @@ public class RemoveCategoryTransaction extends Transaction
 	private Category myCategory;
 	private CategoryCollection myCategoryList;
 
+	//--------------------------------------------------------------------------
 	public RemoveCategoryTransaction() throws Exception
 	{
 		super();
 	}
 
+	//--------------------------------------------------------------------------
 	public void processTransaction(Properties props)
 	{
 		myCategoryList = new CategoryCollection();
@@ -94,6 +96,7 @@ public class RemoveCategoryTransaction extends Transaction
 			return null;
 	}
 
+	//--------------------------------------------------------------------------
 	public void stateChangeRequest(String key, Object value)
 	{
 		errorMessage = "";
@@ -128,7 +131,7 @@ public class RemoveCategoryTransaction extends Transaction
 	}
 	
 	
-	
+	//----------------------------------------------------------------------
 	private void removeCategoryHelper()
 	{
 		myCategory.stateChangeRequest("Status", "Inactive");
@@ -138,11 +141,15 @@ public class RemoveCategoryTransaction extends Transaction
 		
 		if(errorMessage.startsWith("ERR") == false)
 		{
+			if (myCategoryList != null)
+			{
+				myCategoryList.remove((String)myCategory.getState("BarcodePrefix"));
+			}
 			errorMessage = errorMessage.replace("updated", "removed");
 		}
 	}
 	
-	
+	//-----------------------------------------------------------------------
 	protected Scene createCategoryCollectionView()
 	{
 		Scene currentScene;
