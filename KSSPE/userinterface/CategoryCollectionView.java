@@ -79,6 +79,8 @@ public class CategoryCollectionView extends View implements Observer
 		
 		populateFields();
 		
+		myController.addObserver(this);
+		
 		tableOfCategories.getSelectionModel().select(0); //autoselect first element
 	}
 
@@ -140,7 +142,7 @@ public class CategoryCollectionView extends View implements Observer
 
 	// Create the title container
 	//-------------------------------------------------------------
-private Node createTitle()
+	private Node createTitle()
 	{
 		VBox container = new VBox(10);
 		container.setPadding(new Insets(1, 10, 12, 10));
@@ -286,7 +288,8 @@ private Node createTitle()
 			myController.stateChangeRequest("CategorySelected", selectedBarcodePrefix);
 		}
 	}
-        
+	
+    //---------------------------------------------------------------------------
 	private void displayRemoveAlert(){
 		clearErrorMessage();
 		Alert alert = new Alert(Alert.AlertType.ERROR,"Barcode Prefix: "+tableOfCategories.getSelectionModel().getSelectedItem().getBarcodePrefix()
@@ -299,16 +302,16 @@ private Node createTitle()
 
 		if (alert.getResult() == ButtonType.YES) {
 			processCategorySelected();
-			String val = (String)myController.getState("Error");
-			if (val.startsWith("ERR") == true)
-			{
-				statusLog.displayErrorMessage(val);
-			}
-			else
-			{
-				displayMessage(val);
-				getEntryTableModelValues();
-			}		
+			//String val = (String)myController.getState("Error");
+			//if (val.startsWith("ERR") == true)
+			//{
+			//	statusLog.displayErrorMessage(val);
+			//}
+			//else
+			//{
+			//	displayMessage(val);
+			//	getEntryTableModelValues();
+			//}		
 		}
 	}
        
@@ -320,7 +323,7 @@ private Node createTitle()
 		return statusLog;
 	}
 	
-	
+	//--------------------------------------------------------------------------
 	public void update(Observable o, Object value)
 	{
 		clearErrorMessage();
@@ -329,10 +332,12 @@ private Node createTitle()
 		if (val.startsWith("ERR") == true)
 		{
 			displayErrorMessage(val);
+			getEntryTableModelValues();
 		}
 		else
 		{
 			displayMessage(val);
+			getEntryTableModelValues();
 		}
 	}
 	/**
