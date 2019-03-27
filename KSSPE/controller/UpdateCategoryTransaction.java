@@ -29,11 +29,13 @@ public class UpdateCategoryTransaction extends Transaction
 	private Category myCategory;
 	private CategoryCollection myCategoryList;
 
+	//----------------------------------------------------------------
 	public UpdateCategoryTransaction() throws Exception
 	{
 		super();
 	}
 
+	//----------------------------------------------------------------
 	public void processTransaction(Properties props)
 	{
 		myCategoryList = new CategoryCollection();
@@ -89,6 +91,7 @@ public class UpdateCategoryTransaction extends Transaction
 			return null;
 	}
 
+	//-------------------------------------------------------------------------
 	public void stateChangeRequest(String key, Object value)
 	{
 		errorMessage = "";
@@ -136,8 +139,7 @@ public class UpdateCategoryTransaction extends Transaction
         notifyObservers(errorMessage);
 	}
 	
-	
-	
+	//------------------------------------------------------------------------
 	private void modifyCategoryHelper(Properties props)
 	{
 		myCategory.stateChangeRequest("Name", props.getProperty("Name"));
@@ -145,6 +147,7 @@ public class UpdateCategoryTransaction extends Transaction
 		errorMessage = (String)myCategory.getState("UpdateStatusMessage");
 	}
 	
+	//-----------------------------------------------------------------------
 	protected Scene createModifyCategoryView()
 	{
 		Scene currentScene = myViews.get("UpdateCategoryView");
@@ -164,7 +167,7 @@ public class UpdateCategoryTransaction extends Transaction
 
 	}
 	
-	
+	//--------------------------------------------------------------------------
 	protected Scene createCategoryCollectionView()
 	{
 		Scene currentScene;
