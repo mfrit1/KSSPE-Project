@@ -164,7 +164,20 @@ public class CategoryCollection extends EntityBase
 		return retValue;
 	}
 
-
+	//----------------------------------------------------------
+	public void remove(String barcodePrefix)
+	{
+		for (int cnt = 0; cnt < categories.size(); cnt++)
+		{
+			Category nextC = categories.elementAt(cnt);
+			String nextBarcodePrefix = (String)nextC.getState("BarcodePrefix");
+			if (nextBarcodePrefix.equals(barcodePrefix) == true)
+			{
+				categories.remove(cnt);
+			}
+		}
+	}
+	
 	//----------------------------------------------------------
 	public void updateState(String key, Object value)
 	{
