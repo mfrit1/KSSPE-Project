@@ -112,7 +112,7 @@ public class LoginView extends View implements Observer
 		container.getChildren().add(titleText);
 
 		//bport icon
-		ImageView bportIcon = new ImageView(new Image("/images/BPT_LOGO_All-In-One_Color.png",225,225 ,true,true));
+		ImageView bportIcon = new ImageView(new Image("/images/bportB.png",225,225 ,true,true));
 		bportIcon.setEffect(new DropShadow());
 		container.getChildren().add(bportIcon);
 
