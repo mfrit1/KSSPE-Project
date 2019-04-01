@@ -76,6 +76,13 @@ public class Utilities
 		else
 			return false;
 	}
+	public static boolean checkPenalty(String p)
+	{
+		if(p.length() < GlobalVariables.PENALTY_LENGTH)
+			return true;
+		else
+			return false;
+	}
 	
 	
 	//----------------------------------------------------------
