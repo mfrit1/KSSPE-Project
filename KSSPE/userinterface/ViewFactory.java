@@ -31,6 +31,10 @@ public class ViewFactory {
 		{
 			return new SearchWorkerView(t);
 		}
+		else if(viewName.equals("SearchBorrowerView") == true)
+		{
+			return new SearchBorrowerView(t);
+		}
 		else if(viewName.equals("SearchCategoryView") == true)
 		{
 			return new SearchCategoryView(t);
@@ -39,6 +43,10 @@ public class ViewFactory {
 		{
 			return new WorkerCollectionView(t);
 		}
+		else if(viewName.equals("BorrowerCollectionView") == true)
+		{
+			return new BorrowerCollectionView(t);
+		}
 		else if(viewName.equals("CategoryCollectionView") == true)
 		{
 			return new CategoryCollectionView(t);
@@ -46,6 +54,10 @@ public class ViewFactory {
 		else if(viewName.equals("UpdateWorkerView") == true)
 		{
 			return new UpdateWorkerView(t);
+		}
+		else if(viewName.equals("UpdateBorrowerView") == true)
+		{
+			return new UpdateBorrowerView(t);
 		}
 		else if(viewName.equals("UpdateCategoryView") == true)
 		{

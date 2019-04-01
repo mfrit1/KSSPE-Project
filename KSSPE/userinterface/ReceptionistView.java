@@ -333,7 +333,7 @@ public class ReceptionistView extends View implements Observer
 		updateBorrowerButton = new Button("Update", icon);
 			updateBorrowerButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 			updateBorrowerButton.setOnAction((ActionEvent e) -> {
-				myController.stateChangeRequest("UpdateColor", null);
+				myController.stateChangeRequest("ModifyBorrower", null);
 			});
 			updateBorrowerButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 				updateBorrowerButton.setEffect(shadow);
@@ -352,7 +352,7 @@ public class ReceptionistView extends View implements Observer
 		removeBorrowerButton = new Button("Remove",icon);
 			removeBorrowerButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 			removeBorrowerButton.setOnAction((ActionEvent e) -> {
-				myController.stateChangeRequest("RemoveColor", null);
+				myController.stateChangeRequest("RemoveBorrower", null);
 			});
 			removeBorrowerButton.addEventHandler(MouseEvent.MOUSE_ENTERED, (MouseEvent e) -> {
 				removeBorrowerButton.setEffect(shadow);

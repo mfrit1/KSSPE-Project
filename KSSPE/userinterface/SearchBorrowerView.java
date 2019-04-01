@@ -22,6 +22,7 @@ import javafx.scene.text.TextAlignment;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.collections.FXCollections;
+import javafx.scene.layout.ColumnConstraints;
 
 import java.util.Properties;
 import java.util.Observer;
@@ -40,39 +41,31 @@ import javafx.util.StringConverter;
 
 import controller.Transaction;
 
-/** The class containing the Add Borrower View for the KSSPE
+/** The class containing the Search Borrower View for the KSSPE
  *  application 
  */
 //==============================================================
-public class AddBorrowerView extends View implements Observer
+public class SearchBorrowerView extends View implements Observer
 {
 
 	// GUI components
 	protected TextField bannerId;
 	protected TextField firstName;
 	protected TextField lastName;
-	protected TextField email;
-	protected TextField phoneNumber;
-	protected TextField notes;
-	
-	protected GridPane grid;
-	protected Font myFont;
 
 	protected Text actionText;
 	protected Text prompt;
 
 	protected HBox bannerBox;
-	protected HBox notesBox;
-	
 	protected HBox doneCont;
 	protected Button submitButton;
 	protected Button cancelButton;
 
 	protected MessageView statusLog;
 
-	// constructor for this class -- takes a controller object
+	// Constructor for this class -- takes a controller object
 	//----------------------------------------------------------
-	public AddBorrowerView(Transaction t)
+	public SearchBorrowerView(Transaction t)
 	{
 		super(t);
 
@@ -87,8 +80,6 @@ public class AddBorrowerView extends View implements Observer
 		container.getChildren().add(createStatusLog("             "));
 
 		getChildren().add(container);
-		
-		populateFields();
 
 		myController.addObserver(this);
 	}
@@ -96,61 +87,12 @@ public class AddBorrowerView extends View implements Observer
 	//-------------------------------------------------------------
 	protected String getActionText()
 	{
-		return "** ADD NEW BORROWER **";
+		return "** SEARCH FOR A BORROWER **";
 	}
-	
+
 	public void populateFields()
 	{
-		
-	}
-
-	protected void processBannerId(String BannerId)
-	{
-		
-		Properties props = new Properties();
-		props.setProperty("BannerId", BannerId);
-		
-		myController.stateChangeRequest("removePersonData", props); //cleans out the past person.
-		
-		myController.stateChangeRequest("getPersonData", props);
-		
-		if((Boolean)myController.getState("TestBorrower"))
-		{
-			clearValues();
-			setDisables();
-		}
-		else //if the borrower doesn't exist, continue on testing if it can autofill or not. 
-		{
-			removeDisables();
-			
-			String firstNameState = (String)myController.getState("FirstName"); 
-			String lastNameState = (String)myController.getState("LastName");
-			String emailState = (String)myController.getState("Email");
-			String phoneState = (String)myController.getState("PhoneNumber");
-			
-			if(firstNameState != null) //checks if the person exists or not. 
-			{
-				firstName.setText(firstNameState);
-				lastName.setText(lastNameState);
-				email.setText(emailState);
-				phoneNumber.setText(phoneState);
-				
-				firstName.setDisable(true);
-				lastName.setDisable(true);
-				email.setDisable(true);
-				phoneNumber.setDisable(true);
-				
-				notes.requestFocus();
-			}
-			else
-			{
-				firstName.requestFocus();
-			}
-			
-			bannerId.setText(BannerId);
-
-		}
-		
+		//not needed in this instance 
 	}
 
 	// Create the title container
@@ -199,8 +141,7 @@ public class AddBorrowerView extends View implements Observer
 		VBox vbox = new VBox(10);
 		vbox.setAlignment(Pos.CENTER);
 		
-		myFont = Font.font("Copperplate", FontWeight.THIN, 16);
-		Font bannerFont = Font.font("copperplate", FontWeight.BOLD, 18);   
+		Font myFont = Font.font("copperplate", FontWeight.THIN, 18);   
 
 		Text blankText = new Text("  ");
 			blankText.setFont(Font.font("Arial", FontWeight.BOLD, 17));
@@ -210,119 +151,73 @@ public class AddBorrowerView extends View implements Observer
 		vbox.getChildren().add(blankText);
 
 		
-		bannerBox = new HBox(10);
-		bannerBox.setAlignment(Pos.CENTER);
-		bannerBox.setPadding(new Insets(0, 20, 10, 0));
-		
-		Text bannerIdLabel = new Text("Banner ID :");
-			bannerIdLabel.setFill(Color.GOLD);
-			bannerIdLabel.setFont(bannerFont);
-			bannerIdLabel.setUnderline(true);
-			bannerIdLabel.setTextAlignment(TextAlignment.RIGHT);
-		bannerBox.getChildren().add(bannerIdLabel);
+		GridPane grid = new GridPane();
+			grid.setHgap(15);
+			grid.setVgap(15);
+			grid.setPadding(new Insets(0, 20, 25, 20));
+			grid.setAlignment(Pos.CENTER);
+			
 
+		Text bannerIdHeader = new Text("Banner ID :");
+			bannerIdHeader.setFill(Color.GOLD);
+			bannerIdHeader.setFont(myFont);
+			bannerIdHeader.setTextAlignment(TextAlignment.RIGHT);
+		grid.add(bannerIdHeader, 0, 1);
+			
+			
 		bannerId = new TextField();
 			bannerId.setMinWidth(150);
 			bannerId.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
-				setDisables();
-				
-				if(Utilities.checkBannerId(bannerId.getText()))
-				{
-					removeDisables();
-					processBannerId(bannerId.getText());
-				}
-				else
-				{
-					clearValuesExceptBanner();
-				}
 			});
-		bannerBox.getChildren().add(bannerId);
+		grid.add(bannerId, 1, 1);
 		
-		//---------------------------------------------------------------- BannerBox done
-		grid = new GridPane();
-			grid.setHgap(15);
-			grid.setVgap(15);
-			grid.setPadding(new Insets(0, 20, 20, 15));
-			grid.setAlignment(Pos.CENTER);
-
 		
-		Text firstNameLabel = new Text(" First Name : ");
-			firstNameLabel.setFill(Color.GOLD);
-			firstNameLabel.setFont(myFont);
-			firstNameLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(firstNameLabel, 0, 1);
+		HBox orCont = new HBox(10);
+			orCont.setAlignment(Pos.CENTER);
+			
+		Text orHeader = new Text("---------- OR SEARCH BY ----------");
+			orHeader.setFill(Color.GOLD);
+			orHeader.setFont(myFont);
+			orHeader.setTextAlignment(TextAlignment.RIGHT);
+		orCont.getChildren().add(orHeader);
+		
+		
+		GridPane grid2 = new GridPane();
+			grid2.setHgap(15);
+			grid2.setVgap(15);
+			grid2.setPadding(new Insets(10, 20, 30, 20));
+			grid2.setAlignment(Pos.CENTER);
+		
+		
+		Text firstNameHeader = new Text("First Name :"); 
+			firstNameHeader.setFill(Color.GOLD);
+			firstNameHeader.setFont(myFont);
+			firstNameHeader.setTextAlignment(TextAlignment.RIGHT);
+		grid2.add(firstNameHeader, 0, 1);
 		
 		firstName = new TextField();
 			firstName.setMinWidth(150);
 			firstName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
 			});
-		grid.add(firstName, 1, 1);
+		grid2.add(firstName, 1, 1);
 
-
-		Text lastNameLabel = new Text(" Last Name : ");
-			lastNameLabel.setFill(Color.GOLD);
-			lastNameLabel.setFont(myFont);
-			lastNameLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(lastNameLabel, 0, 2);
-
+		Text lastNameHeader = new Text("Last Name :"); 
+			lastNameHeader.setFill(Color.GOLD);
+			lastNameHeader.setFont(myFont);
+			lastNameHeader.setTextAlignment(TextAlignment.RIGHT);
+		grid2.add(lastNameHeader, 0, 2);
+		
 		lastName = new TextField();
 			lastName.setMinWidth(150);
 			lastName.addEventFilter(KeyEvent.KEY_RELEASED, event->{
 				clearErrorMessage();
 			});
-		grid.add(lastName, 1, 2);
+		grid2.add(lastName, 1, 2);
 		
-		Text emailLabel = new Text(" Email : ");
-			emailLabel.setFill(Color.GOLD);
-			emailLabel.setFont(myFont);
-			emailLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(emailLabel, 2, 1);
+		//---------------------------------------------------------------------------------
 
-		email = new TextField();
-			email.setMinWidth(150);
-			email.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-				clearErrorMessage();
-			});
-		grid.add(email, 3, 1);
-
-					
-		Text phoneNumberLabel = new Text(" Phone Number : ");
-			phoneNumberLabel.setFill(Color.GOLD);
-			phoneNumberLabel.setFont(myFont);
-			phoneNumberLabel.setTextAlignment(TextAlignment.RIGHT);
-		grid.add(phoneNumberLabel, 2, 2);
-
-		phoneNumber = new TextField();
-			phoneNumber.setMinWidth(150);
-			phoneNumber.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-				clearErrorMessage();
-			});
-		grid.add(phoneNumber, 3, 2);
-		
-		
-		//-------------------------------------------  grid done
-		
-		notesBox = new HBox(10);
-		notesBox.setAlignment(Pos.CENTER);
-		notesBox.setPadding(new Insets(0, 20, 20, 0));
-		
-		Text notesLabel = new Text("Notes :");
-			notesLabel.setFill(Color.GOLD);
-			notesLabel.setFont(myFont);
-			notesLabel.setTextAlignment(TextAlignment.RIGHT);
-		notesBox.getChildren().add(notesLabel);
-
-		notes = new TextField();
-			notes.setMinWidth(150);
-			notes.addEventFilter(KeyEvent.KEY_RELEASED, event->{
-				if(!notes.getText().equals(""))
-					clearErrorMessage();
-			});
-		notesBox.getChildren().add(notes);
-
-		//------------------------------------------------------------  notes box done
 		
 		doneCont = new HBox(10);
 		doneCont.setAlignment(Pos.CENTER);
@@ -333,11 +228,11 @@ public class AddBorrowerView extends View implements Observer
             doneCont.setStyle("-fx-background-color: SLATEGREY");
 		});
 		
-		ImageView icon = new ImageView(new Image("/images/pluscolor.png"));
+		ImageView icon = new ImageView(new Image("/images/searchcolor.png"));
 			icon.setFitHeight(15);
 			icon.setFitWidth(15);
 			
-		submitButton = new Button("Add", icon);
+		submitButton = new Button("Search", icon);
 			submitButton.setFont(Font.font("Comic Sans", FontWeight.THIN, 14));
 			submitButton.setOnAction((ActionEvent e) -> {
 				sendToController();
@@ -368,84 +263,95 @@ public class AddBorrowerView extends View implements Observer
 			});
 		doneCont.getChildren().add(cancelButton);
 		
-		vbox.getChildren().add(bannerBox);
 		vbox.getChildren().add(grid);
-		vbox.getChildren().add(notesBox);
+		vbox.getChildren().add(orCont);
+		vbox.getChildren().add(grid2);
 		vbox.getChildren().add(doneCont);
 	
 		setOutlines();
-		
-		setDisables(); //disable everything until the bannerId is entered.
                
 		return vbox;
 	}
 
-	protected void sendToController()
+	private void sendToController()
 	{
 		clearErrorMessage();
 		
-		String BannerID = bannerId.getText();
+		String BannerId = bannerId.getText();
 		String FirstName = firstName.getText();
 		String LastName = lastName.getText();
-		String Email = email.getText();
-		String PhoneNumber = phoneNumber.getText();
-		String Notes = notes.getText();
+		Properties props = new Properties();
 		
-		if(Utilities.checkBannerId(BannerID)) 
+		if(!BannerId.equals("")) //if search by banner Id
 		{
-			if(Utilities.checkName(FirstName))
+			if(Utilities.checkBannerId(BannerId))
 			{
-				if(Utilities.checkName(LastName))
+				props.setProperty("BannerId", BannerId);
+				myController.stateChangeRequest("SearchBorrower", props);			
+			}
+			else
+			{
+				displayErrorMessage("Banner Id: " + bannerId.getText() + " not valid.");
+				bannerId.requestFocus();
+			}
+			
+		}
+		else if(!FirstName.equals("") || !LastName.equals("")) //if search by first or last name
+		{
+			if(!FirstName.equals("") && !LastName.equals(""))
+			{
+				if(Utilities.checkName(FirstName))
 				{
-					if(Utilities.checkEmail(Email))
+					if(Utilities.checkName(LastName))
 					{
-						if(Utilities.checkPhone(PhoneNumber))
-						{
-							
-							Properties props = new Properties();
-							props.setProperty("BannerId", BannerID);
-							props.setProperty("FirstName", FirstName);
-							props.setProperty("LastName", LastName);
-							props.setProperty("Email", Email);
-							props.setProperty("PhoneNumber", PhoneNumber);
-							props.setProperty("Notes", Notes);
-							removeDisables();
-							myController.stateChangeRequest("WorkerData", props);
-							setDisables();
-										
-						}
-						else
-						{
-							displayErrorMessage("Please enter a valid phone number.");
-							phoneNumber.requestFocus();
-						}
+						props.setProperty("FirstName", FirstName);
+						props.setProperty("LastName", LastName);
+						myController.stateChangeRequest("SearchBorrower", props);
 					}
 					else
 					{
-						displayErrorMessage("Please enter a valid email.");
-						email.requestFocus();
-					}
+						displayErrorMessage("Please enter a valid last name.");
+						lastName.requestFocus();
+					}					
+				}
+				else
+				{
+					displayErrorMessage("Please enter a valid first name.");
+					firstName.requestFocus();
+				}
+			}
+			else if(!FirstName.equals(""))
+			{
+				if(Utilities.checkName(FirstName))
+				{
+					props.setProperty("FirstName", FirstName);
+					myController.stateChangeRequest("SearchBorrower", props);
+				}
+				else
+				{
+					displayErrorMessage("Please enter a valid first name.");
+					firstName.requestFocus();
+				}
+			}
+			else
+			{
+				if(Utilities.checkName(LastName))
+				{
+					props.setProperty("LastName", LastName);
+					myController.stateChangeRequest("SearchBorrower", props);
 				}
 				else
 				{
 					displayErrorMessage("Please enter a valid last name.");
 					lastName.requestFocus();
-				}
-			}
-			else
-			{
-				displayErrorMessage("Please enter a valid first name.");
-				firstName.requestFocus();
+				}	
 			}
 		}
-		else
+		else //search for all
 		{
-			displayErrorMessage("Please enter a valid Banner Id.");
-			bannerId.requestFocus();
+			myController.stateChangeRequest("SearchBorrower", props);
 		}
-		
 	}
-	
 	
 	//-------------------------------------------------------------
 	protected MessageView createStatusLog(String initialMessage)
@@ -460,36 +366,6 @@ public class AddBorrowerView extends View implements Observer
 		bannerId.clear();
 		firstName.clear();
 		lastName.clear();
-		email.clear();
-		phoneNumber.clear();
-		notes.clear();
-	}
-	
-	private void clearValuesExceptBanner()
-	{
-		firstName.clear();
-		lastName.clear();
-		email.clear();
-		phoneNumber.clear();
-		notes.clear();
-	}
-	
-	private void removeDisables()
-	{
-		firstName.setDisable(false);
-		lastName.setDisable(false);
-		email.setDisable(false);
-		phoneNumber.setDisable(false);
-		notes.setDisable(false);
-	}
-	
-	protected void setDisables()
-	{
-		firstName.setDisable(true);
-		lastName.setDisable(true);
-		email.setDisable(true);
-		phoneNumber.setDisable(true);
-		notes.setDisable(true);
 	}
 
 	private void setOutlines()
@@ -497,9 +373,6 @@ public class AddBorrowerView extends View implements Observer
 		bannerId.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
 		firstName.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
 		lastName.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
-		email.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
-		phoneNumber.setStyle("-fx-border-color: transparent; -fx-focus-color: green;");
-		notes.setStyle("-fx-border-color: transparent;  -fx-focus-color: darkgreen;");
 	}
 
 	/**
