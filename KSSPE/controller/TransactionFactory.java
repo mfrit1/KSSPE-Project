@@ -37,6 +37,10 @@ public class TransactionFactory
 		{
 			retValue = new UpdateWorkerTransaction();
 		} 
+		if (transType.equals("ModifyBorrower") == true)
+		{
+			retValue = new UpdateBorrowerTransaction();
+		} 
 		if (transType.equals("ModifyCategory") == true)
 		{
 			retValue = new UpdateCategoryTransaction();
@@ -44,6 +48,10 @@ public class TransactionFactory
 		if (transType.equals("RemoveCategory") == true)
 		{
 			retValue = new RemoveCategoryTransaction();
+		} 
+		if (transType.equals("RemoveBorrower") == true)
+		{
+			retValue = new RemoveBorrowerTransaction();
 		} 
 		return retValue;
 	}
