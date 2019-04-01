@@ -55,6 +55,7 @@ public class Borrower extends EntityBase
 				Properties retrievedBorrowerData = (Properties)allDataRetrieved.elementAt(0);
 				persistentState = new Properties();
 				myPerson = new Person(props);
+				persistentState.setProperty("BannerId", retrievedBorrowerData.getProperty("BannerId"));
 				persistentState.setProperty("BlockStatus", retrievedBorrowerData.getProperty("BlockStatus"));
 				persistentState.setProperty("Penalty", retrievedBorrowerData.getProperty("Penalty"));
 				persistentState.setProperty("Notes", retrievedBorrowerData.getProperty("Notes"));
@@ -121,6 +122,15 @@ public class Borrower extends EntityBase
 		}
 		
 		
+	}
+	
+	
+	public static int compare(Borrower a, Borrower b)
+	{
+		String aVal = (String)a.getState("BannerId");
+		String bVal = (String)b.getState("BannerId");
+
+		return aVal.compareTo(bVal);
 	}
 
 	//----------------------------------------------------------------
@@ -197,11 +207,30 @@ public class Borrower extends EntityBase
 		}
 	}
 	
+	
+	public Vector<String> getEntryListView()
+	{
+		Vector<String> v = new Vector<String>();
+		
+		v.addElement((String)this.getState("BannerId"));
+		v.addElement((String)this.getState("FirstName"));
+		v.addElement((String)this.getState("LastName"));
+		
+		return v;
+	}
+	
 	//-------------------------------------------------------------------
 	
 	public void stateChangeRequest(String key, Object value)
 	{
-		persistentState.setProperty(key, (String)value);
+		if(key.equals("BannerId") || key.equals("BlockStatus") || key.equals("Penalty") || key.equals("Notes") || key.equals("Status") || key.equals("DateAdded") || key.equals("DateLastUpdated"))
+		{
+			persistentState.setProperty(key, (String)value);
+		}
+		else if(key.equals("FirstName") || key.equals("LastName") || key.equals("Email") || key.equals("PhoneNumber") || key.equals("BannerId"))
+		{
+			myPerson.stateChangeRequest(key, value);
+		}
 	}
 	
 
